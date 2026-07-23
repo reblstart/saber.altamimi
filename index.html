@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
   <title>ريبل ستارت | نظام البداية الذكية للمشاريع الرقمية</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     * { font-family: 'Cairo', sans-serif; }
     body { background: #020714; margin: 0; padding: 0; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
     html { scroll-behavior: smooth; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+
+    /* === اللون الذهبي الأساسي === */
+    :root {
+      --gold: #D4AF37;
+      --gold-light: #F5D042;
+      --gold-lighter: #FFD700;
+      --gold-dark: #B8860B;
+      --gold-rgb: 212, 175, 55;
+    }
+
     .glass-card {
       background: linear-gradient(to bottom left, #1a1f2e, #020714);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(var(--gold-rgb), 0.15);
       border-radius: 28px;
     }
-    .green-glow { box-shadow: 0 0 30px rgba(212, 175, 55, 0.6), 0 10px 25px rgba(0,0,0,0.5); }
-    .green-gradient {
-      background: linear-gradient(145deg, #D4AF37 0%, #FFD700 50%, #F6BE00 100%);
+    .gold-glow { box-shadow: 0 0 30px rgba(var(--gold-rgb), 0.4), 0 10px 25px rgba(0,0,0,0.5); }
+    .gold-gradient {
+      background: linear-gradient(145deg, var(--gold) 0%, var(--gold-light) 80%, var(--gold-lighter) 100%);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 15px 30px -10px rgba(212, 175, 55, 0.5), 0 0 0 1px rgba(255, 215, 0, 0.3) inset, 0 0 15px rgba(255, 215, 0, 0.4);
+      box-shadow: 0 15px 30px -10px rgba(var(--gold-rgb), 0.5), 0 0 0 1px rgba(var(--gold-rgb), 0.3) inset, 0 0 15px rgba(245, 208, 66, 0.4);
       transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
       position: relative; overflow: hidden;
       border-radius: 9999px;
     }
-    .green-gradient:hover {
+    .gold-gradient:hover {
       transform: scale(1.03) translateY(-2px);
-      box-shadow: 0 25px 40px -12px rgba(212, 175, 55, 0.8), 0 0 0 1px rgba(255, 215, 0, 0.6) inset, 0 0 20px rgba(255, 215, 0, 0.7);
+      box-shadow: 0 25px 40px -12px rgba(var(--gold-rgb), 0.7), 0 0 0 1px rgba(255, 215, 0, 0.5) inset, 0 0 20px rgba(245, 208, 66, 0.6);
       border-color: rgba(255, 255, 255, 0.3);
     }
     @keyframes shimmer {
@@ -42,6 +52,7 @@
       transform: translateX(100%) skewX(-20deg);
       pointer-events: none; animation: shimmer 3s ease-in-out infinite;
     }
+
     .faq-item .faq-answer {
       max-height: 0; overflow: hidden;
       transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
@@ -55,11 +66,12 @@
       border-radius: 12px;
     }
     .faq-item.active {
-      border-color: rgba(255, 215, 0, 0.5) !important;
+      border-color: rgba(var(--gold-rgb), 0.5) !important;
       background: linear-gradient(to bottom left, #1e293b, #0f172a);
       box-shadow: 0 12px 24px rgba(0,0,0,0.4);
     }
 
+    /* === HEADER === */
     .sticky-header {
       position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 50;
       background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none;
@@ -75,18 +87,28 @@
     .sticky-header.scrolled .header-border-red { display: none; }
     .header-content { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; width: 100%; }
     .header-badge { display: flex; align-items: center; gap: 6px; }
-    .header-text { font-size: 14px; font-weight: 700; color: #e5e7eb; }
+    .header-text-sm { font-size: 13px; font-weight: 600; color: #e5e7eb; }
     .header-discount { font-size: 14px; font-weight: 900; color: #ff0000; margin: 0 4px; }
-    .header-timer { display: flex; align-items: center; gap: 6px; }
-    .header-timer .time-number { font-size: 18px; font-weight: 800; color: #ff0000; }
-    .header-timer .time-label { font-size: 12px; color: #9ca3af; }
-    .header-timer .time-separator { font-size: 16px; color: #6b7280; }
+    .header-timer { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .timer-wrapper { display: flex; align-items: center; gap: 4px; }
+    .timer-item { display: flex; align-items: center; gap: 2px; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(255,0,0,0.1); }
+    .timer-item .num { font-size: 16px; font-weight: 800; color: #ff0000; min-width: 20px; text-align: center; }
+    .timer-item .lbl { font-size: 10px; color: #9ca3af; font-weight: 500; }
+    .timer-sep { color: #6b7280; font-size: 14px; font-weight: 700; }
+    @media (max-width: 640px) {
+      .timer-item .num { font-size: 14px; min-width: 16px; }
+      .timer-item .lbl { font-size: 8px; }
+      .timer-item { padding: 1px 5px; gap: 1px; }
+      .header-text-sm { font-size: 11px; }
+      .header-discount { font-size: 12px; }
+    }
     .header-border-red {
       position: absolute; bottom: 0; left: 0; right: 0; width: 100%; height: 1.5px;
       background: linear-gradient(90deg, transparent, #ff0000, #ff4444, #ff0000, transparent);
       box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
     }
 
+    /* === ROADMAP === */
     .roadmap-section { position: relative; padding: 2rem 0 4rem; max-width: 100%; margin: 0 auto; overflow: visible; }
     .roadmap-container { position: relative; margin: 0 auto; padding: 0 1rem; max-width: 900px; width: 100%; box-sizing: border-box; overflow: visible; }
     .stations-holder {
@@ -97,7 +119,7 @@
     .station-card {
       width: 100%; max-width: 100%; box-sizing: border-box;
       background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 44px;
+      border: 1px solid rgba(var(--gold-rgb), 0.4); border-radius: 44px;
       padding: 2rem 2rem 2rem 2rem;
       padding-top: 10rem;
       box-shadow: 0 10px 20px -10px rgba(0,0,0,0.6); transition: all 0.3s ease;
@@ -134,11 +156,12 @@
     @media (min-width: 768px) { .station-card h3 { font-size: 1.35rem; margin-top: 2rem; } }
     .station-points { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.5rem; position: relative; z-index: 5; }
     .station-point { display: flex; align-items: flex-start; gap: 10px; text-align: right; }
-    .station-point i { color: #FFD700; font-size: 1rem; margin-top: 3px; flex-shrink: 0; }
+    .station-point i { color: var(--gold); font-size: 1rem; margin-top: 3px; flex-shrink: 0; }
     .station-point span { color: #ffffff; font-size: 0.85rem; line-height: 1.6; }
 
     .roadmap-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
 
+    /* === REVEAL === */
     .reveal-fade-up { opacity: 0; transform: translateY(40px); filter: blur(4px); transition: opacity 0.7s, transform 0.7s, filter 0.7s; }
     .reveal-fade-up.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
     .reveal-scale { opacity: 0; transform: scale(0.9); filter: blur(2px); transition: opacity 0.6s, transform 0.6s, filter 0.6s; }
@@ -148,39 +171,40 @@
       0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
     }
     .animated-gradient-text {
-      background: linear-gradient(90deg, #D4AF37, #FFD700, #F6BE00, #D4AF37, #FFD700);
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold-lighter), var(--gold), var(--gold-light));
       background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
       animation: gradientFlow 6s ease infinite; display: inline-block;
     }
     .title-safe { line-height: 1.6; padding-block: 0.2em; overflow: visible; }
 
+    /* === HERO === */
     .hero-bg {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
-      background: radial-gradient(ellipse at 50% 30%, #091b34 0%, #020a18 55%, #020714 100%);
+      background: radial-gradient(ellipse at 50% 30%, #1f2a1a 0%, #020a18 55%, #020714 100%);
     }
     .beam-right {
       position: absolute; bottom: -5%; right: -8%; width: 55%; height: 80%;
-      background: conic-gradient(from 330deg at 80% 90%, transparent 0deg, rgba(255,215,0,0.06) 15deg, rgba(255,215,0,0.10) 30deg, rgba(212,175,55,0.15) 45deg, rgba(255,215,0,0.08) 58deg, rgba(255,215,0,0.03) 70deg, transparent 90deg);
+      background: conic-gradient(from 330deg at 80% 90%, transparent 0deg, rgba(var(--gold-rgb),0.06) 15deg, rgba(var(--gold-rgb),0.10) 30deg, rgba(255,215,0,0.15) 45deg, rgba(var(--gold-rgb),0.08) 58deg, rgba(245,208,66,0.03) 70deg, transparent 90deg);
       filter: blur(35px); pointer-events: none; z-index: 1;
     }
     .beam-right-soft {
       position: absolute; bottom: -8%; right: -5%; width: 45%; height: 70%;
-      background: radial-gradient(ellipse at 75% 85%, rgba(212,175,55,0.06) 0%, rgba(255,215,0,0.03) 30%, rgba(255,215,0,0.02) 55%, transparent 75%);
+      background: radial-gradient(ellipse at 75% 85%, rgba(255,215,0,0.06) 0%, rgba(245,208,66,0.03) 30%, rgba(var(--gold-rgb),0.02) 55%, transparent 75%);
       filter: blur(30px); pointer-events: none; z-index: 1;
     }
     .beam-left {
       position: absolute; bottom: -5%; left: -8%; width: 55%; height: 80%;
-      background: conic-gradient(from 210deg at 20% 90%, transparent 0deg, rgba(255,215,0,0.06) 15deg, rgba(255,215,0,0.10) 30deg, rgba(212,175,55,0.15) 45deg, rgba(255,215,0,0.08) 58deg, rgba(255,215,0,0.03) 70deg, transparent 90deg);
+      background: conic-gradient(from 210deg at 20% 90%, transparent 0deg, rgba(var(--gold-rgb),0.06) 15deg, rgba(var(--gold-rgb),0.10) 30deg, rgba(255,215,0,0.15) 45deg, rgba(var(--gold-rgb),0.08) 58deg, rgba(245,208,66,0.03) 70deg, transparent 90deg);
       filter: blur(35px); pointer-events: none; z-index: 1;
     }
     .beam-left-soft {
       position: absolute; bottom: -8%; left: -5%; width: 45%; height: 70%;
-      background: radial-gradient(ellipse at 25% 85%, rgba(212,175,55,0.06) 0%, rgba(255,215,0,0.03) 30%, rgba(255,215,0,0.02) 55%, transparent 75%);
+      background: radial-gradient(ellipse at 25% 85%, rgba(255,215,0,0.06) 0%, rgba(245,208,66,0.03) 30%, rgba(var(--gold-rgb),0.02) 55%, transparent 75%);
       filter: blur(30px); pointer-events: none; z-index: 1;
     }
     .top-ambient {
       position: absolute; top: 0; left: 0; width: 100%; height: 35%;
-      background: radial-gradient(ellipse at 50% 0%, rgba(255,215,0,0.05) 0%, rgba(212,175,55,0.02) 45%, transparent 70%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(var(--gold-rgb),0.05) 0%, rgba(245,208,66,0.02) 45%, transparent 70%);
       filter: blur(50px); pointer-events: none; z-index: 1;
     }
     .fade-bottom {
@@ -192,10 +216,10 @@
     .dot { position: absolute; border-radius: 50%; background: rgba(255,215,0,0.35); }
     .dot-1 { width:5px; height:5px; top:8%; right:15%; opacity:.4; }
     .dot-2 { width:3px; height:3px; top:12%; left:20%; opacity:.35; }
-    .dot-3 { width:6px; height:6px; top:18%; right:38%; opacity:.25; background:rgba(255,215,0,.4); }
+    .dot-3 { width:6px; height:6px; top:18%; right:38%; opacity:.25; background:rgba(245,208,66,.4); }
     .dot-4 { width:4px; height:4px; top:22%; left:45%; opacity:.4; }
     .dot-5 { width:2px; height:2px; top:10%; right:55%; opacity:.5; }
-    .dot-6 { width:5px; height:5px; top:28%; left:28%; opacity:.3; background:rgba(212,175,55,.4); }
+    .dot-6 { width:5px; height:5px; top:28%; left:28%; opacity:.3; background:rgba(var(--gold-rgb),.4); }
     .dot-7 { width:3px; height:3px; top:15%; right:65%; opacity:.35; }
     .dot-8 { width:4px; height:4px; top:25%; left:8%; opacity:.45; }
     .dot-9 { width:2px; height:2px; bottom:60%; right:25%; opacity:.4; }
@@ -207,22 +231,23 @@
 
     .roadmap-bg {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
-      background: radial-gradient(ellipse at 30% 50%, rgba(255,215,0,0.06) 0%, transparent 60%),
-                  radial-gradient(ellipse at 70% 50%, rgba(212,175,55,0.05) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 30% 50%, rgba(var(--gold-rgb),0.06) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(245,208,66,0.05) 0%, transparent 60%);
     }
 
+    /* === FEATURES === */
     .feature-card {
       background: linear-gradient(to bottom left, #1a1f2e, #020714);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 28px; padding: 8px 6px; transition: all 0.3s ease;
+      border: 1px solid rgba(var(--gold-rgb), 0.2); border-radius: 28px; padding: 8px 6px; transition: all 0.3s ease;
     }
-    .feature-card:hover { border-color: rgba(255, 215, 0, 0.5); background: linear-gradient(to bottom left, #2a2f3e, #0a0e1a); transform: translateY(-2px); }
+    .feature-card:hover { border-color: rgba(var(--gold-rgb), 0.5); background: linear-gradient(to bottom left, #2a2f3e, #0a0e1a); transform: translateY(-2px); }
     @media (min-width: 640px) { .feature-card { padding: 12px 16px; } }
 
     .separator-line-container { position: relative; height: 180px; margin: 32px 0 20px; }
     .separator-vertical-line {
       position: absolute; top: 0; left: 50%; width: 2px; height: 100%;
-      background: linear-gradient(to bottom, transparent, #D4AF37, #FFD700, #D4AF37, transparent);
+      background: linear-gradient(to bottom, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
       transform: translateX(-50%) scaleY(0); transform-origin: top; transition: transform 0.1s linear; border-radius: 1px;
     }
 
@@ -232,10 +257,10 @@
     .feature-header { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 0.75rem; margin-top: 0.5rem; }
     .feature-header h3 { font-size: 1rem; font-weight: 800; color: white; margin: 0; }
     @media (min-width: 768px) { .feature-header h3 { font-size: 1.125rem; } }
-    .feature-icon-small { color: #FFD700; font-size: 1.3rem; margin-left: 10px; width: 1.8rem; text-align: center; }
+    .feature-icon-small { color: var(--gold); font-size: 1.3rem; margin-left: 10px; width: 1.8rem; text-align: center; }
     .feature-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
     .feature-list .feature-card { justify-content: flex-start; padding: 8px 14px; margin-right: 0.75rem; }
-    .feature-list .feature-card i { color: #FFD700; font-size: 1.2rem; margin-left: 8px; }
+    .feature-list .feature-card i { color: var(--gold); font-size: 1.2rem; margin-left: 8px; }
     .feature-list .feature-card span { font-size: 0.9rem; color: #ffffff; }
     @media (max-width: 768px) { .grid-2col { grid-template-columns: 1fr; gap: 2rem; } }
 
@@ -245,12 +270,12 @@
     .feature-section-vertical-line.visible { opacity: 1; }
     .feature-section-line-fill {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, transparent, #D4AF37 15%, #FFD700 50%, #F6BE00);
+      background: linear-gradient(to bottom, transparent, var(--gold) 15%, var(--gold-light) 50%, var(--gold-lighter));
       transform: scaleY(0); transform-origin: top; transition: transform 0.2s linear; border-radius: 2px;
     }
     .feature-section-dot {
-      position: absolute; left: -5px; width: 12px; height: 12px; background: #FFD700; border-radius: 50%;
-      box-shadow: 0 0 12px #D4AF37; z-index: 20; top: 0;
+      position: absolute; left: -5px; width: 12px; height: 12px; background: var(--gold-light); border-radius: 50%;
+      box-shadow: 0 0 12px var(--gold); z-index: 20; top: 0;
     }
 
     .rocket-icon {
@@ -262,30 +287,31 @@
 
     .badge-label {
       background: linear-gradient(to bottom left, #1a1f2e, #020714); backdrop-filter: blur(8px);
-      border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 28px; padding: 4px 14px;
+      border: 1px solid rgba(var(--gold-rgb), 0.2); border-radius: 28px; padding: 4px 14px;
       font-size: 0.75rem; font-weight: 600; color: #e5e7eb; display: inline-block; margin-bottom: 0.25rem;
     }
 
     .brush-line { height: 14px; background-repeat: no-repeat; background-size: contain; margin: 0 auto 1.5rem; opacity: 0.8; }
     .brush-line-1 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 14'%3E%3Cpath d='M5,7 Q15,2 25,6 T50,8 T75,5 T95,7' fill='none' stroke='%236B7280' stroke-width='3' stroke-linecap='round' /%3E%3C/svg%3E"); width: 160px; }
-    .faq-icon { color: #FFD700; }
+    .faq-icon { color: var(--gold); }
     .btn-wide { padding-left: 2.5rem; padding-right: 2.5rem; }
     @media (max-width: 480px) { .btn-wide { padding-left: 3rem; padding-right: 3rem; } }
 
+    /* === PRICING === */
     .pricing-card {
       background: linear-gradient(to bottom left, #1a1f2e, #020714);
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 44px;
+      border: 1px solid rgba(var(--gold-rgb), 0.35); border-radius: 44px;
       padding-bottom: 2.5rem; position: relative; overflow: hidden; box-shadow: none;
     }
     .pricing-card::before {
       content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.15) 1px, transparent 1px),
-                        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.15) 1px, transparent 1px),
-                        radial-gradient(circle at 40% 80%, rgba(255, 215, 0, 0.1) 1px, transparent 1px),
-                        radial-gradient(circle at 90% 20%, rgba(255, 215, 0, 0.12) 1px, transparent 1px),
-                        radial-gradient(circle at 10% 50%, rgba(255, 215, 0, 0.1) 1px, transparent 1px),
-                        radial-gradient(circle at 70% 40%, rgba(255, 215, 0, 0.15) 1px, transparent 1px);
+      background-image: radial-gradient(circle at 20% 30%, rgba(var(--gold-rgb),0.15) 1px, transparent 1px),
+                        radial-gradient(circle at 80% 70%, rgba(var(--gold-rgb),0.15) 1px, transparent 1px),
+                        radial-gradient(circle at 40% 80%, rgba(var(--gold-rgb),0.1) 1px, transparent 1px),
+                        radial-gradient(circle at 90% 20%, rgba(var(--gold-rgb),0.12) 1px, transparent 1px),
+                        radial-gradient(circle at 10% 50%, rgba(var(--gold-rgb),0.1) 1px, transparent 1px),
+                        radial-gradient(circle at 70% 40%, rgba(var(--gold-rgb),0.15) 1px, transparent 1px);
       background-size: 180px 180px, 220px 220px, 200px 200px, 250px 250px, 190px 190px, 210px 210px;
       background-position: 0 0, 40px 60px, 80px 20px, 120px 100px, 160px 40px, 200px 80px;
       mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0) 75%);
@@ -294,8 +320,8 @@
     }
     .pricing-card .relative-z-10 { position: relative; z-index: 3; }
     .pricing-summary-item { display: flex; align-items: flex-start; gap: 10px; color: #ffffff; font-size: 0.9rem; line-height: 1.5; }
-    .pricing-summary-item i { color: #FFD700; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
-    .pricing-summary-item i.gift-icon { color: #FFD700; }
+    .pricing-summary-item i { color: var(--gold); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+    .pricing-summary-item i.gift-icon { color: var(--gold-light); }
     .strikethrough { text-decoration: line-through; color: #9ca3af; }
     .price-divider { border: none; border-top: 1px solid rgba(75, 85, 99, 0.5); margin: 0.5rem 0; width: 100%; }
     @keyframes redPulse { 0% { background-position: 0% 0%; } 50% { background-position: 0% 100%; } 100% { background-position: 0% 0%; } }
@@ -319,17 +345,17 @@
     .pricing-feature-card img { max-height: 80px; width: auto; background-color: transparent; }
     .sub-heading { font-size: 0.9rem; font-weight: 900; color: white; }
     .total-value-item { color: #fbbf24; font-size: 0.95rem; font-weight: 700; margin-top: 0.5rem; }
-    .title-highlight { color: transparent; background: linear-gradient(90deg, #D4AF37, #FFD700, #F6BE00); -webkit-background-clip: text; background-clip: text; }
-    .section-title-highlight { color: #FFD700; }
+    .title-highlight { color: transparent; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold-lighter)); -webkit-background-clip: text; background-clip: text; }
+    .section-title-highlight { color: var(--gold-light); }
     .rounded-large { border-radius: 44px; }
 
     .gift-card {
       background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      backdrop-filter: blur(8px); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 44px;
+      backdrop-filter: blur(8px); border: 1px solid rgba(var(--gold-rgb), 0.3); border-radius: 44px;
       padding: 1.8rem 1.5rem; transition: all 0.3s ease; text-align: center; max-width: 500px; margin: 0 auto; width: 100%;
     }
-    .gift-card:hover { border-color: rgba(255, 215, 0, 0.5); transform: translateY(-4px); }
-    .gift-card i { font-size: 2.5rem; margin-bottom: 1rem; display: inline-block; color: #FFD700; }
+    .gift-card:hover { border-color: rgba(245,208,66,0.5); transform: translateY(-4px); }
+    .gift-card i { font-size: 2.5rem; margin-bottom: 1rem; display: inline-block; color: var(--gold-light); }
     .gift-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.75rem; color: white; }
     .gift-card p { font-size: 0.9rem; line-height: 1.6; color: #e5e7eb; }
     .white-subtext { color: #ffffff !important; }
@@ -340,10 +366,10 @@
 
     .hero-image { border-radius: 28px; overflow: hidden; box-shadow: 0 25px 40px -15px #00000080; width: 100%; aspect-ratio: 16/9; object-fit: cover; background: transparent; }
 
-    .green-badge {
-      background: linear-gradient(to bottom left, #2a1e00, #140f00); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 28px; padding: 3px 12px; font-size: 0.8rem; font-weight: 500;
-      letter-spacing: 0.3px; color: #FFD700; display: inline-block;
+    .gold-badge {
+      background: linear-gradient(to bottom left, #1a2e1a, #021402); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(var(--gold-rgb), 0.3); border-radius: 28px; padding: 3px 12px; font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.3px; color: var(--gold); display: inline-block;
     }
     .choices-section { position: relative; max-width: 1000px; width: 90%; margin: 0 auto; padding: 2rem 0 4rem; }
     .section-title { text-align: center; margin-bottom: 0.5rem; position: relative; z-index: 5; }
@@ -357,13 +383,14 @@
     @media (max-width: 640px) { .choice-card { max-width: 85%; margin-left: 14%; margin-right: auto; padding-top: 1rem; } }
     .choice-card .icon-circle { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.3rem; background: transparent; }
     .choice-card .icon-circle img { width: 100%; height: 100%; object-fit: contain; }
-    .choice-card.red .icon-circle { background: transparent; } .choice-card.green .icon-circle { background: transparent; }
+    .choice-card.red .icon-circle { background: transparent; } .choice-card.gold .icon-circle { background: transparent; }
     .choice-card h3 { font-size: 1.3rem; font-weight: 700; color: #9ca3af; margin: 0; margin-top: 1.5rem; }
-    .choice-card.green h3 { color: #ffffff; }
+    .choice-card.gold h3 { color: #ffffff; }
     .choice-card p { font-size: 0.95rem; line-height: 1.7; color: #9ca3af; max-width: 450px; margin: 0.5rem auto 0; }
-    .choice-card.green p { color: #ffffff; }
+    .choice-card.gold p { color: #ffffff; }
     @media (max-width: 640px) { .choice-card p { font-size: 0.85rem; } }
 
+    /* === MODALS === */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75);
       backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center;
@@ -372,7 +399,7 @@
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal-content {
       background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 44px; padding: 2rem; max-width: 400px; width: 90%;
+      border: 1px solid rgba(var(--gold-rgb), 0.4); border-radius: 44px; padding: 2rem; max-width: 400px; width: 90%;
       box-shadow: 0 25px 50px rgba(0,0,0,0.8); transform: translateY(20px); transition: transform 0.3s ease;
       position: relative;
     }
@@ -391,44 +418,333 @@
       font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.2); color: white; background: rgba(255,255,255,0.05);
     }
     .payment-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
-    .card-payment-btn { background: rgba(0, 82, 155, 0.5); } /* فيزا وماستركارد */
-    .paypal-btn { background: rgba(0, 48, 135, 0.5); }
-    .sham-btn { background: rgba(212, 175, 55, 0.5); }
-    .whatsapp-btn { background: #25D366; color: white; border: none; box-shadow: 0 0 8px rgba(37, 211, 102, 0.5); }
-    .whatsapp-btn:hover { background: #20b859; transform: translateY(-2px); box-shadow: 0 0 15px rgba(37, 211, 102, 0.8); }
+    .paypal-btn { background: rgba(0, 48, 135, 0.5); } 
+    .crypto-btn { background: rgba(247, 147, 26, 0.5); } 
+    .sham-btn { background: rgba(var(--gold-rgb), 0.5); }
+    .card-btn { background: rgba(30, 58, 138, 0.6); border: 1px solid rgba(255,255,255,0.3); }
 
-    .whatsapp-float {
-      position: fixed; bottom: 20px; right: 20px; z-index: 999;
-      width: 56px; height: 56px; border-radius: 50%;
-      background: #25D366; color: white;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
-      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
-      opacity: 0; transform: translateY(30px); pointer-events: none;
+    .crypto-page, .card-page, .paypal-page, .sham-page {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 7, 20, 0.95);
+      z-index: 2000;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
     }
-    .whatsapp-float.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .whatsapp-float i { font-size: 28px; }
-    @media (max-width: 480px) {
-      .whatsapp-float { width: 48px; height: 48px; bottom: 15px; right: 15px; }
-      .whatsapp-float i { font-size: 24px; }
+    .crypto-page.active, .card-page.active, .paypal-page.active, .sham-page.active {
+      display: flex;
+    }
+    .crypto-page .crypto-box, .card-page .card-box, .paypal-page .paypal-box, .sham-page .sham-box {
+      background: linear-gradient(to bottom left, #1a1f2e, #020714);
+      border: 1px solid rgba(var(--gold-rgb), 0.4);
+      border-radius: 44px;
+      padding: 2rem 1.5rem;
+      max-width: 550px;
+      width: 100%;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+      position: relative;
+      margin: 20px auto;
+    }
+    .crypto-page .crypto-box .close-crypto,
+    .card-page .card-box .close-card,
+    .paypal-page .paypal-box .close-paypal,
+    .sham-page .sham-box .close-sham {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .crypto-page .crypto-box .close-crypto:hover,
+    .card-page .card-box .close-card:hover,
+    .paypal-page .paypal-box .close-paypal:hover,
+    .sham-page .sham-box .close-sham:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .crypto-page .crypto-box h2,
+    .card-page .card-box h2,
+    .paypal-page .paypal-box h2,
+    .sham-page .sham-box h2 {
+      color: white;
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+    }
+    .crypto-page .crypto-box .sub-text,
+    .card-page .card-box .sub-text,
+    .paypal-page .paypal-box .sub-text,
+    .sham-page .sham-box .sub-text {
+      color: #e5e7eb;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .crypto-page .crypto-box .crypto-image {
+      width: 100%;
+      max-width: 300px;
+      display: block;
+      margin: 0 auto 1rem auto;
+      border-radius: 20px;
+      background: transparent;
+    }
+    .crypto-page .crypto-box .wallet-address,
+    .card-page .card-box .wallet-address,
+    .paypal-page .paypal-box .wallet-address,
+    .sham-page .sham-box .wallet-address {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(var(--gold-rgb), 0.3);
+      border-radius: 16px;
+      padding: 1rem;
+      color: var(--gold-light);
+      font-size: 0.85rem;
+      text-align: center;
+      word-break: break-all;
+      margin: 1rem 0;
+      font-family: monospace;
+      direction: ltr;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .crypto-page .crypto-box .wallet-address:hover,
+    .card-page .card-box .wallet-address:hover,
+    .paypal-page .paypal-box .wallet-address:hover,
+    .sham-page .sham-box .wallet-address:hover {
+      background: rgba(var(--gold-rgb), 0.1);
+      border-color: var(--gold-light);
+    }
+    .crypto-page .crypto-box .copy-btn,
+    .card-page .card-box .copy-btn,
+    .paypal-page .paypal-box .copy-btn,
+    .sham-page .sham-box .copy-btn {
+      background: rgba(var(--gold-rgb), 0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 8px 24px;
+      border-radius: 9999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+      font-size: 0.9rem;
+    }
+    .crypto-page .crypto-box .copy-btn:hover,
+    .card-page .card-box .copy-btn:hover,
+    .paypal-page .paypal-box .copy-btn:hover,
+    .sham-page .sham-box .copy-btn:hover {
+      background: var(--gold);
+      color: white;
+    }
+    .crypto-page .crypto-box .whatsapp-btn-crypto,
+    .card-page .card-box .whatsapp-btn-crypto,
+    .paypal-page .paypal-box .whatsapp-btn-crypto,
+    .sham-page .sham-box .whatsapp-btn-crypto {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #25D366;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 0.5rem;
+    }
+    .crypto-page .crypto-box .whatsapp-btn-crypto:hover,
+    .card-page .card-box .whatsapp-btn-crypto:hover,
+    .paypal-page .paypal-box .whatsapp-btn-crypto:hover,
+    .sham-page .sham-box .whatsapp-btn-crypto:hover {
+      background: #1ebe5c;
+      transform: scale(1.02);
+    }
+    .crypto-page .crypto-box .divider,
+    .card-page .card-box .divider,
+    .paypal-page .paypal-box .divider,
+    .sham-page .sham-box .divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 1rem 0;
+    }
+    .crypto-page .crypto-box .how-to-btn,
+    .card-page .card-box .how-to-btn,
+    .paypal-page .paypal-box .how-to-btn,
+    .sham-page .sham-box .how-to-btn {
+      background: transparent;
+      border: 1px solid rgba(var(--gold-rgb), 0.4);
+      color: var(--gold-light);
+      padding: 10px 20px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .crypto-page .crypto-box .how-to-btn:hover,
+    .card-page .card-box .how-to-btn:hover,
+    .paypal-page .paypal-box .how-to-btn:hover,
+    .sham-page .sham-box .how-to-btn:hover {
+      background: rgba(var(--gold-rgb), 0.1);
+      border-color: var(--gold-light);
+    }
+    .crypto-page .crypto-box .how-to-content,
+    .card-page .card-box .how-to-content,
+    .paypal-page .paypal-box .how-to-content,
+    .sham-page .sham-box .how-to-content {
+      display: none;
+      margin-top: 1rem;
+      padding: 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .crypto-page .crypto-box .how-to-content.open,
+    .card-page .card-box .how-to-content.open,
+    .paypal-page .paypal-box .how-to-content.open,
+    .sham-page .sham-box .how-to-content.open {
+      display: block;
+    }
+    .crypto-page .crypto-box .how-to-content p,
+    .card-page .card-box .how-to-content p,
+    .paypal-page .paypal-box .how-to-content p,
+    .sham-page .sham-box .how-to-content p {
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      margin-bottom: 0.8rem;
+    }
+    .crypto-page .crypto-box .how-to-content .video-link,
+    .card-page .card-box .how-to-content .video-link,
+    .paypal-page .paypal-box .how-to-content .video-link,
+    .sham-page .sham-box .how-to-content .video-link {
+      display: block;
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 6px 0;
+      transition: color 0.3s ease;
+    }
+    .crypto-page .crypto-box .how-to-content .video-link:hover,
+    .card-page .card-box .how-to-content .video-link:hover,
+    .paypal-page .paypal-box .how-to-content .video-link:hover,
+    .sham-page .sham-box .how-to-content .video-link:hover {
+      color: var(--gold-lighter);
+      text-decoration: underline;
+    }
+    .crypto-page .crypto-box .how-to-content .video-link i,
+    .card-page .card-box .how-to-content .video-link i,
+    .paypal-page .paypal-box .how-to-content .video-link i,
+    .sham-page .sham-box .how-to-content .video-link i {
+      margin-left: 8px;
+    }
+    .crypto-page .crypto-box .how-to-content .step-title,
+    .card-page .card-box .how-to-content .step-title,
+    .paypal-page .paypal-box .how-to-content .step-title,
+    .sham-page .sham-box .how-to-content .step-title {
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 0.8rem;
+      margin-bottom: 0.3rem;
+    }
+    .crypto-page .crypto-box .how-to-content .step-title i,
+    .card-page .card-box .how-to-content .step-title i,
+    .paypal-page .paypal-box .how-to-content .step-title i,
+    .sham-page .sham-box .how-to-content .step-title i {
+      color: var(--gold-light);
+      margin-left: 8px;
+    }
+    .crypto-page .crypto-box .how-to-content .video-wrapper,
+    .card-page .card-box .how-to-content .video-wrapper,
+    .paypal-page .paypal-box .how-to-content .video-wrapper,
+    .sham-page .sham-box .how-to-content .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      margin: 0.8rem 0;
+    }
+    .crypto-page .crypto-box .how-to-content .video-wrapper iframe,
+    .card-page .card-box .how-to-content .video-wrapper iframe,
+    .paypal-page .paypal-box .how-to-content .video-wrapper iframe,
+    .sham-page .sham-box .how-to-content .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 16px;
+    }
+    .crypto-page .crypto-box .how-to-content .link-btn,
+    .card-page .card-box .how-to-content .link-btn,
+    .paypal-page .paypal-box .how-to-content .link-btn,
+    .sham-page .sham-box .how-to-content .link-btn {
+      display: inline-block;
+      background: rgba(var(--gold-rgb), 0.15);
+      border: 1px solid rgba(var(--gold-rgb), 0.3);
+      color: var(--gold-light);
+      padding: 10px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin: 0.5rem 0;
+    }
+    .crypto-page .crypto-box .how-to-content .link-btn:hover,
+    .card-page .card-box .how-to-content .link-btn:hover,
+    .paypal-page .paypal-box .how-to-content .link-btn:hover,
+    .sham-page .sham-box .how-to-content .link-btn:hover {
+      background: rgba(var(--gold-rgb), 0.25);
+      border-color: var(--gold-light);
     }
   </style>
 </head>
-<body class="bg-[#020714] text-gray-200 antialiased selection:bg-amber-500/30">
+<body class="bg-[#020714] text-gray-200 antialiased selection:bg-gold-500/30">
 
+<!-- HEADER -->
 <header id="stickyHeader" class="sticky-header">
   <div class="header-content">
     <div class="header-badge">
       <span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff0000] opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff0000]"></span></span>
-      <span class="header-text">عرض خاص لأول 10 أشخاص فقط <span class="header-discount">خصم 90%</span></span>
+      <span class="header-text-sm">عرض خاص لأول 100 شخص فقط <span class="header-discount">خصم 80%</span></span>
     </div>
     <div class="header-timer">
-      <span class="text-gray-400 text-sm">العرض سينتهي بعد:</span>
-      <div class="flex items-center gap-1"><span class="time-number" id="offerHours">24</span><span class="time-label">ساعة</span></div>
-      <span class="time-separator">:</span>
-      <div class="flex items-center gap-1"><span class="time-number" id="offerMinutes">00</span><span class="time-label">دقيقة</span></div>
-      <span class="time-separator">:</span>
-      <div class="flex items-center gap-1"><span class="time-number" id="offerSeconds">00</span><span class="time-label">ثانية</span></div>
+      <span class="text-gray-400 text-xs">العرض سينتهي بعد:</span>
+      <div class="timer-wrapper">
+        <div class="timer-item"><span class="num" id="offerDays">00</span><span class="lbl">يوم</span></div>
+        <span class="timer-sep">:</span>
+        <div class="timer-item"><span class="num" id="offerHours">00</span><span class="lbl">ساعة</span></div>
+        <span class="timer-sep">:</span>
+        <div class="timer-item"><span class="num" id="offerMinutes">00</span><span class="lbl">دقيقة</span></div>
+        <span class="timer-sep">:</span>
+        <div class="timer-item"><span class="num" id="offerSeconds">00</span><span class="lbl">ثانية</span></div>
+      </div>
     </div>
   </div>
   <div class="header-border-red"></div>
@@ -442,55 +758,55 @@
   </div>
   <div class="fade-bottom"></div>
   <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-    <div class="absolute -top-32 -right-20 w-96 h-96 bg-amber-500/20 rounded-full blur-[120px]"></div>
-    <div class="absolute bottom-0 left-10 w-80 h-80 bg-amber-600/10 rounded-full blur-[100px]"></div>
+    <div class="absolute -top-32 -right-20 w-96 h-96 bg-gold-500/20 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-0 left-10 w-80 h-80 bg-gold-600/10 rounded-full blur-[100px]"></div>
   </div>
   <div class="max-w-6xl mx-auto relative z-10">
     <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
       <div class="flex-1 text-center lg:text-right">
         <div class="max-w-[98%] mx-auto px-1 lg:max-w-4xl lg:px-4 reveal-fade-up" data-delay="200">
-          <span class="green-badge mb-0.5 inline-block">طريق أول 10,000$</span>
+          <span class="gold-badge mb-0.5 inline-block">طريق أول 10,000$</span>
           <h1 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-black text-white title-safe mt-0.5">
-            <span class="block">استغل الذكاء الاصطناعي لبدء</span>
+            <span class="block">استغل الذكاء الاصطناعي لبدأ</span>
             <span class="block">مشروعك الخاص على الإنترنت <span class="animated-gradient-text">في 24 ساعة</span></span>
           </h1>
         </div>
         <p class="mt-3 text-sm md:text-base text-white leading-relaxed max-w-2xl mx-auto lg:mx-0 reveal-fade-up" data-delay="300">
-          اكتشف السر اللي راح تتعلم كيف تستغل الذكاء الاصطناعي لبناء مشروعك الخاص على الانترنت خطوة بخطوة بالتفصيل 
+          اكتشف السر اللي راح تعلمك كيف تستغل الذكاء الاصطناعي لبناء مشروعك الخاص على الانترنت خطوة بخطوة بالتفصيل
           <span class="animated-gradient-text font-black">من الفكرة إلى البيع</span>
         </p>
         <div class="mt-6 lg:hidden reveal-scale" data-delay="350">
           <img src="images/hero.png" alt="ريبل ستارت" class="hero-image" style="background: transparent; border: none; box-shadow: none;" loading="lazy" onerror="this.style.display='none'">
         </div>
         <div class="mt-6 flex justify-center lg:justify-start reveal-scale" data-delay="400">
-          <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 green-gradient text-white font-bold text-xl px-12 py-4 rounded-full green-glow btn-wide">
+          <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
             <span class="shimmer-effect"></span><span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
           </button>
         </div>
         <div class="mt-8 max-w-2xl mx-auto lg:mx-0" id="featureCardsContainer">
           <div class="grid grid-cols-3 gap-2 sm:gap-3">
-            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="450"><i class="fas fa-graduation-cap" style="color: #FFD700;"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">لا حاجة لخبرة سابقة</span></div>
-            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="500"><i class="fas fa-coins" style="color: #FFD700;"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">لا حاجة إلى رأس مال</span></div>
-            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="550" id="lastFeatureCard"><i class="fas fa-mobile-alt" style="color: #FFD700;"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">تحتاج هاتفك فقط</span></div>
+            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="450"><i class="fas fa-graduation-cap" style="color: var(--gold);"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">لا حاجة لخبرة سابقة</span></div>
+            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="500"><i class="fas fa-coins" style="color: var(--gold);"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">لا حاجة إلى رأس مال</span></div>
+            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="550" id="lastFeatureCard"><i class="fas fa-mobile-alt" style="color: var(--gold);"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">تحتاج هاتفك فقط</span></div>
           </div>
         </div>
         <div class="separator-line-container max-w-2xl mx-auto lg:mx-0 reveal-fade-up" data-delay="600" id="separatorContainer"><div class="separator-vertical-line" id="separatorLine"></div></div>
         <div class="max-w-2xl mx-auto lg:mx-0 mt-4 reveal-fade-up" data-delay="650">
-          <h3 class="text-lg md:text-xl font-black text-white mb-4 text-center lg:text-right">دحين فرصتك الذهبية</h3>
+          <h3 class="text-lg md:text-xl font-black text-white mb-4 text-center lg:text-right">هسة فرصتك الذهبية</h3>
           <div class="brush-line brush-line-1 mx-auto lg:mx-0"></div>
           <div class="text-sm md:text-base text-white leading-loose space-y-4 mt-4">
-            <p class="mb-2">يا صاحبي، بما إنك في هالموقع، فأنا عارف إنك <strong class="font-black text-white">شخص طموح</strong>، وتبي تربح من الإنترنت</p>
-            <p class="mb-2">أبغى منك تعرف إن العالم تغير وايد، إحنا دحين <strong class="font-black text-white">في عصر الذكاء الاصطناعي</strong></p>
-            <p class="mb-2">إذا ما استغلّيتها بالطريقة الصحيحة، راح تضيع عليك فرص وايد</p>
-            <p class="mb-2">ولذلك <strong class="font-black text-white">ريبل ستارت بيكون أفضل خطوة لك</strong></p>
-            <p class="mb-2">في ريبل ستارت نشرح لك كيف ممكن تواكب ثورة الذكاء الاصطناعي</p>
+            <p class="mb-2">صاحبي بما إنك بهل موقع، فأنا أعرف إنك <strong class="font-black text-white">شخص طموح</strong>، وبدك تربح من الإنترنت</p>
+            <p class="mb-2">بدي منك تعرف العالم تغير جدًا، إحنا هسة <strong class="font-black text-white">بعصر الذكاء الاصطناعي</strong></p>
+            <p class="mb-2">إذا ما استغليتها بالطريقة الصحيحة، راح تضيع على نفسك كلش هواي</p>
+            <p class="mb-2">ولذلك <strong class="font-black text-white">ريبل ستارت راح يكون أفضل خطوة إلك</strong></p>
+            <p class="mb-2">بربل ستارت نشرح كيف ممكن تواكب ثورة الذكاء الاصطناعي</p>
             <p>وكيف تستغلها صح حتى تبني مصدر دخل من الإنترنت</p>
           </div>
         </div>
       </div>
       <div class="flex-1 w-full max-w-xl lg:max-w-none hidden lg:flex flex-col items-center gap-2 reveal-scale" data-delay="200">
         <img src="images/hero.png" alt="ريبل ستارت" class="hero-image" style="background: transparent; border: none; box-shadow: none;" loading="lazy" onerror="this.style.display='none'">
-        <span class="green-badge mt-2">طريق أول 10,000$</span>
+        <span class="gold-badge mt-2">طريق أول 10,000$</span>
       </div>
     </div>
   </div>
@@ -507,21 +823,21 @@
         <img src="images/feature-1.PNG" alt="8 وحدات من المحتوى" class="feature-image reveal-scale" data-delay="200" loading="lazy" onerror="this.style.backgroundColor='#1a1f2e'; this.style.minHeight='200px'">
         <div class="feature-header" id="firstFeatureHeader"><i class="fas fa-layer-group feature-icon-small"></i><h3>8 وحدات من المحتوى</h3></div>
         <div class="feature-list">
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="300"><i class="fas fa-check"></i><span class="white-subtext text-sm font-medium">من العقلية إلى سحب الأرباح خطوة بخطوة</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="350"><i class="fas fa-check"></i><span class="white-subtext text-sm font-medium">ستتعلم مشروع نجح معي</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="400"><i class="fas fa-check"></i><span class="white-subtext text-sm font-medium">تطبيق عملي من الصفر</span></div>
+          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="300"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">من العقلية إلى سحب الأرباح خطوة بخطوة</span></div>
+          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="350"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">ستتعلم مشروع نجح معي</span></div>
+          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="400"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">تطبيق عملي من الصفر</span></div>
         </div>
       </div>
       <div class="feature-block" id="featureBlock2">
         <img src="images/feature-2.jpg" alt="دعم من مجتمع خاص" class="feature-image reveal-scale" data-delay="200" loading="lazy" onerror="this.style.backgroundColor='#1a1f2e'; this.style.minHeight='200px'">
         <div class="feature-header"><i class="fas fa-users feature-icon-small"></i><h3>دعم من مجتمع خاص</h3></div>
         <div class="feature-list">
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="300"><i class="fas fa-check"></i><span class="white-subtext text-sm font-medium">أبدأ رحلتك مع أشخاص لهم نفس تفكيرك</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="350"><i class="fas fa-check"></i><span class="white-subtext text-sm font-medium">أسأل أي سؤال تريد</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="400" id="lastFeatureItem"><i class="fas fa-check"></i><span class="white-subtext text-sm font-medium">أطلب المساعدة متى تشاء</span></div>
+          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="300"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">أبدأ رحلتك مع أشخاص لهم نفس تفكيرك</span></div>
+          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="350"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">أسأل أي سؤال تريد</span></div>
+          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="400" id="lastFeatureItem"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">أطلب المساعدة متى تشاء</span></div>
         </div>
         <div class="mt-6 text-center reveal-scale" data-delay="500">
-          <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 green-gradient text-white font-bold text-xl px-12 py-4 rounded-full green-glow btn-wide">
+          <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
             <span class="shimmer-effect"></span><span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
           </button>
         </div>
@@ -558,7 +874,7 @@
     <div class="stations-holder" id="stationsContainer"></div>
   </div>
   <div class="text-center mt-12 reveal-scale" data-delay="750">
-    <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 green-gradient text-white font-bold text-xl px-12 py-4 rounded-full green-glow btn-wide">
+    <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
       <span class="shimmer-effect"></span><span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
     </button>
   </div>
@@ -576,7 +892,7 @@
     <div class="gift-card reveal-scale" data-delay="400"><i class="fas fa-film"></i><h3>حزمة مونتاج مجانًا</h3><p>يوجد فيها كل ما تحتاجه للمونتاج (فيديوهات وصور، مؤثرات صوتية وبصرية، خلفيات...).</p></div>
   </div>
   <div class="mt-16 text-center reveal-scale" data-delay="600">
-    <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 green-gradient text-white font-bold text-xl px-12 py-4 rounded-full green-glow btn-wide">
+    <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
       <span class="shimmer-effect"></span><span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
     </button>
   </div>
@@ -614,19 +930,19 @@
         <p>فحبيت أتعمق فيها، بلشت أشاهد فيديوهات عن الربح من الإنترنت وأبحث عنهم أكثر</p>
         <p><strong class="font-black text-white">بس كل شخص كان يكلي شيء مختلف</strong></p>
         <p>جربت أربح من:</p>
-        <p><i class="fas fa-video text-amber-400 ml-2"></i> بيع الخدمات (خدمة المونتاج وخدمة التصميم)</p>
-        <p><i class="fas fa-link text-amber-400 ml-2"></i> التسويق بالعمولة للمنتجات المادية</p>
-        <p><i class="fas fa-chart-line text-amber-400 ml-2"></i> التداول</p>
-        <p><i class="fas fa-box text-amber-400 ml-2"></i> الدروب شيبينغ</p>
+        <p><i class="fas fa-video text-gold-400 ml-2"></i> بيع الخدمات (خدمة المونتاج وخدمة التصميم)</p>
+        <p><i class="fas fa-link text-gold-400 ml-2"></i> التسويق بالعمولة للمنتجات المادية</p>
+        <p><i class="fas fa-chart-line text-gold-400 ml-2"></i> التداول</p>
+        <p><i class="fas fa-box text-gold-400 ml-2"></i> الدروب شيبينغ</p>
         <p>وغيرهم من الطرق</p>
         <p>بس ما نجحت بأي طريقة منهم</p>
-        <p><i class="fas fa-question-circle text-amber-400 ml-2"></i><strong class="font-black text-white">هنا سألت نفسي سؤال غيّر كل شيء</strong></p>
+        <p><i class="fas fa-question-circle text-gold-400 ml-2"></i><strong class="font-black text-white">هنا سألت نفسي سؤال غيّر كل شيء</strong></p>
         <p>قلت لنفسي <strong class="font-black text-white">أغلب المليونير على الإنترنت كيف يربحون من الإنترنت؟</strong></p>
         <p><strong class="font-black text-white">والجواب الحقيقي هو: أغلبهم يربحون من بيع المنتجات الرقمية وصناعة المحتوى</strong></p>
         <p>طبعًا كل هذا بعد أبحاث مُتعمقة ومقارنات وتجارب</p>
         <p><strong class="font-black text-white">ولذلك أشاركك في ريبل ستارت أفضل الأسرار والاستراتيجيات</strong> اللي تعلمتهم برحلة نجاحي بهذا المشروع.</p>
       </div>
-      <button id="storyToggleBtn" class="text-amber-400 font-bold hover:underline mt-2">عرض المزيد…</button>
+      <button id="storyToggleBtn" class="text-gold-400 font-bold hover:underline mt-2">عرض المزيد…</button>
     </div>
   </div>
 </section>
@@ -662,7 +978,7 @@
       <div class="flex items-center gap-2 old-price-wrapper reveal-fade-up" data-delay="300"><span class="old-price-gradient">السعر سيرتفع إلى</span><span class="old-price-value">$90</span></div>
       <div class="flex items-center gap-2 current-price-wrapper reveal-fade-up" data-delay="400"><span class="current-text">حاليًا فقط</span><span class="animated-gradient-text current-price font-extrabold">$17</span></div>
       <div class="mt-7 reveal-fade-up" data-delay="600">
-        <button onclick="openPaymentModal()" class="group relative inline-flex items-center gap-3 green-gradient text-white font-bold text-xl px-12 py-4 rounded-full btn-wide">
+        <button onclick="openPaymentModal()" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full btn-wide">
           <span class="shimmer-effect"></span><span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
         </button>
       </div>
@@ -679,10 +995,10 @@
     <svg class="svg-lines" id="svgLines"></svg>
     <div class="cards-wrapper">
       <div class="choice-card red" id="card1"><h3>البقاء في مكانك</h3><p>تستمر في تصفح مواقع التواصل، تضيع وقتك دون هدف، وتفوّت على نفسك فرصة الذكاء الاصطناعي مثل ما فات أجدادنا فرصة الأراضي والعقارات. تبقى تدور بنفس الحلقة، سنة ورا سنة، بدون أي تقدم حقيقي.</p></div>
-      <div class="choice-card green" id="card2">
+      <div class="choice-card gold" id="card2">
         <h3>الانضمام إلى ريبل ستارت</h3>
-        <p>تستغل عصر الذكاء الاصطناعي، تبني مشروعك الخاص من الصفر، تحصل على الدعم الكامل، وتصبح جزءاً من جيل يمتلك أدوات المستقبل. القرار بيدك دحين واللي تقرره راح يكون هو مستقبلك.</p>
-        <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 green-gradient text-white font-bold text-lg px-6 py-3 rounded-full green-glow" style="margin-top:0.8rem;">
+        <p>تستغل عصر الذكاء الاصطناعي، تبني مشروعك الخاص من الصفر، تحصل على الدعم الكامل، وتصبح جزءاً من جيل يمتلك أدوات المستقبل. القرار بيدك هسة واللي تقرره راح يكون هو مستقبلك.</p>
+        <button onclick="document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-lg px-6 py-3 rounded-full gold-glow" style="margin-top:0.8rem;">
           <span class="shimmer-effect"></span><span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-base relative z-10 rocket-icon"></i>
         </button>
       </div>
@@ -694,20 +1010,20 @@
   <hr class="border-gray-700 mb-10">
   <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold text-white text-center mb-10 reveal-fade-up" data-delay="100">الأسئلة الشائعة</h2>
   <div class="space-y-4">
-    <div class="faq-item glass-card rounded-large border border-white/10 reveal-scale" data-delay="200">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>متى سأتمكن من الوصول إلى ريبل ستارت؟</span><i class="fas fa-plus text-amber-400"></i></div>
+    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="200">
+      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>متى سأتمكن من الوصول إلى ريبل ستارت؟</span><i class="fas fa-plus text-gold-400"></i></div>
       <div class="faq-answer white-subtext"><p class="pb-2">ستتمكن من الوصول إلى كورسات ومجتمع ريبل ستارت مباشرةً بعد إتمام الانضمام.</p></div>
     </div>
-    <div class="faq-item glass-card rounded-large border border-white/10 reveal-scale" data-delay="300">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>لمن هذا الكورس؟</span><i class="fas fa-plus text-amber-400"></i></div>
+    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="300">
+      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>لمن هذا الكورس؟</span><i class="fas fa-plus text-gold-400"></i></div>
       <div class="faq-answer white-subtext"><p class="pb-2">هذا الكورس لكل شخص طموح يرغب في كسب المال من الإنترنت بأفضل طريقة وأحدث طريقة عن طريق استغلال الذكاء الاصطناعي. ولكل شخص لا يجد من يرشده إلى الطريق الصحيح، ويحتاج إلى إخوة يرشدونه وينجحون معًا.</p></div>
     </div>
-    <div class="faq-item glass-card rounded-large border border-white/10 reveal-scale" data-delay="400">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>ليس لدي أي خبرة سابقة، هل يناسبني الكورس؟</span><i class="fas fa-plus text-amber-400"></i></div>
+    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="400">
+      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>ليس لدي أي خبرة سابقة، هل يناسبني الكورس؟</span><i class="fas fa-plus text-gold-400"></i></div>
       <div class="faq-answer white-subtext"><p class="pb-2">في الأساس الكورس يستهدف المبتدئين قبل المحترفين، نحن نقدم كورسات كاملة خطوة بخطوة + نجاوب على أي أسئلة، ونساعدك في حل أي مشكلة تواجهها في رحلتك.</p></div>
     </div>
-    <div class="faq-item glass-card rounded-large border border-white/10 reveal-scale" data-delay="500">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>هل أحتاج إلى رأس مال للبدأ؟</span><i class="fas fa-plus text-amber-400"></i></div>
+    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="500">
+      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>هل أحتاج إلى رأس مال للبدأ؟</span><i class="fas fa-plus text-gold-400"></i></div>
       <div class="faq-answer white-subtext"><p class="pb-2">لا، لا تحتاج إلى رأس المال فالاستراتيجيات الموجودة في الكورس تساعدك على البدء دون الحاجة إلى رأس مال.</p></div>
     </div>
   </div>
@@ -715,69 +1031,333 @@
 
 <footer class="py-6 text-center text-white text-sm border-t border-white/5 reveal-fade-up">© 2026 ريبل ستارت</footer>
 
-<!-- نافذة طرق الدفع -->
+<!-- Payment Modal -->
 <div id="paymentModal" class="modal-overlay" onclick="closePaymentModal(event)">
   <div class="modal-content" onclick="event.stopPropagation()">
     <button onclick="closePaymentModal()" class="modal-close-btn">&times;</button>
-    <h3 class="text-xl font-bold text-white mb-5">اختر طريقة الدفع التي تناسبك</h3>
+    <h3 class="text-xl font-bold text-white mb-5 text-center">اختر طريقة الدفع المناسبة</h3>
     
-    <!-- زر الدفع بالبطاقات الائتمانية (فيزا / ماستركارد) -->
-    <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" class="payment-btn card-payment-btn">
-      <i class="fas fa-credit-card text-2xl"></i><span>الدفع بالبطاقة الائتمانية (فيزا / ماستركارد)</span>
-    </a>
+    <button onclick="openCardPage()" class="payment-btn card-btn" style="cursor:pointer;">
+      <i class="fas fa-credit-card text-2xl"></i>
+      <span>الدفع بالبطاقات البنكية</span>
+    </button>
     
-    <!-- زر PayPal -->
-    <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" class="payment-btn paypal-btn">
-      <i class="fab fa-paypal text-2xl"></i><span>الدفع عبر PayPal</span>
-    </a>
+    <button onclick="openPaypalPage()" class="payment-btn paypal-btn" style="cursor:pointer;">
+      <i class="fab fa-paypal text-2xl"></i>
+      <span>الدفع عبر PayPal</span>
+    </button>
     
-    <!-- زر شام كاش -->
-    <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" class="payment-btn sham-btn">
-      <i class="fas fa-money-bill-wave text-2xl"></i><span>الدفع عبر شام كاش</span>
-    </a>
+    <button onclick="openShamPage()" class="payment-btn sham-btn" style="cursor:pointer;">
+      <i class="fas fa-money-bill-wave text-2xl"></i>
+      <span>الدفع عبر شام كاش</span>
+    </button>
     
-    <div class="mt-4 text-center">
-      <p class="text-gray-300 text-sm mb-2">إذا بدك تدفع بطريقة أخرى تواصل معنا لكي نوفر لك المزيد من طرق الدفع التي تناسبك</p>
-      <a href="https://wa.me/963934398471?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%B9%D9%86%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%83%D9%88%D8%B1%D8%B3%20%D8%B1%D9%8A%D8%A8%D9%84%20%D8%B3%D8%AA%D8%A7%D8%B1%D8%AA" target="_blank" class="payment-btn whatsapp-btn"><i class="fab fa-whatsapp text-2xl"></i><span>تواصل واتساب</span></a>
+    <button onclick="openCryptoPage()" class="payment-btn crypto-btn" style="cursor:pointer;">
+      <i class="fab fa-bitcoin text-2xl"></i>
+      <span>الدفع بالعملات الرقمية (USDT)</span>
+    </button>
+  </div>
+</div>
+
+<!-- Crypto Page -->
+<div id="cryptoPage" class="crypto-page">
+  <div class="crypto-box">
+    <button class="close-crypto" onclick="closeCryptoPage()">&times;</button>
+    <h2>💳 الدفع بالعملات الرقمية</h2>
+    <!-- تم حذف النص: "يمكنك الدفع عبر عملة USDT (شبكة TRC20)" -->
+    
+    <img src="images/crypto-payment.jpg" alt="الدفع بالعملات الرقمية" class="crypto-image" loading="lazy" onerror="this.style.display='none'">
+    
+    <div style="text-align:center; margin: 0.5rem 0 0.8rem;">
+      <button class="how-to-btn" onclick="toggleHowToCrypto()">
+        <i class="fas fa-question-circle"></i> 👈 انقر هنا لتتعلم كيفية الدفع بالعملات الرقمية
+      </button>
+    </div>
+    
+    <div id="howToContentCrypto" class="how-to-content">
+      <p>يمكنك الدفع بالعملات الرقمية عن طريق محفظة مثل <strong>Trust Wallet</strong> أو <strong>Binance</strong>…</p>
+      <p>يمكنك عن طريق التحويل من بطاقتك البنكية (فيزا أو ماستر كارد) التحويل إلى محفظة Binance عملة USDT، ومن ثم إرسال سعر الكورس إلى عنوان محفظتنا للانضمام إلى كورس <strong>ريبل ستارت</strong>.</p>
+      
+      <div class="step-title"><i class="fas fa-1"></i> شرح إنشاء حساب في Binance</div>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/TJ7Vfh38w7w" allowfullscreen loading="lazy"></iframe>
+      </div>
+      
+      <div class="step-title"><i class="fas fa-2"></i> شرح شحن حساب Binance</div>
+      <p style="font-size:0.85rem; color:#9ca3af;">طريقة P2P:</p>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/d9y1TM2ISd0" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p style="font-size:0.85rem; color:#9ca3af; margin-top:0.5rem;">طريقة الشحن بالبطاقة البنكية:</p>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/Kvc39WmqQoU" allowfullscreen loading="lazy"></iframe>
+      </div>
+      
+      <div class="step-title"><i class="fas fa-3"></i> التحويل من Binance إلى محفظة ريبل ستارت</div>
+      <p style="font-size:0.85rem; color:#9ca3af;">عنوان محفظة فريق ريبل ستارت (Trust Wallet):</p>
+      <div class="wallet-address" onclick="copyWalletCrypto()" style="cursor:pointer; text-align:center; direction:ltr; color:var(--gold-light); font-family:monospace; font-size:0.8rem; word-break:break-all; border:1px solid rgba(var(--gold-rgb),0.2); padding:0.8rem; border-radius:12px; background:rgba(255,255,255,0.05);">
+        TTVrg2MJdiiP6KNKrQnSDHAcaStkXmkEhd
+      </div>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/pE7ULv-MyfM" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+    
+    <hr class="divider">
+    
+    <p style="color:#e5e7eb; font-size:0.9rem; text-align:center; margin-bottom:0.3rem;">قم بتحويل المبلغ إلى المحفظة التالية:</p>
+    <div class="wallet-address" id="walletAddressCrypto" onclick="copyWalletCrypto()">
+      TTVrg2MJdiiP6KNKrQnSDHAcaStkXmkEhd
+    </div>
+    <div style="text-align:center;">
+      <button class="copy-btn" onclick="copyWalletCrypto()">📋 نسخ العنوان</button>
+    </div>
+    
+    <hr class="divider">
+    
+    <p style="color:#e5e7eb; font-size:0.9rem; text-align:center;">بعد التحويل وإتمام الدفع</p>
+    <p style="color:#9ca3af; font-size:0.85rem; text-align:center; margin-bottom:1rem;">أرسل لنا صورة إثبات التحويل على هذا الرقم، وسنرد عليك بأقرب وقت</p>
+    
+    <div style="text-align:center;">
+      <a href="https://wa.me/963934398471?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%B3%D9%84%D8%AA%20%D8%B3%D8%B9%D8%B1%20%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%83%D9%88%D8%B1%D8%B3%20%D8%B1%D9%8A%D8%A8%D9%84%20%D8%B3%D8%AA%D8%A7%D8%B1%D8%AA%20%D8%A5%D9%84%D9%89%20%D9%85%D8%AD%D9%81%D8%B8%D8%A9%20%D9%81%D8%B1%D9%8A%D9%82%20%D8%B1%D9%8A%D8%A8%D9%84%20%D8%B3%D8%AA%D8%A7%D8%B1%D8%AA%0A%D9%88%D9%87%D8%B0%D8%A7%20%D9%87%D9%88%20%D8%B5%D9%88%D8%B1%D8%A9%20%D8%A7%D9%84%D8%A5%D8%AB%D8%A8%D8%A7%D8%AA%3A" target="_blank" class="whatsapp-btn-crypto">
+        <i class="fab fa-whatsapp"></i> تواصل عبر واتساب
+      </a>
     </div>
   </div>
 </div>
 
-<!-- أيقونة واتساب دائرية -->
-<a href="https://wa.me/963934398471?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%B9%D9%86%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%83%D9%88%D8%B1%D8%B3%20%D8%B1%D9%8A%D8%A8%D9%84%20%D8%B3%D8%AA%D8%A7%D8%B1%D8%AA" target="_blank" id="whatsappFloat" class="whatsapp-float">
-  <i class="fab fa-whatsapp"></i>
-</a>
+<!-- Card Page -->
+<div id="cardPage" class="card-page">
+  <div class="card-box">
+    <button class="close-card" onclick="closeCardPage()">&times;</button>
+    <h2>💳 الدفع بالبطاقات البنكية</h2>
+    <p class="sub-text">كيفية الانضمام إلى <strong>ريبل ستارت</strong> عن طريق الدفع بالبطاقات البنكية</p>
+    
+    <div style="text-align:center; margin: 1rem 0;">
+      <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" class="link-btn" style="display:inline-block; background:rgba(var(--gold-rgb),0.15); border:1px solid rgba(var(--gold-rgb),0.3); color:var(--gold-light); padding:12px 24px; border-radius:12px; text-decoration:none; font-weight:600; transition:all 0.3s ease;">
+        <i class="fas fa-external-link-alt"></i> رابط كورس ريبل ستارت - انقر هنا
+      </a>
+    </div>
+    
+    <p style="color:#e5e7eb; font-size:0.95rem; text-align:center; margin-bottom:0.5rem;">شاهد الفيديو لمعرفة كيفية إتمام الدفع والانضمام إلى ريبل ستارت:</p>
+    
+    <div class="video-wrapper">
+      <iframe src="https://www.youtube.com/embed/KbvU6MvHrvc" allowfullscreen loading="lazy"></iframe>
+    </div>
+    
+    <hr class="divider">
+    
+    <p style="color:#9ca3af; font-size:0.85rem; text-align:center;">بعد إتمام الدفع، سيتم إرسالك إلى رابط كورس ومجتمع ريبل ستارت ✅</p>
+  </div>
+</div>
+
+<!-- PayPal Page -->
+<div id="paypalPage" class="paypal-page">
+  <div class="paypal-box">
+    <button class="close-paypal" onclick="closePaypalPage()">&times;</button>
+    <h2>💳 الدفع عبر PayPal</h2>
+    <p class="sub-text">الانضمام إلى <strong>ريبل ستارت</strong> عن طريق الدفع عبر PayPal</p>
+    
+    <div style="text-align:center; margin: 1rem 0;">
+      <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" class="link-btn" style="display:inline-block; background:rgba(var(--gold-rgb),0.15); border:1px solid rgba(var(--gold-rgb),0.3); color:var(--gold-light); padding:12px 24px; border-radius:12px; text-decoration:none; font-weight:600; transition:all 0.3s ease;">
+        <i class="fas fa-external-link-alt"></i> رابط كورس ريبل ستارت - انقر هنا
+      </a>
+    </div>
+    
+    <p style="color:#e5e7eb; font-size:0.95rem; text-align:center; margin-bottom:0.5rem;">وشاهد الفيديو لمعرفة كيفية الانضمام إلى ريبل ستارت عن طريق الدفع عبر PayPal:</p>
+    
+    <div class="video-wrapper">
+      <iframe src="https://www.youtube.com/embed/W1XfFbETPDM" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Sham Page -->
+<div id="shamPage" class="sham-page">
+  <div class="sham-box">
+    <button class="close-sham" onclick="closeShamPage()">&times;</button>
+    <h2>💳 الدفع عبر شام كاش</h2>
+    <p class="sub-text">الانضمام إلى <strong>ريبل ستارت</strong> عن طريق الدفع بالشام كاش</p>
+    
+    <div style="text-align:center; margin: 1rem 0;">
+      <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" class="link-btn" style="display:inline-block; background:rgba(var(--gold-rgb),0.15); border:1px solid rgba(var(--gold-rgb),0.3); color:var(--gold-light); padding:12px 24px; border-radius:12px; text-decoration:none; font-weight:600; transition:all 0.3s ease;">
+        <i class="fas fa-external-link-alt"></i> رابط كورس ريبل ستارت - انقر هنا
+      </a>
+    </div>
+    
+    <p style="color:#e5e7eb; font-size:0.95rem; text-align:center; margin-bottom:0.5rem;">وشاهد الفيديو لمعرفة كيفية الانضمام إلى ريبل ستارت عن طريق الدفع بالشام كاش:</p>
+    
+    <div class="video-wrapper">
+      <iframe src="https://www.youtube.com/embed/uIa_t-w2OcI" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
 
 <script>
+  // ===================== PAYMENT MODAL =====================
   function openPaymentModal() {
     document.getElementById('paymentModal').classList.add('active');
-    const wa = document.getElementById('whatsappFloat');
-    if (wa) wa.classList.remove('show');
   }
   function closePaymentModal(event) {
     if (event && event.target !== event.currentTarget) return;
     document.getElementById('paymentModal').classList.remove('active');
-    const wa = document.getElementById('whatsappFloat');
-    if (wa) wa.classList.add('show');
   }
 
-  setTimeout(() => {
-    const wa = document.getElementById('whatsappFloat');
-    if (wa) wa.classList.add('show');
-  }, 30000);
-  
-  (function(){
-    const $ = (id) => document.getElementById(id);
-    const btn = document.getElementById('storyToggleBtn');
-    const extra = document.getElementById('storyExtra');
-    if (btn && extra) {
-      btn.addEventListener('click', () => {
-        const hidden = extra.classList.contains('story-hidden');
-        if (hidden) { extra.classList.remove('story-hidden'); btn.textContent = 'إظهار أقل'; }
-        else { extra.classList.add('story-hidden'); btn.textContent = 'عرض المزيد…'; }
-      });
+  // ===================== CRYPTO PAGE =====================
+  function openCryptoPage() {
+    document.getElementById('cryptoPage').classList.add('active');
+    document.getElementById('paymentModal').classList.remove('active');
+  }
+  function closeCryptoPage() {
+    document.getElementById('cryptoPage').classList.remove('active');
+    document.getElementById('howToContentCrypto').classList.remove('open');
+  }
+  function toggleHowToCrypto() {
+    document.getElementById('howToContentCrypto').classList.toggle('open');
+  }
+  function copyWalletCrypto() {
+    const wallet = document.getElementById('walletAddressCrypto').innerText;
+    navigator.clipboard.writeText(wallet).then(() => {
+      alert('✅ تم نسخ عنوان المحفظة!');
+    }).catch(() => {
+      const range = document.createRange();
+      range.selectNode(document.getElementById('walletAddressCrypto'));
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      alert('✅ تم نسخ عنوان المحفظة!');
+    });
+  }
+
+  // ===================== CARD PAGE =====================
+  function openCardPage() {
+    document.getElementById('cardPage').classList.add('active');
+    document.getElementById('paymentModal').classList.remove('active');
+  }
+  function closeCardPage() {
+    document.getElementById('cardPage').classList.remove('active');
+  }
+
+  // ===================== PAYPAL PAGE =====================
+  function openPaypalPage() {
+    document.getElementById('paypalPage').classList.add('active');
+    document.getElementById('paymentModal').classList.remove('active');
+  }
+  function closePaypalPage() {
+    document.getElementById('paypalPage').classList.remove('active');
+  }
+
+  // ===================== SHAM PAGE =====================
+  function openShamPage() {
+    document.getElementById('shamPage').classList.add('active');
+    document.getElementById('paymentModal').classList.remove('active');
+  }
+  function closeShamPage() {
+    document.getElementById('shamPage').classList.remove('active');
+  }
+
+  // ===================== CLOSE WITH ESCAPE =====================
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeCryptoPage();
+      closeCardPage();
+      closePaypalPage();
+      closeShamPage();
+      closePaymentModal();
+    }
+  });
+
+  // ===================== WEEKLY TIMER =====================
+  (function() {
+    function getEndOfWeek() {
+      const now = new Date();
+      const currentDay = now.getDay();
+      let daysUntilSaturday = 6 - currentDay;
+      if (daysUntilSaturday < 0) daysUntilSaturday += 7;
+      if (daysUntilSaturday === 0 && now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
+        daysUntilSaturday = 7;
+      }
+      const end = new Date(now);
+      end.setDate(end.getDate() + daysUntilSaturday);
+      end.setHours(23, 59, 59, 999);
+      return end.getTime();
     }
 
+    let endTime = localStorage.getItem('weeklyTimerEnd');
+    const now = Date.now();
+
+    if (!endTime || now > parseInt(endTime)) {
+      endTime = getEndOfWeek();
+      localStorage.setItem('weeklyTimerEnd', endTime);
+    }
+
+    function updateOfferTimer() {
+      const now = Date.now();
+      let remaining = Math.floor((parseInt(endTime) - now) / 1000);
+
+      if (remaining <= 0) {
+        endTime = getEndOfWeek();
+        localStorage.setItem('weeklyTimerEnd', endTime);
+        remaining = Math.floor((parseInt(endTime) - now) / 1000);
+      }
+
+      const days = Math.floor(remaining / 86400);
+      const hours = Math.floor((remaining % 86400) / 3600);
+      const minutes = Math.floor((remaining % 3600) / 60);
+      const seconds = remaining % 60;
+
+      document.getElementById('offerDays').innerText = String(days).padStart(2, '0');
+      document.getElementById('offerHours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('offerMinutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('offerSeconds').innerText = String(seconds).padStart(2, '0');
+    }
+
+    updateOfferTimer();
+    setInterval(updateOfferTimer, 1000);
+  })();
+
+  // ===================== STORY TOGGLE =====================
+  document.getElementById('storyToggleBtn').addEventListener('click', function() {
+    const extra = document.getElementById('storyExtra');
+    if (extra.classList.contains('story-hidden')) {
+      extra.classList.remove('story-hidden');
+      this.textContent = 'إظهار أقل';
+    } else {
+      extra.classList.add('story-hidden');
+      this.textContent = 'عرض المزيد…';
+    }
+  });
+
+  // ===================== FAQ TOGGLE =====================
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-question').addEventListener('click', function() {
+      const parent = this.closest('.faq-item');
+      const isActive = parent.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('active');
+        const icon = i.querySelector('.faq-question i.fas');
+        if (icon) { icon.classList.remove('fa-minus'); icon.classList.add('fa-plus'); }
+      });
+      if (!isActive) {
+        parent.classList.add('active');
+        const icon = parent.querySelector('.faq-question i.fas');
+        if (icon) { icon.classList.remove('fa-plus'); icon.classList.add('fa-minus'); }
+      }
+    });
+  });
+
+  // ===================== STICKY HEADER =====================
+  const stickyHeader = document.getElementById('stickyHeader');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 150) {
+      stickyHeader.classList.add('scrolled');
+    } else {
+      stickyHeader.classList.remove('scrolled');
+    }
+  });
+
+  // ===================== STATIONS DATA =====================
+  (function() {
     const stationsData = [
       { title: 'بناء عقلية النجاح', image: 'images/station-1.jpg',
         points: ['في البداية رح نفهم كيف يفكر صانع المحتوى والشخص الذي يربح من الإنترنت، وكيف يدير مشاريعه وكيف يفكر','عقلية النجاح','كيف يفكر صانع المحتوى المحترف','كيف بلشوا المليونيرية في رحلتهم'] },
@@ -796,10 +1376,13 @@
       { title: 'مونتاج الفيديوهات', image: 'images/station-8.jpg',
         points: ['ستتعلم أساليب مختلفة من مونتاج الفيديوهات لصناعة المحتوى بطرق وأساليب مختلفة، أحد هذه الأساليب (style) هو صناعة المحتوى دون الحاجة إلى إظهار وجهك ولا صوتك، ستتمكن من البدأ في مشروعك بأسهل وأسرع طريقة','ستتعلم ثلاث أساليب مختلفة لصناعة المحتوى','أسلوب صناعة المحتوى مجهول الهوية','يمكنك البدأ والمونتاج وصناعة المحتوى بهاتفك فقط'] }
     ];
-    const container = $('stationsContainer');
+    const container = document.getElementById('stationsContainer');
     stationsData.forEach((s, idx) => {
-      const item = document.createElement('div'); item.className = 'station-item reveal-scale'; item.dataset.index = idx; item.dataset.delay = String(100 + idx * 50);
-      const card = document.createElement('div'); card.className = 'station-card';
+      const item = document.createElement('div');
+      item.className = 'station-item reveal-scale';
+      item.dataset.delay = String(100 + idx * 50);
+      const card = document.createElement('div');
+      card.className = 'station-card';
       let imageHtml = s.image ? `<img src="${s.image}" alt="${s.title}" class="station-image" loading="lazy" onerror="this.style.display='none'">` : '';
       let pointsHtml = '';
       s.points.forEach((p, i) => {
@@ -807,145 +1390,125 @@
         else pointsHtml += `<div class="station-point"><i class="fas fa-check"></i><span>${p}</span></div>`;
       });
       card.innerHTML = imageHtml + `<h3>${s.title}</h3><div class="station-points">${pointsHtml}</div>`;
-      item.appendChild(card); container.appendChild(item);
+      item.appendChild(card);
+      container.appendChild(item);
     });
-
-    const revealElements = document.querySelectorAll('[class*="reveal-"]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          const el = entry.target;
-          const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
-          setTimeout(() => el.classList.add('visible'), delay);
-          observer.unobserve(el);
-        }
-      });
-    }, { threshold: 0, rootMargin: '0px 0px 0px 0px' });
-    revealElements.forEach(el => observer.observe(el));
-
-    let separatorTicking = false;
-    function updateAllSeparators() {
-      if (separatorTicking) return;
-      separatorTicking = true;
-      requestAnimationFrame(() => {
-        const lines = document.querySelectorAll('.separator-vertical-line');
-        lines.forEach(line => {
-          const cont = line.closest('.separator-line-container');
-          if (!cont) return;
-          const rect = cont.getBoundingClientRect();
-          if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-          const windowHeight = window.innerHeight;
-          const start = rect.top + rect.height * 0.2;
-          const end = rect.top + rect.height * 0.8;
-          let progress = (windowHeight - start) / (end - start);
-          progress = Math.max(0, Math.min(1, progress));
-          line.style.transform = `translateX(-50%) scaleY(${progress})`;
-        });
-        separatorTicking = false;
-      });
-    }
-    window.addEventListener('scroll', updateAllSeparators, { passive: true });
-    updateAllSeparators();
-
-    $('roadmapLines').innerHTML = '';
-
-    const featureLineFill = $('featureLineFill'), featureSection = $('featureGridSection'), featureVerticalLine = $('featureVerticalLine'), dot = $('featureDot');
-    const firstImage = document.querySelector('#featureBlock1 .feature-image'), lastFeatureItem = $('lastFeatureItem');
-    let featureTicking = false;
-    function updateFeatureLine() {
-      if (featureTicking) return;
-      featureTicking = true;
-      requestAnimationFrame(() => {
-        if (!featureLineFill || !featureSection || !firstImage || !lastFeatureItem) { featureTicking = false; return; }
-        const sectionRect = featureSection.getBoundingClientRect();
-        if (sectionRect.bottom < 0 || sectionRect.top > window.innerHeight) { featureTicking = false; return; }
-        const imageRect = firstImage.getBoundingClientRect();
-        const lastItemRect = lastFeatureItem.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const startY = imageRect.top + (imageRect.height / 2) - sectionRect.top;
-        const endY = lastItemRect.bottom - sectionRect.top + 10;
-        featureVerticalLine.style.top = startY + 'px';
-        featureVerticalLine.style.height = (endY - startY) + 'px';
-        const startTrigger = sectionRect.top + startY + windowHeight * 0.5;
-        const endTrigger = sectionRect.top + endY;
-        let progress = (windowHeight - startTrigger) / (endTrigger - startTrigger);
-        progress = Math.max(0, Math.min(1, progress));
-        featureLineFill.style.transform = `scaleY(${progress})`;
-        let dotY = (endY - startY) * progress; dotY = Math.max(0, Math.min(endY - startY, dotY));
-        dot.style.top = dotY + 'px';
-        if (sectionRect.top < windowHeight && sectionRect.bottom > 0) featureVerticalLine.classList.add('visible');
-        else featureVerticalLine.classList.remove('visible');
-        featureTicking = false;
-      });
-    }
-    window.addEventListener('scroll', updateFeatureLine, { passive: true });
-    window.addEventListener('resize', updateFeatureLine);
-    setTimeout(updateFeatureLine, 200);
-
-    document.querySelectorAll('.faq-item').forEach(item => {
-      item.querySelector('.faq-question').addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        document.querySelectorAll('.faq-item').forEach(i => {
-          i.classList.remove('active');
-          const icon = i.querySelector('.faq-question i.fas');
-          if (icon) { icon.classList.remove('fa-minus'); icon.classList.add('fa-plus'); icon.style.transform = 'rotate(0deg)'; }
-        });
-        if(!isActive) {
-          item.classList.add('active');
-          const icon = item.querySelector('.faq-question i.fas');
-          if (icon) { icon.classList.remove('fa-plus'); icon.classList.add('fa-minus'); icon.style.transform = 'rotate(180deg)'; }
-        }
-      });
-    });
-
-    const stickyHeader = $('stickyHeader');
-    function handleHeaderScroll() { const scrolled = window.scrollY > 150; stickyHeader.classList.toggle('scrolled', scrolled); }
-    window.addEventListener('scroll', handleHeaderScroll, { passive: true }); handleHeaderScroll();
-
-    (function() {
-      const RESET_THRESHOLD = 30;
-      function getNextMidnightUTC() { const now = new Date(); return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0,0,0,0)).getTime(); }
-      let endTime = getNextMidnightUTC();
-      function updateOfferTimer() {
-        const now = Date.now(); let remaining = Math.floor((endTime - now) / 1000);
-        if (remaining <= RESET_THRESHOLD) { endTime = getNextMidnightUTC() + 24*3600*1000; remaining = Math.floor((endTime - now) / 1000); }
-        const h = Math.floor(remaining/3600), m = Math.floor((remaining%3600)/60), s = remaining%60;
-        $('offerHours').innerText = h<10?'0'+h:h; $('offerMinutes').innerText = m<10?'0'+m:m; $('offerSeconds').innerText = s<10?'0'+s:s;
-      }
-      updateOfferTimer(); setInterval(updateOfferTimer, 1000);
-    })();
-
-    const pathContainer = document.getElementById('pathContainer'), svgLines = document.getElementById('svgLines');
-    const titleEl = document.querySelector('.choices-section .section-title'), card1 = document.getElementById('card1'), card2 = document.getElementById('card2');
-    function updatePath() {
-      if (!pathContainer || !svgLines || !titleEl || !card1 || !card2) return;
-      const containerRect = pathContainer.getBoundingClientRect();
-      const titleRect = titleEl.getBoundingClientRect();
-      const card1Rect = card1.getBoundingClientRect(), card2Rect = card2.getBoundingClientRect();
-      const startX = titleRect.left + titleRect.width/2 - containerRect.left;
-      const startY = titleRect.bottom - containerRect.top + 5;
-      const isMobile = window.innerWidth < 640;
-      const midX = isMobile ? Math.max(10, containerRect.width * 0.04) : containerRect.width * 0.06;
-      const midY = startY + 40;
-      const dot1Y = card1Rect.top + card1Rect.height/2 - containerRect.top;
-      const dot2Y = card2Rect.top + card2Rect.height * 0.35 - containerRect.top;
-      const endY = dot2Y;
-      const d = `M ${startX} ${startY} L ${startX} ${midY} L ${midX} ${midY} L ${midX} ${endY}`;
-      const gradient = `
-        <defs><linearGradient id="lineGrad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" y1="${startY}" y2="${endY}">
-          <stop offset="0%" stop-color="#ffffff" />
-          <stop offset="${(dot1Y - startY) / (endY - startY) * 100 - 20}%" stop-color="#ffffff" />
-          <stop offset="${(dot1Y - startY) / (endY - startY) * 100 + 15}%" stop-color="#FFD700" />
-          <stop offset="100%" stop-color="#FFD700" />
-        </linearGradient></defs>`;
-      svgLines.innerHTML = gradient + `
-        <path d="${d}" stroke="url(#lineGrad)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-        <circle cx="${midX}" cy="${dot1Y}" r="6" fill="#ffffff" stroke="#ffffff" stroke-width="2" />
-        <circle cx="${midX}" cy="${dot2Y}" r="6" fill="#FFD700" stroke="#FFD700" stroke-width="2"><animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite" /></circle>`;
-    }
-    window.addEventListener('load', updatePath); window.addEventListener('resize', updatePath);
-    setTimeout(updatePath, 200);
   })();
+
+  // ===================== REVEAL ANIMATIONS =====================
+  const revealElements = document.querySelectorAll('[class*="reveal-"]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
+        setTimeout(() => el.classList.add('visible'), delay);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px 0px 0px' });
+  revealElements.forEach(el => observer.observe(el));
+
+  // ===================== SEPARATOR LINES =====================
+  let separatorTicking = false;
+  function updateAllSeparators() {
+    if (separatorTicking) return;
+    separatorTicking = true;
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.separator-vertical-line').forEach(line => {
+        const cont = line.closest('.separator-line-container');
+        if (!cont) return;
+        const rect = cont.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) { separatorTicking = false; return; }
+        const windowHeight = window.innerHeight;
+        const start = rect.top + rect.height * 0.2;
+        const end = rect.top + rect.height * 0.8;
+        let progress = (windowHeight - start) / (end - start);
+        progress = Math.max(0, Math.min(1, progress));
+        line.style.transform = `translateX(-50%) scaleY(${progress})`;
+      });
+      separatorTicking = false;
+    });
+  }
+  window.addEventListener('scroll', updateAllSeparators, { passive: true });
+  updateAllSeparators();
+
+  // ===================== FEATURE LINE =====================
+  const featureLineFill = document.getElementById('featureLineFill');
+  const featureSection = document.getElementById('featureGridSection');
+  const featureVerticalLine = document.getElementById('featureVerticalLine');
+  const dot = document.getElementById('featureDot');
+  const firstImage = document.querySelector('#featureBlock1 .feature-image');
+  const lastFeatureItem = document.getElementById('lastFeatureItem');
+  let featureTicking = false;
+
+  function updateFeatureLine() {
+    if (featureTicking) return;
+    featureTicking = true;
+    requestAnimationFrame(() => {
+      if (!featureLineFill || !featureSection || !firstImage || !lastFeatureItem) { featureTicking = false; return; }
+      const sectionRect = featureSection.getBoundingClientRect();
+      if (sectionRect.bottom < 0 || sectionRect.top > window.innerHeight) { featureTicking = false; return; }
+      const imageRect = firstImage.getBoundingClientRect();
+      const lastItemRect = lastFeatureItem.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const startY = imageRect.top + (imageRect.height / 2) - sectionRect.top;
+      const endY = lastItemRect.bottom - sectionRect.top + 10;
+      featureVerticalLine.style.top = startY + 'px';
+      featureVerticalLine.style.height = (endY - startY) + 'px';
+      const startTrigger = sectionRect.top + startY + windowHeight * 0.5;
+      const endTrigger = sectionRect.top + endY;
+      let progress = (windowHeight - startTrigger) / (endTrigger - startTrigger);
+      progress = Math.max(0, Math.min(1, progress));
+      featureLineFill.style.transform = `scaleY(${progress})`;
+      let dotY = (endY - startY) * progress;
+      dotY = Math.max(0, Math.min(endY - startY, dotY));
+      dot.style.top = dotY + 'px';
+      if (sectionRect.top < windowHeight && sectionRect.bottom > 0) featureVerticalLine.classList.add('visible');
+      else featureVerticalLine.classList.remove('visible');
+      featureTicking = false;
+    });
+  }
+  window.addEventListener('scroll', updateFeatureLine, { passive: true });
+  window.addEventListener('resize', updateFeatureLine);
+  setTimeout(updateFeatureLine, 200);
+
+  // ===================== PATH LINES =====================
+  function updatePath() {
+    const pathContainer = document.getElementById('pathContainer');
+    const svgLines = document.getElementById('svgLines');
+    const titleEl = document.querySelector('.choices-section .section-title');
+    const card1 = document.getElementById('card1');
+    const card2 = document.getElementById('card2');
+    if (!pathContainer || !svgLines || !titleEl || !card1 || !card2) return;
+    const containerRect = pathContainer.getBoundingClientRect();
+    const titleRect = titleEl.getBoundingClientRect();
+    const card1Rect = card1.getBoundingClientRect();
+    const card2Rect = card2.getBoundingClientRect();
+    const startX = titleRect.left + titleRect.width/2 - containerRect.left;
+    const startY = titleRect.bottom - containerRect.top + 5;
+    const isMobile = window.innerWidth < 640;
+    const midX = isMobile ? Math.max(10, containerRect.width * 0.04) : containerRect.width * 0.06;
+    const midY = startY + 40;
+    const dot1Y = card1Rect.top + card1Rect.height/2 - containerRect.top;
+    const dot2Y = card2Rect.top + card2Rect.height * 0.35 - containerRect.top;
+    const endY = dot2Y;
+    const d = `M ${startX} ${startY} L ${startX} ${midY} L ${midX} ${midY} L ${midX} ${endY}`;
+    const gradient = `
+      <defs><linearGradient id="lineGrad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" y1="${startY}" y2="${endY}">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="${(dot1Y - startY) / (endY - startY) * 100 - 20}%" stop-color="#ffffff" />
+        <stop offset="${(dot1Y - startY) / (endY - startY) * 100 + 15}%" stop-color="var(--gold-light, #F5D042)" />
+        <stop offset="100%" stop-color="var(--gold-light, #F5D042)" />
+      </linearGradient></defs>`;
+    svgLines.innerHTML = gradient + `
+      <path d="${d}" stroke="url(#lineGrad)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="${midX}" cy="${dot1Y}" r="6" fill="#ffffff" stroke="#ffffff" stroke-width="2" />
+      <circle cx="${midX}" cy="${dot2Y}" r="6" fill="var(--gold-light, #F5D042)" stroke="var(--gold-light, #F5D042)" stroke-width="2"><animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite" /></circle>`;
+  }
+  window.addEventListener('load', updatePath);
+  window.addEventListener('resize', updatePath);
+  setTimeout(updatePath, 200);
 </script>
 </body>
 </html>
