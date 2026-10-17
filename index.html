@@ -94,7 +94,7 @@ h1,h2,h3,h4{color:var(--text-hi);line-height:1.15;font-weight:600;letter-spacing
 .t-h3{font-size:clamp(1.125rem,2vw,1.375rem);font-weight:600}
 .t-lead{font-size:clamp(1.05rem,2vw,1.2rem);color:var(--text);line-height:1.75;font-weight:300}
 
-.text-accent-blue{ /* Renamed in usage but keeping class name for simplicity */
+.text-accent-blue{
   background:linear-gradient(180deg,#FDE047,#D4AF37);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   color:transparent;font-weight:600;
@@ -225,11 +225,11 @@ h1,h2,h3,h4{color:var(--text-hi);line-height:1.15;font-weight:600;letter-spacing
   .roadmap-vline{left:2px}
 }
 
-/* ============ ROADMAP CUSTOM DESIGN ============ */
+/* ============ ROADMAP CUSTOM DESIGN (Fixed Overlap) ============ */
 .roadmap-custom {
   display: flex;
   flex-direction: column;
-  gap: 7rem;
+  gap: 5rem; /* مسافة بين البطاقات */
   max-width: 900px;
   margin: 0 auto;
   padding-top: 2rem;
@@ -243,50 +243,95 @@ h1,h2,h3,h4{color:var(--text-hi);line-height:1.15;font-weight:600;letter-spacing
   background: var(--surface);
   border: 1px solid var(--border-2);
   border-radius: 44px;
-  padding: 2rem;
-  padding-top: 10rem; /* مساحة للصورة البارزة */
+  padding: 2rem; /* حشوة طبيعية، بدون padding-top ضخم */
   box-shadow: 0 10px 20px -10px rgba(0,0,0,0.6);
   display: flex;
   flex-direction: column;
 }
 
 .roadmap-item-img {
-  position: absolute;
-  top: -75px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95%;
+  position: relative;
+  display: block;
+  width: 100%;
   max-width: 490px;
+  height: auto;
   max-height: 260px;
   object-fit: contain;
-  z-index: 15;
-  border-radius: 36px; /* الحفاظ على الزوايا الدائرية */
+  margin: -80px auto 1.5rem; /* السحب للأعلى + التوسيط + مسافة أسفل الصورة */
+  border-radius: 36px;
   background: transparent;
   border: none;
   box-shadow: none;
+  z-index: 15;
 }
 
 @media (min-width: 768px) {
-  .roadmap-custom { gap: 9rem; }
-  .roadmap-item { padding-top: 14rem; }
-  .roadmap-item-img { top: -120px; width: 90%; max-width: 750px; max-height: 380px; }
+  .roadmap-custom { gap: 7rem; }
+  .roadmap-item-img {
+    margin-top: -130px;
+    max-width: 750px;
+    max-height: 380px;
+  }
 }
 
 @media (max-width: 480px) {
-  .roadmap-custom { gap: 6rem; padding-top: 1rem; }
-  .roadmap-item { padding-top: 9rem; }
-  .roadmap-item-img { top: -60px; width: 92%; max-width: 380px; max-height: 230px; }
+  .roadmap-custom { gap: 4rem; padding-top: 1rem; }
+  .roadmap-item { padding: 1.5rem; }
+  .roadmap-item-img {
+    margin-top: -60px;
+    max-width: 380px;
+    max-height: 230px;
+  }
 }
 
-.roadmap-item h3 { font-size: 1.2rem; font-weight: 800; color: var(--text-hi); margin-bottom: 1rem; margin-top: 1.5rem; position: relative; z-index: 5; }
-@media (min-width: 768px) { .roadmap-item h3 { font-size: 1.35rem; margin-top: 2rem; } }
+.roadmap-item h3 { 
+  font-size: 1.2rem; 
+  font-weight: 800; 
+  color: var(--text-hi); 
+  margin: 0 0 0.5rem 0; /* تقريب النص للعنوان */
+  position: relative; 
+  z-index: 5; 
+}
+@media (min-width: 768px) { .roadmap-item h3 { font-size: 1.35rem; } }
 
-.roadmap-item .roadmap-num { font-size: .75rem; color: var(--accent-2); font-weight: 600; letter-spacing: .1em; margin-bottom: .5rem; display: block; }
-.roadmap-item p { color: var(--text-lo); font-size: .9375rem; line-height: 1.6; margin-bottom: 1rem; }
+.roadmap-item .roadmap-num { 
+  font-size: .75rem; 
+  color: var(--accent-2); 
+  font-weight: 600; 
+  letter-spacing: .1em; 
+  margin-bottom: .3rem; 
+  display: block; 
+}
+.roadmap-item p { 
+  color: var(--text-lo); 
+  font-size: .9375rem; 
+  line-height: 1.6; 
+  margin: 0 0 1rem 0; 
+}
 
-.roadmap-points { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: .5rem; position: relative; z-index: 5; }
-.roadmap-points li { display: flex; gap: 10px; align-items: flex-start; font-size: .875rem; color: var(--text); }
-.roadmap-points i { color: var(--success-bright); font-size: .8rem; margin-top: 5px; flex-shrink: 0; text-shadow: 0 0 8px rgba(44,255,5,.4); }
+.roadmap-points { 
+  list-style: none; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+  margin-top: .5rem; 
+  position: relative; 
+  z-index: 5; 
+}
+.roadmap-points li { 
+  display: flex; 
+  gap: 10px; 
+  align-items: flex-start; 
+  font-size: .875rem; 
+  color: var(--text); 
+}
+.roadmap-points i { 
+  color: var(--success-bright); 
+  font-size: .8rem; 
+  margin-top: 5px; 
+  flex-shrink: 0; 
+  text-shadow: 0 0 8px rgba(44,255,5,.4); 
+}
 
 /* ============ HERO IMAGE ============ */
 .hero-image{
@@ -707,13 +752,13 @@ h1,h2,h3,h4{color:var(--text-hi);line-height:1.15;font-weight:600;letter-spacing
 }
 .faq-q:hover{color:var(--accent-2)}
 .faq-q .toggle{
-  flex-shrink:0;width:24px;height:24px;border-radius:50%;
-  background:rgba(255,255,255,.05);border:1px solid var(--border-2);
-  display:grid;place-items:center;transition:all .3s var(--ease);
+  flex-s1hrink:0;width:24px;height:24px;border-radius:50%;
+ . background:rgba(255,255,255,.05);border:1px solid var(--border-2);
+  display:grid;place25-items:center;transition:all .3s var(--ease);
   font-size:.7rem;color:var(--text-lo);
-}
-.faq-item.active .faq-q .toggle{background:var(--accent);border-color:var(--accent);color:#fff;transform:rotate(180deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+rem}
+.faq-item.active .faq-q .toggle{background:var(--accent);border-color:var(--accent);color:#;fff;transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:colormax-height .4s var(--ease)}
 .faq-a-inner{padding:0 24px 22px;font-size:.9375rem;color:var(--text-lo);line-height:1.75}
 
 /* ============ CONTACT ============ */
@@ -737,7 +782,7 @@ h1,h2,h3,h4{color:var(--text-hi);line-height:1.15;font-weight:600;letter-spacing
 .final-content{position:relative}
 .final h2{margin-bottom:20px}
 .final p{font-size:1.0625rem;color:var(--text);line-height:1.75;margin-bottom:20px}
-.final .highlight{font-size:1.25rem;color:var(--text-hi);font-weight:600;margin:28px 0;line-height:1.4}
+.final .highlight{font-size::var(--text-hi);font-weight:600;margin:28px 0;line-height:1.4}
 .final .highlight .accent{color:var(--accent-2)}
 
 footer{padding:48px 0;border-top:1px solid var(--border);text-align:center}
