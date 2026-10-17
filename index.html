@@ -1,862 +1,1881 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
-  <title>ريبل ستارت | نظام البداية الذكية للمشاريع الرقمية</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    * { font-family: 'Cairo', sans-serif; }
-    body { background: #020714; margin: 0; padding: 0; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ريبل ستارت | تعلم واحترف مشروع بيع المنتجات الرقمية</title>
+<meta name="description" content="نظام كامل يأخذك من الصفر إلى أول عملية بيع — بدون خبرة، بدون رأس مال">
 
-    :root {
-      --gold: #D4AF37;
-      --gold-light: #F5D042;
-      --gold-lighter: #FFD700;
-      --gold-rgb: 212, 175, 55;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    /* ====== بطاقات ====== */
-    .glass-card {
-      background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(var(--gold-rgb), 0.15);
-      border-radius: 28px;
-    }
-    .gold-glow { box-shadow: 0 0 18px rgba(var(--gold-rgb), 0.35), 0 8px 18px rgba(0,0,0,0.4); }
-    .gold-gradient {
-      background: linear-gradient(145deg, #D4AF37 0%, #F5D042 80%, #FFD700 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 10px 22px -10px rgba(var(--gold-rgb), 0.5), 0 0 0 1px rgba(var(--gold-rgb), 0.3) inset;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      position: relative; overflow: hidden;
-      border-radius: 9999px;
-    }
-    .gold-gradient:hover {
-      transform: scale(1.02) translateY(-2px);
-      box-shadow: 0 16px 28px -12px rgba(var(--gold-rgb), 0.7), 0 0 0 1px rgba(255, 215, 0, 0.5) inset;
-    }
+<style>
+/* ============ DESIGN TOKENS ============ */
+:root{
+  --bg:#05070f;
+  --surface:rgba(255,255,255,.025);
+  --surface-2:rgba(255,255,255,.045);
+  --border:rgba(255,255,255,.07);
+  --border-2:rgba(255,255,255,.13);
 
-    /* ====== FAQ ====== */
-    .faq-item .faq-answer {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.3s ease;
-      padding: 0 1.25rem;
-    }
-    .faq-item.active .faq-answer { max-height: 300px; padding-bottom: 1.25rem; }
-    .faq-item .faq-question i.fas { transition: transform 0.3s ease; }
-    .faq-item.active .faq-question i.fas { transform: rotate(45deg); }
-    .faq-item { transition: background 0.3s ease, border-color 0.3s ease; border-radius: 12px; }
-    .faq-item.active {
-      border-color: rgba(var(--gold-rgb), 0.5) !important;
-      background: linear-gradient(to bottom left, #1e293b, #0f172a);
-    }
+  --text-hi:#f8fafc;
+  --text:#cbd5e1;
+  --text-lo:#8896ab;
+  --text-mute:#5f6b7f;
 
-    /* ====== الهيدر ====== */
-    .sticky-header {
-      position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 50;
-      background: transparent;
-      padding: 6px 16px; transition: background 0.3s ease, border-radius 0.3s ease, margin 0.3s ease, width 0.3s ease, box-shadow 0.3s ease;
-      border-bottom: 1.5px solid transparent; box-shadow: none;
-      display: flex; justify-content: center; box-sizing: border-box;
-    }
-    .sticky-header.scrolled {
-      background: rgba(2, 7, 20, 0.92);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.35); border: 1px solid rgba(255, 0, 0, 0.5);
-      border-radius: 9999px; margin: 8px 16px; width: calc(100% - 32px);
-    }
-    .sticky-header.scrolled .header-border-red { display: none; }
-    .header-content { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; width: 100%; }
-    .header-badge { display: flex; align-items: center; gap: 6px; }
-    .header-text-sm { font-size: 13px; font-weight: 600; color: #e5e7eb; }
-    .header-discount { font-size: 14px; font-weight: 900; color: #ff0000; margin: 0 4px; }
-    .header-timer { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .timer-wrapper { display: flex; align-items: center; gap: 4px; }
-    .timer-item { display: flex; align-items: center; gap: 2px; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(255,0,0,0.1); }
-    .timer-item .num { font-size: 16px; font-weight: 800; color: #ff0000; min-width: 20px; text-align: center; font-variant-numeric: tabular-nums; }
-    .timer-item .lbl { font-size: 10px; color: #9ca3af; font-weight: 500; }
-    .timer-sep { color: #6b7280; font-size: 14px; font-weight: 700; }
-    @media (max-width: 640px) {
-      .timer-item .num { font-size: 14px; min-width: 16px; }
-      .timer-item .lbl { font-size: 8px; }
-      .timer-item { padding: 1px 5px; gap: 1px; }
-      .header-text-sm { font-size: 11px; }
-      .header-discount { font-size: 12px; }
-    }
-    .header-border-red {
-      position: absolute; bottom: 0; left: 0; right: 0; width: 100%; height: 1.5px;
-      background: linear-gradient(90deg, transparent, #ff0000, #ff4444, #ff0000, transparent);
-    }
-    .live-dot {
-      display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ff0000;
-      box-shadow: 0 0 8px rgba(255,0,0,0.7);
-    }
+  --accent:#3b82f6;
+  --accent-2:#60a5fa;
+  --accent-glow:rgba(59,130,246,.4);
+  --success:#22c55e;
+  --success-bright:#2CFF05;
+  --danger:#dc2626;
+  --danger-bright:#ff2a2a;
+  --gold:#fbbf24;
 
-    /* ====== الخريطة ====== */
-    .roadmap-section { position: relative; padding: 2rem 0 4rem; max-width: 100%; margin: 0 auto; overflow: visible; }
-    .roadmap-container { position: relative; margin: 0 auto; padding: 0 1rem; max-width: 900px; width: 100%; box-sizing: border-box; overflow: visible; }
-    .stations-holder {
-      position: relative; z-index: 10; display: flex; flex-direction: column; gap: 7rem; width: 100%;
-      padding-top: 2rem;
-    }
-    .station-item { display: flex; align-items: center; justify-content: center; width: 100%; position: relative; }
-    .station-card {
-      width: 100%; max-width: 100%; box-sizing: border-box;
-      background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(var(--gold-rgb), 0.4); border-radius: 44px;
-      padding: 2rem; padding-top: 10rem;
-      box-shadow: 0 10px 20px -10px rgba(0,0,0,0.6);
-      z-index: 10; position: relative; overflow: visible !important;
-    }
-    .station-card .station-image {
-      position: absolute; top: -75px; left: 50%; transform: translateX(-50%);
-      width: 95%; max-width: 490px; max-height: 260px; object-fit: contain;
-      z-index: 15; border-radius: 36px; background-color: #020714;
-    }
-    @media (min-width: 768px) {
-      .stations-holder { gap: 9rem; }
-      .station-card { padding-top: 14rem; }
-      .station-card .station-image { top: -120px; width: 90%; max-width: 750px; max-height: 380px; }
-    }
-    @media (max-width: 480px) {
-      .stations-holder { gap: 6rem; padding-top: 1rem; }
-      .station-card { padding-top: 9rem; }
-      .station-card .station-image { top: -60px; width: 92%; max-width: 380px; max-height: 230px; }
-    }
-    .station-card h3 { font-size: 1.2rem; font-weight: 800; color: white; text-align: right; margin-bottom: 1rem; margin-top: 1.5rem; position: relative; z-index: 5; }
-    @media (min-width: 768px) { .station-card h3 { font-size: 1.35rem; margin-top: 2rem; } }
-    .station-points { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.5rem; position: relative; z-index: 5; }
-    .station-point { display: flex; align-items: flex-start; gap: 10px; text-align: right; }
-    .station-point i { color: var(--gold); font-size: 1rem; margin-top: 3px; flex-shrink: 0; }
-    .station-point span { color: #ffffff; font-size: 0.85rem; line-height: 1.6; }
+  --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:32px; --r-full:999px;
 
-    /* ====== Reveal (خفيفة) ====== */
-    .reveal-fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .reveal-fade-up.visible { opacity: 1; transform: translateY(0); }
-    .reveal-scale { opacity: 0; transform: scale(0.96); transition: opacity 0.4s ease, transform 0.4s ease; }
-    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
 
-    @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .animated-gradient-text {
-      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold-lighter), var(--gold), var(--gold-light));
-      background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
-      animation: gradientFlow 8s ease infinite; display: inline-block;
-    }
-    .title-safe { line-height: 1.6; padding-block: 0.2em; overflow: visible; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    /* ====== HERO (مخفف) ====== */
-    .hero-bg {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
-      background: radial-gradient(ellipse at 50% 30%, #1f2a1a 0%, #020a18 55%, #020714 100%);
-    }
-    .top-ambient {
-      position: absolute; top: 0; left: 0; width: 100%; height: 40%; pointer-events: none; z-index: 1;
-      background: radial-gradient(ellipse at 50% 0%, rgba(var(--gold-rgb),0.10) 0%, rgba(245,208,66,0.04) 45%, transparent 75%);
-    }
-    .fade-bottom {
-      position: absolute; bottom: 0; left: 0; width: 100%; height: 260px;
-      background: linear-gradient(to top, #020714 45%, transparent 100%);
-      pointer-events: none; z-index: 3;
-    }
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+  overflow-x:hidden;
+}
 
-    .roadmap-bg {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
-      background: radial-gradient(ellipse at 30% 50%, rgba(var(--gold-rgb),0.06) 0%, transparent 60%),
-                  radial-gradient(ellipse at 70% 50%, rgba(245,208,66,0.05) 0%, transparent 60%);
-    }
+body{
+  font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);
+  font-size:16px;line-height:1.7;font-weight:400;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+  width:100%;
+  max-width:100%;
+}
 
-    /* ====== FEATURES ====== */
-    .feature-card {
-      background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(var(--gold-rgb), 0.2); border-radius: 28px; padding: 8px 6px;
-      transition: border-color 0.25s ease;
-    }
-    .feature-card:hover { border-color: rgba(var(--gold-rgb), 0.5); }
-    @media (min-width: 640px) { .feature-card { padding: 12px 16px; } }
+img{max-width:100%;display:block;height:auto}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{text-decoration:none;color:inherit}
+::selection{background:var(--accent);color:#fff}
 
-    .separator-line-container { position: relative; height: 180px; margin: 32px 0 20px; }
-    .separator-vertical-line {
-      position: absolute; top: 0; left: 50%; width: 2px; height: 100%;
-      background: linear-gradient(to bottom, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
-      transform: translateX(-50%) scaleY(0); transform-origin: top;
-      transition: transform 0.1s linear; border-radius: 1px;
-    }
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#1e293b;border-radius:99px}
 
-    .feature-grid-section { padding: 4rem 1rem; position: relative; }
-    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
-    .feature-block { display: flex; flex-direction: column; padding: 0 0.5rem 1rem 1.5rem; }
-    .feature-header { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 0.75rem; margin-top: 0.5rem; }
-    .feature-header h3 { font-size: 1rem; font-weight: 800; color: white; margin: 0; }
-    @media (min-width: 768px) { .feature-header h3 { font-size: 1.125rem; } }
-    .feature-icon-small { color: var(--gold); font-size: 1.3rem; margin-left: 10px; width: 1.8rem; text-align: center; }
-    .feature-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
-    .feature-list .feature-card { padding: 8px 14px; margin-right: 0.75rem; }
-    .feature-list .feature-card i { color: var(--gold); font-size: 1.2rem; margin-left: 8px; }
-    .feature-list .feature-card span { font-size: 0.9rem; color: #ffffff; }
-    @media (max-width: 768px) { .grid-2col { grid-template-columns: 1fr; gap: 2rem; } }
+.bg{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(1000px 700px at 85% -10%, rgba(59,130,246,.10), transparent 60%),
+    radial-gradient(800px 600px at 5% 30%, rgba(34,211,238,.05), transparent 60%),
+    var(--bg);
+}
+.bg::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 20%, #000 20%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 20%, #000 20%, transparent 80%);
+}
 
-    .feature-section-vertical-line {
-      position: absolute; left: 20px; width: 2px; pointer-events: none; z-index: 10; top: 0; height: auto;
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .feature-section-vertical-line.visible { opacity: 1; }
-    .feature-section-line-fill {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, transparent, var(--gold) 15%, var(--gold-light) 50%, var(--gold-lighter));
-      transform: scaleY(0); transform-origin: top; transition: transform 0.15s linear; border-radius: 2px;
-    }
-    .feature-section-dot {
-      position: absolute; left: -5px; width: 12px; height: 12px; background: var(--gold-light); border-radius: 50%;
-      box-shadow: 0 0 8px var(--gold); z-index: 20; top: 0;
-    }
+/* ============ TYPOGRAPHY ============ */
+h1,h2,h3,h4{color:var(--text-hi);line-height:1.15;font-weight:600;letter-spacing:-.025em}
+.t-display{font-size:clamp(1.6rem,4.4vw,3.3rem);font-weight:700;letter-spacing:-.03em;line-height:1.42}
+.t-h1{font-size:clamp(1.75rem,4.5vw,2.75rem);font-weight:600;letter-spacing:-.025em;line-height:1.3}
+.t-h2{font-size:clamp(1.5rem,3.2vw,2rem);font-weight:600;line-height:1.35}
+.t-h3{font-size:clamp(1.125rem,2vw,1.375rem);font-weight:600}
+.t-lead{font-size:clamp(1.05rem,2vw,1.2rem);color:var(--text);line-height:1.75;font-weight:300}
 
-    .rocket-icon {
-      transition: transform 0.3s ease;
-      transform: scaleX(-1);
-    }
-    .group:hover .rocket-icon { transform: scaleX(-1) translateX(-6px) translateY(-2px); }
+.text-accent-blue{
+  background:linear-gradient(180deg,#93c5fd,#3b82f6);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  color:transparent;font-weight:600;
+}
 
-    .badge-label {
-      background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(var(--gold-rgb), 0.2); border-radius: 28px; padding: 4px 14px;
-      font-size: 0.75rem; font-weight: 600; color: #e5e7eb; display: inline-block; margin-bottom: 0.25rem;
-    }
+/* ============ CONTAINER ============ */
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:96px 0}
+@media(max-width:768px){.sec{padding:64px 0}}
 
-    .brush-line { height: 14px; background-repeat: no-repeat; background-size: contain; margin: 0 auto 1.5rem; opacity: 0.8; }
-    .brush-line-1 { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 14'%3E%3Cpath d='M5,7 Q15,2 25,6 T50,8 T75,5 T95,7' fill='none' stroke='%236B7280' stroke-width='3' stroke-linecap='round' /%3E%3C/svg%3E"); width: 160px; }
-    .btn-wide { padding-left: 2.5rem; padding-right: 2.5rem; }
-    @media (max-width: 480px) { .btn-wide { padding-left: 3rem; padding-right: 3rem; } }
+.sec-head{text-align:center;max-width:680px;margin:0 auto 64px}
+@media(max-width:768px){.sec-head{margin-bottom:48px}}
+.sec-head h2{margin-bottom:16px}
+.sec-head p{color:var(--text-lo);font-size:1.0625rem;line-height:1.7}
 
-    /* ====== PRICING ====== */
-    .pricing-card {
-      background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(var(--gold-rgb), 0.35); border-radius: 44px;
-      padding-bottom: 2.5rem; position: relative; overflow: hidden;
-    }
-    .pricing-card::before {
-      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: radial-gradient(circle at 20% 30%, rgba(var(--gold-rgb),0.15) 1px, transparent 1px),
-                        radial-gradient(circle at 80% 70%, rgba(var(--gold-rgb),0.15) 1px, transparent 1px),
-                        radial-gradient(circle at 40% 80%, rgba(var(--gold-rgb),0.1) 1px, transparent 1px),
-                        radial-gradient(circle at 90% 20%, rgba(var(--gold-rgb),0.12) 1px, transparent 1px),
-                        radial-gradient(circle at 10% 50%, rgba(var(--gold-rgb),0.1) 1px, transparent 1px),
-                        radial-gradient(circle at 70% 40%, rgba(var(--gold-rgb),0.15) 1px, transparent 1px);
-      background-size: 180px 180px, 220px 220px, 200px 200px, 250px 250px, 190px 190px, 210px 210px;
-      background-position: 0 0, 40px 60px, 80px 20px, 120px 100px, 160px 40px, 200px 80px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0) 75%);
-      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0) 75%);
-      pointer-events: none; z-index: 1;
-    }
-    .pricing-card .relative-z-10 { position: relative; z-index: 3; }
-    .pricing-summary-item { display: flex; align-items: flex-start; gap: 10px; color: #ffffff; font-size: 0.9rem; line-height: 1.5; }
-    .pricing-summary-item i { color: var(--gold); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
-    .pricing-summary-item i.gift-icon { color: var(--gold-light); }
-    .strikethrough { text-decoration: line-through; color: #9ca3af; }
-    .price-divider { border: none; border-top: 1px solid rgba(75, 85, 99, 0.5); margin: 0.5rem 0; width: 100%; }
-    @keyframes redPulse { 0% { background-position: 0% 0%; } 50% { background-position: 0% 100%; } 100% { background-position: 0% 0%; } }
-    .old-price-gradient, .old-price-value {
-      background: linear-gradient(to top, #020714, #ff4444 40%, #ff0000 80%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      background-size: 100% 200%; animation: redPulse 3s ease-in-out infinite;
-    }
-    .old-price-gradient { font-size: 1rem; font-weight: 700; }
-    .old-price-value { font-size: 1.5rem; font-weight: 800; text-decoration: line-through; }
-    .current-price { font-size: 2.8rem; font-weight: 800; display: inline-block; }
-    @media (min-width: 640px) { .current-price { font-size: 3.8rem; } }
-    .current-text { color: white; font-size: 2.2rem; font-weight: 800; }
-    @media (min-width: 640px) { .current-text { font-size: 3rem; } }
-    .pricing-feature-card { padding: 2px 24px; display: inline-flex; align-items: center; justify-content: center; }
-    .pricing-feature-card img { max-height: 80px; width: auto; }
-    .sub-heading { font-size: 0.9rem; font-weight: 900; color: white; }
-    .total-value-item { color: #fbbf24; font-size: 0.95rem; font-weight: 700; margin-top: 0.5rem; }
-    .title-highlight { color: transparent; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold-lighter)); -webkit-background-clip: text; background-clip: text; }
-    .section-title-highlight { color: var(--gold-light); }
-    .rounded-large { border-radius: 44px; }
+.sec-cta{display:flex;justify-content:center;margin-top:56px}
+@media(max-width:640px){.sec-cta{margin-top:40px}}
 
-    /* ====== GIFTS ====== */
-    .gift-card {
-      background: linear-gradient(to bottom left, #1a1f2e, #020714);
-      border: 1px solid rgba(var(--gold-rgb), 0.3); border-radius: 44px;
-      padding: 1.8rem 1.5rem; transition: border-color 0.25s ease, transform 0.25s ease;
-      text-align: center; max-width: 500px; margin: 0 auto; width: 100%;
-    }
-    .gift-card:hover { border-color: rgba(245,208,66,0.5); transform: translateY(-3px); }
-    .gift-card i { font-size: 2.5rem; margin-bottom: 1rem; display: inline-block; color: var(--gold-light); }
-    .gift-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.75rem; color: white; }
-    .gift-card p { font-size: 0.9rem; line-height: 1.6; color: #e5e7eb; }
-    .white-subtext { color: #ffffff !important; }
-    .story-hidden { display: none; }
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:var(--r-full);
+  background:var(--surface-2);border:1px solid var(--border-2);
+  font-size:.75rem;color:var(--text-lo);font-weight:500;
+  letter-spacing:.06em;margin-bottom:20px;
+}
+.eyebrow-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--success-bright);
+  box-shadow:0 0 12px var(--success-bright);
+}
 
-    .feature-image { width: 100%; max-width: 350px; margin: 0 auto 0.5rem auto; display: block; border-radius: 28px; }
-    @media (min-width: 768px) { .feature-image { max-width: 400px; margin-bottom: 0.75rem; } }
+/* Reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.rv-scale{opacity:0;transform:scale(.97);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+.rv-scale.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv,.rv-scale{opacity:1;transform:none}
+}
 
-    .hero-image { border-radius: 28px; overflow: hidden; box-shadow: 0 18px 30px -15px #00000080; width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+/* ============ EMOTIONAL VERTICAL LINE ============ */
+.emotion-vline{
+  width:2px;
+  height:0;
+  margin:0 auto 22px;
+  border-radius:2px;
+  background:linear-gradient(180deg,transparent,#3b82f6,#22d3ee,transparent);
+  box-shadow:
+    0 0 24px rgba(34,211,238,.9),
+    0 0 55px rgba(37,99,235,.55);
+  transition:height 2.2s cubic-bezier(.2,.8,.2,1);
+}
+.emotion-vline.grow{height:110px}
+@media(max-width:640px){
+  .emotion-vline.grow{height:80px}
+}
 
-    .gold-badge {
-      background: linear-gradient(to bottom left, #1a2e1a, #021402);
-      border: 1px solid rgba(var(--gold-rgb), 0.3); border-radius: 28px; padding: 3px 12px; font-size: 0.8rem; font-weight: 500;
-      letter-spacing: 0.3px; color: var(--gold); display: inline-block;
-    }
+/* ============ ROADMAP VERTICAL LINE (LEFT) ============ */
+#roadmap .container{position:relative}
 
-    /* ====== CHOICES ====== */
-    .choices-section { position: relative; max-width: 1000px; width: 90%; margin: 0 auto; padding: 2rem 0 4rem; }
-    .section-title { text-align: center; margin-bottom: 0.5rem; position: relative; z-index: 5; }
-    .section-title h2 { font-size: 2rem; font-weight: 800; color: white; margin: 0; }
-    .section-title img { max-width: 320px; height: auto; margin: 0.8rem auto 0; display: block; border-radius: 32px; }
-    @media (min-width: 768px) { .section-title h2 { font-size: 2.5rem; } .section-title img { max-width: 420px; } }
-    .path-container { position: relative; width: 100%; height: auto; margin-top: 0.5rem; }
-    .svg-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-    .cards-wrapper { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 3rem; margin-top: 2rem; align-items: center; }
-    .choice-card { width: 100%; max-width: 500px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.8rem; padding: 0 1rem; box-sizing: border-box; }
-    @media (max-width: 640px) { .choice-card { max-width: 85%; margin-left: 14%; margin-right: auto; padding-top: 1rem; } }
-    .choice-card h3 { font-size: 1.3rem; font-weight: 700; color: #9ca3af; margin: 0; margin-top: 1.5rem; }
-    .choice-card.gold h3 { color: #ffffff; }
-    .choice-card p { font-size: 0.95rem; line-height: 1.7; color: #9ca3af; max-width: 450px; margin: 0.5rem auto 0; }
-    .choice-card.gold p { color: #ffffff; }
-    @media (max-width: 640px) { .choice-card p { font-size: 0.85rem; } }
-  </style>
+.roadmap-vline{
+  position:absolute;
+  top:0;
+  left:6px;
+  width:2px;
+  height:0;
+  background:rgba(96,165,250,.06);
+  border-radius:2px;
+  opacity:0;
+  transition:opacity .5s var(--ease);
+  pointer-events:none;
+  z-index:1;
+  will-change:height, opacity;
+}
+.roadmap-vline.visible{opacity:1}
+
+.roadmap-vline-fill{
+  position:absolute;
+  top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(to bottom,
+    transparent 0%,
+    #60a5fa 12%,
+    #3b82f6 55%,
+    #22d3ee 100%);
+  border-radius:2px;
+  transform:scaleY(0);
+  transform-origin:top;
+  transition:transform .08s linear;
+  box-shadow:0 0 14px rgba(59,130,246,.55);
+  will-change:transform;
+}
+
+.roadmap-vline-dot{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:14px;height:14px;
+  border-radius:50%;
+  background:radial-gradient(circle, #ffffff 0%, #60a5fa 45%, #3b82f6 100%);
+  box-shadow:
+    0 0 14px #60a5fa,
+    0 0 30px rgba(59,130,246,.65),
+    0 0 50px rgba(34,211,238,.35);
+  top:0;
+  transition:top .08s linear;
+  z-index:2;
+  will-change:top;
+}
+.roadmap-vline-dot::before{
+  content:'';
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  border:1px solid rgba(96,165,250,.45);
+  animation:roadmapDotPulse 2.4s ease-in-out infinite;
+}
+@keyframes roadmapDotPulse{
+  0%,100%{transform:scale(1);opacity:.75}
+  50%{transform:scale(1.55);opacity:0}
+}
+
+@media(max-width:768px){
+  .roadmap-vline{left:3px}
+  .roadmap-vline-dot{width:11px;height:11px}
+  .roadmap-vline-dot::before{inset:-6px}
+}
+@media(max-width:480px){
+  .roadmap-vline{left:2px}
+}
+
+/* ============ HERO IMAGE ============ */
+.hero-image{
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 18px 30px -15px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.05);
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border: 1px solid var(--border-2);
+  margin: 0 auto;
+  max-width: 860px;
+}
+
+/* ============ BUTTONS ============ */
+.btn{
+  position:relative;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:inherit;font-weight:600;font-size:1rem;
+  border-radius:var(--r-full);
+  padding:16px 32px;
+  transition:all .2s var(--ease);
+  cursor:pointer;overflow:hidden;isolation:isolate;
+  white-space:nowrap;color:#fff;
+}
+.btn-primary{
+  background:linear-gradient(120deg, #1e40af 0%, #2563eb 22%, #3b82f6 45%, #0ea5e9 70%, #22d3ee 100%);
+  background-size:220% auto;background-position:0% center;
+  border:1px solid rgba(147,197,253,.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    0 10px 30px -10px rgba(37,99,235,.7),
+    0 0 55px -18px rgba(34,211,238,.7);
+  transition:transform .4s cubic-bezier(.2,.9,.3,1.4),
+              background-position .7s ease,
+              box-shadow .4s ease,
+              border-color .3s ease;
+  animation:btnPulse 3.6s ease-in-out infinite;
+}
+@keyframes btnPulse{
+  0%, 100%{
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.28),
+      inset 0 -1px 0 rgba(0,0,0,.18),
+      0 10px 30px -10px rgba(37,99,235,.7),
+      0 0 55px -18px rgba(34,211,238,.7);
+  }
+  50%{
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.32),
+      inset 0 -1px 0 rgba(0,0,0,.2),
+      0 12px 34px -10px rgba(37,99,235,.9),
+      0 0 80px -18px rgba(34,211,238,1);
+  }
+}
+.btn-primary::after{
+  content:'';position:absolute;
+  top:0;right:0;left:0;height:50%;
+  background:linear-gradient(180deg, rgba(255,255,255,.2), transparent);
+  border-radius:var(--r-full) var(--r-full) 0 0;
+  pointer-events:none;z-index:1;
+}
+.btn-primary::before{
+  content:'';position:absolute;
+  top:-3px;bottom:-3px;width:55%;left:-100%;
+  background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.15) 35%,rgba(255,255,255,.7) 50%,rgba(255,255,255,.15) 65%,transparent 100%);
+  transform:skewX(-24deg);pointer-events:none;z-index:2;opacity:0;
+}
+.btn-primary:hover::before{opacity:1;animation:shimmerSweep .95s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes shimmerSweep{0%{left:-100%}100%{left:150%}}
+.btn-primary:hover{
+  transform:translateY(-3px) scale(1.025);
+  background-position:100% center;
+  border-color:rgba(191,219,254,.8);
+}
+.btn-primary:active{transform:translateY(-1px) scale(.995)}
+.btn i{font-size:.9em;position:relative;z-index:3;transition:transform .4s cubic-bezier(.2,.9,.3,1.4)}
+.btn:hover i{transform:translateX(-5px)}
+.btn-lg{padding:18px 40px;font-size:1.0625rem}
+.btn-full{width:100%}
+
+.btn-wa{
+  background:linear-gradient(140deg, #25D366, #128C7E);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 8px 24px -8px rgba(37,211,102,.6);
+}
+.btn-wa::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);
+  background-size:250% 100%;background-position:200% 0;
+  transition:background-position .8s var(--ease);
+  pointer-events:none;z-index:2;
+}
+.btn-wa:hover{
+  background:linear-gradient(140deg, #2ee075, #15a897);
+  transform:translateY(-2px);
+  box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 14px 34px -8px rgba(37,211,102,.75);
+}
+.btn-wa:hover::after{background-position:-100% 0}
+.btn-wa i{font-size:1.15em}
+.btn-wa:hover i{transform:none}
+
+.btn-ghost{
+  background:var(--surface-2);color:var(--text-hi);
+  border:1px solid var(--border-2);font-weight:500;
+}
+.btn-ghost:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);transform:translateY(-1px)}
+
+/* ============ PROMO BAR ============ */
+#header{position:fixed;top:0;right:0;left:0;z-index:100}
+.promo{
+  background:rgba(5,7,15,.92);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+.promo-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:8px 20px;font-size:.8125rem;color:var(--text);
+  max-width:1200px;margin:0 auto;position:relative;
+  width:100%;
+}
+.promo-center{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;
+  min-width:0;
+}
+
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--danger);flex-shrink:0;position:relative}
+.live-dot::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid var(--danger);animation:pulse 2s var(--ease) infinite;
+}
+@keyframes pulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.2);opacity:0}}
+
+.promo-off{
+  color:var(--danger-bright);font-weight:700;
+  text-shadow:0 0 12px rgba(255,42,42,.5);
+}
+
+.promo-cta{
+  position:relative;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 20px;border-radius:var(--r-full);
+  background:linear-gradient(120deg, #2563eb, #3b82f6, #0ea5e9);
+  background-size:200% auto;background-position:0% center;
+  color:#fff;font-size:.8125rem;font-weight:600;
+  border:1px solid rgba(147,197,253,.5);
+  box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 6px 18px -6px rgba(37,99,235,.7);
+  transition:all .35s cubic-bezier(.2,.9,.3,1.3);
+  white-space:nowrap;overflow:hidden;isolation:isolate;flex-shrink:0;
+  animation:promoCtaPulse 3.6s ease-in-out infinite;
+}
+@keyframes promoCtaPulse{
+  0%,100%{box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 6px 18px -6px rgba(37,99,235,.7),0 0 24px -10px rgba(34,211,238,.4)}
+  50%{box-shadow:0 1px 0 rgba(255,255,255,.26) inset,0 8px 22px -6px rgba(37,99,235,.95),0 0 40px -10px rgba(34,211,238,.75)}
+}
+.promo-cta::before{
+  content:'';position:absolute;top:-3px;bottom:-3px;width:55%;
+  left:-100%;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.5) 50%,transparent 100%);
+  transform:skewX(-24deg);pointer-events:none;z-index:2;opacity:0;
+}
+.promo-cta:hover::before{opacity:1;animation:shimmerSweep .9s cubic-bezier(.4,0,.2,1) forwards}
+.promo-cta:hover{
+  transform:translateY(-2px) scale(1.03);
+  background-position:100% center;
+  border-color:rgba(191,219,254,.75);
+}
+.promo-cta i{font-size:.8rem;position:relative;z-index:3;transition:transform .3s var(--ease)}
+.promo-cta:hover i{transform:translateX(-3px)}
+
+@media(min-width:901px){
+  .promo-inner{
+    justify-content:center;min-height:44px;
+    padding:8px 200px;
+  }
+  .promo-cta{
+    position:absolute;left:20px;top:50%;
+    transform:translateY(-50%);
+  }
+  .promo-cta:hover{transform:translateY(calc(-50% - 2px)) scale(1.03)}
+  .promo-cta:active{transform:translateY(calc(-50% - 1px)) scale(.995)}
+}
+
+@media(max-width:900px){
+  .promo-inner{font-size:.72rem;gap:8px;padding:8px 12px}
+  .promo-center{gap:6px}
+  .promo-cta{padding:7px 12px;font-size:.72rem}
+}
+
+/* ============ HERO ============ */
+.hero{padding:140px 0 60px;position:relative}
+@media(max-width:768px){.hero{padding:110px 0 40px}}
+
+.hero-centered{max-width:880px;margin:0 auto;text-align:center}
+.hero-centered h1{margin:0 auto 18px;max-width:820px;line-height:1.35}
+.hero-centered h1 .line-2{display:block;margin-top:8px}
+.hero-centered h1 .accent{
+  background:linear-gradient(180deg,#93c5fd,#3b82f6);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-lead{margin:0 auto 40px;max-width:720px;text-align:center}
+
+/* Replaced VSL with Hero Image */
+.hero-img-wrap {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto 40px;
+}
+
+.hero-actions{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:32px}
+
+.trust-row{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:12px 24px;
+  max-width:680px;margin:0 auto;
+}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:.8125rem;color:var(--text-lo)}
+.trust-item i{color:var(--accent);font-size:.9rem}
+.trust-sep{color:var(--border-2);font-size:14px;line-height:1}
+@media(max-width:520px){.trust-sep{display:none}}
+
+/* ============ EMOTIONAL ============ */
+.emotional{max-width:720px;margin:0 auto;padding:0;background:transparent;border:none;text-align:center}
+.emotional-title{
+  font-size:clamp(1.5rem,3.5vw,2rem);font-weight:700;
+  background:linear-gradient(100deg,#fbbf24,#fde68a,#f59e0b);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:28px;letter-spacing:-.02em;text-align:center;
+}
+.emotional p{font-size:1.0625rem;color:var(--text);line-height:1.95;margin-bottom:18px;text-align:center}
+.emotional p:last-child{margin-bottom:0}
+.emotional strong{color:var(--text-hi);font-weight:600}
+
+/* ============ FEATURES ============ */
+.features{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:768px){.features{grid-template-columns:1fr 1fr}}
+.feature{
+  position:relative;padding:0;border-radius:var(--r-lg);
+  background:var(--surface);border:1px solid var(--border);
+  transition:all .35s var(--ease);overflow:hidden;
+}
+.feature:hover{border-color:var(--border-2);transform:translateY(-4px)}
+.feature-img{width:100%;height:180px;object-fit:cover;border-bottom:1px solid var(--border);background:linear-gradient(140deg,#0d1524,#05070f)}
+.feature-body{padding:28px}
+.feature-ico{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(140deg,rgba(59,130,246,.2),rgba(34,211,238,.08));
+  border:1px solid rgba(59,130,246,.3);
+  display:grid;place-items:center;
+  color:var(--accent-2);font-size:1.15rem;margin-bottom:18px;
+}
+.feature h3{margin-bottom:12px}
+.feature > .feature-body > p{color:var(--text-lo);margin-bottom:20px}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.feature-list li{display:flex;gap:10px;align-items:flex-start;font-size:.9375rem;color:var(--text)}
+.feature-list i{color:var(--success-bright);font-size:.8rem;margin-top:5px;flex-shrink:0;text-shadow:0 0 8px rgba(44,255,5,.4)}
+
+/* ============ SECRET ============ */
+.secret{max-width:720px;margin:0 auto;padding:0;background:transparent;border:none;text-align:center}
+.secret h2{margin-bottom:28px;text-align:center}
+.secret p{font-size:1.0625rem;color:var(--text);line-height:1.95;margin-bottom:18px;text-align:center}
+.secret p:last-child{margin-bottom:0}
+.secret .hl{color:var(--text-hi);font-weight:600}
+.secret .accent{color:var(--accent-2);font-weight:600}
+
+/* ============ ROADMAP ============ */
+.roadmap{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:768px){.roadmap{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.roadmap{grid-template-columns:repeat(4,1fr)}}
+.roadmap-card{
+  border-radius:var(--r-md);background:var(--surface);
+  border:1px solid var(--border);transition:all .3s var(--ease);overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.roadmap-card:hover{border-color:var(--border-2);transform:translateY(-3px)}
+.roadmap-img{width:100%;height:140px;object-fit:cover;border-bottom:1px solid var(--border);background:linear-gradient(140deg,#0d1524,#05070f)}
+.roadmap-body{padding:22px;display:flex;flex-direction:column;flex-grow:1}
+.roadmap-num{font-size:.75rem;color:var(--accent-2);font-weight:600;letter-spacing:.1em;margin-bottom:10px;display:block}
+.roadmap-card h3{font-size:1rem;margin-bottom:8px;font-weight:600}
+.roadmap-card p{font-size:.8125rem;color:var(--text-lo);line-height:1.6;margin-bottom:12px}
+.roadmap-points{list-style:none;display:flex;flex-direction:column;gap:5px}
+.roadmap-points li{display:flex;gap:7px;align-items:flex-start;font-size:.75rem;color:var(--text)}
+.roadmap-points i{color:var(--success-bright);font-size:.65rem;margin-top:5px;flex-shrink:0}
+
+/* ============ GIFTS ============ */
+.gifts{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:640px){.gifts{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.gifts{grid-template-columns:repeat(3,1fr)}}
+.gift{
+  padding:24px;border-radius:var(--r-md);
+  background:var(--surface);border:1px solid var(--border);
+  transition:all .3s var(--ease);
+}
+.gift:hover{border-color:var(--border-2);transform:translateY(-3px)}
+.gift-ico{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);
+  display:grid;place-items:center;
+  color:var(--accent-2);font-size:1rem;margin-bottom:16px;
+}
+.gift h3{font-size:.9375rem;font-weight:600;margin-bottom:8px}
+.gift p{font-size:.8125rem;color:var(--text-lo);line-height:1.6}
+
+/* ============ STORY ============ */
+.story{max-width:720px;margin:0 auto;padding:40px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border)}
+@media(max-width:640px){.story{padding:28px 24px}}
+.story-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(140deg,#1e40af,#0891b2);
+  display:grid;place-items:center;
+  font-size:1.75rem;font-weight:600;color:#fff;
+  box-shadow:0 0 0 4px rgba(59,130,246,.1),0 12px 32px -8px var(--accent-glow);
+  margin-bottom:20px;
+}
+.story-name{font-size:.875rem;color:var(--text-lo);margin-bottom:24px;font-weight:500}
+.story p{font-size:1.0625rem;color:var(--text);line-height:1.85;margin-bottom:18px}
+.story p:last-child{margin-bottom:0}
+.story .hl{color:var(--text-hi);font-weight:600}
+.story .quote{
+  color:var(--text-hi);font-weight:500;font-size:1.125rem;
+  padding-right:20px;border-right:2px solid var(--accent);margin:24px 0;
+}
+.hidden-text{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s var(--ease),opacity .3s var(--ease),margin .3s var(--ease)}
+.hidden-text.open{max-height:2000px;opacity:1;margin-top:12px}
+.read-more{display:inline-flex;align-items:center;gap:8px;margin-top:16px;color:var(--accent-2);font-weight:500;font-size:.9375rem;transition:color .2s var(--ease)}
+.read-more:hover{color:var(--text-hi)}
+.read-more i{font-size:.75rem;transition:transform .3s var(--ease)}
+.read-more.open i{transform:rotate(180deg)}
+
+/* ============ PRICING ============ */
+.pricing-shell{
+  max-width:720px;margin:0 auto;border-radius:var(--r-xl);padding:2px;
+  background:linear-gradient(140deg,rgba(59,130,246,.5),rgba(34,211,238,.2),rgba(59,130,246,.5));
+}
+.pricing{border-radius:calc(var(--r-xl) - 2px);padding:48px 40px;background:linear-gradient(170deg,#0a1020,#05070f)}
+@media(max-width:640px){.pricing{padding:36px 24px}}
+.pricing-head{text-align:center;margin-bottom:36px}
+.pricing-head .sub{color:var(--text-lo);font-size:.9375rem;margin-top:8px}
+
+.pricing-list{
+  list-style:none;display:flex;flex-direction:column;gap:12px;
+  padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  margin-bottom:24px;
+}
+.pricing-list li{display:flex;gap:12px;align-items:flex-start;font-size:.9375rem;color:var(--text)}
+.pricing-list i{color:var(--success-bright);font-size:.8rem;margin-top:5px;flex-shrink:0;text-shadow:0 0 8px rgba(44,255,5,.4)}
+.pricing-list .price-val{color:var(--text-mute);font-size:.875rem;margin-right:4px}
+
+.pricing-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:16px 20px;margin-bottom:20px;
+  background:var(--surface);border-radius:var(--r-md);font-size:.9375rem;
+}
+.pricing-total .lbl{color:var(--text-lo)}
+.pricing-total .val{color:var(--text-hi);font-weight:600;font-size:1.25rem;text-decoration:line-through;text-decoration-color:var(--text-mute)}
+
+.price-alert{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 20px;margin-bottom:16px;border-radius:var(--r-md);
+  background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.22);
+  font-size:.875rem;color:#fecaca;text-align:center;
+}
+.price-alert i{font-size:.85rem;color:#fca5a5}
+.price-alert b{color:#fff;font-weight:600}
+
+.price-main{text-align:center;padding:24px 0 32px;border-bottom:1px solid var(--border);margin-bottom:28px}
+.price-main .lbl{font-size:1rem;color:var(--text-lo);margin-bottom:6px}
+.price-main .val{
+  font-size:clamp(3.5rem,9vw,5.2rem);font-weight:800;
+  letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;
+  display:inline-block;
+  background:linear-gradient(135deg, #60a5fa 0%, #3b82f6 45%, #2563eb 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(59,130,246,.35));
+}
+.price-main .val .currency{
+  font-size:.42em;margin-left:4px;font-weight:700;
+  background:linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.price-main .note{font-size:.875rem;color:var(--text-lo););margin-top:8px}
+
+.pricing-guarantee{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:24pxbackground;font-size:.8125rem;color:var(--text-lo)}
+.pricing-guarantee span{display:inline-flex;align:-items:center;gap:6px}
+.pricing-guarantee i{color:var(--varaccent-2);font-size:.85rem}
+
+/* ============ STEPS ============ */
+.steps(--{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:768px){.stepssurface{grid-template-columns:repeat(4,1fr)}}
+.step{padding:24px;border-radius:var);(--r-mdborder:1px solid var(--border);transition:all .3s var(--ease)}
+.step:hover{border-color:var(--border-2);background:var(--surface-2)}
+.step-num{font-size:.75rem;font-weight:600;color:var(--accent-2);letter-spacing:.1em;margin-bottom:12px;display:block}
+.step h4{font-size:1rem;margin-bottom:8px;font-weight:600;color:var(--text-hi)}
+.step p{font-size:.875rem;color:var(--text-lo);line-height:1.6}
+
+/* ============ CHOICES ============ */
+.choices-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto}
+@media(min-width:768px){.choices-grid{grid-template-columns:1fr 1fr}}
+.choice{position:relative;padding:36px 32px;border-radius:var(--r-lg);transition:all .35s var(--ease);overflow:hidden}
+.choice-bad{background:var(--surface);border:1px solid var(--border)}
+.choice-bad h3{color:var(--text-lo);margin-bottom:16px;font-size:1.125rem}
+.choice-bad p{color:var(--text-mute);font-size:.9375rem;line-height:1.75}
+
+.choice-good{
+  background:linear-gradient(160deg,rgba(59,130,246,.12),rgba(34,211,238,.03));
+  border:1px solid rgba(59,130,246,.35);
+  box-shadow:0 20px 60px -30px rgba(59,130,246,.5);
+}
+.choice-good::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.choice-good h3{color:var(--text-hi);margin-bottom:16px;font-size:1.125rem}
+.choice-good p{color:var(--text);font-size:.9375rem;line-height:1.75;margin-bottom:24px}
+
+.choice-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.75rem;font-weight:500;letter-spacing:.08em;
+  padding:5px 12px;border-radius:var(--r-full);margin-bottom:16px;
+}
+.choice-bad .choice-tag{background:rgba(220,38,38,.08);color:#fca5a5;border:1px solid rgba(220,38,38,.22)}
+.choice-good .choice-tag{background:rgba(59,130,246,.15);color:var(--accent-2);border:1px solid rgba(59,130,246,.3)}
+
+/* ============ MINI COURSE ============ */
+.mini{
+  max-width:760px;margin:0 auto;padding:48px 40px;
+  border-radius:var(--r-xl);
+  background:linear-gradient(160deg,rgba(59,130,246,.06),rgba(255,255,255,.01));
+  border:1px solid var(--border-2);
+  position:relative;overflow:hidden;
+}
+@media(max-width:640px){.mini{padding:32px 24px}}
+.mini::before{
+  content:'';position:absolute;top:-200px;right:-100px;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(59,130,246,.15),transparent 70%);pointer-events:none;
+}
+.mini-head{text-align:center;margin-bottom:32px;position:relative}
+.mini-head h2{margin-bottom:12px}
+.mini-head p{color:var(--text-lo);font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto}
+
+.mini-list{list-style:none;display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:32px;position:relative}
+@media(min-width:640px){.mini-list{grid-template-columns:1fr 1fr}}
+.mini-list li{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:14px 16px;border-radius:var(--r-sm);
+  background:rgba(255,255,255,.02);border:1px solid var(--border);
+  font-size:.875rem;color:var(--text);
+}
+.mini-list i{color:var(--success-bright);font-size:.75rem;margin-top:5px;flex-shrink:0;text-shadow:0 0 8px rgba(44,255,5,.4)}
+
+.mini-exclude{
+  padding:16px 20px;border-radius:var(--r-sm);
+  background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.15);
+  margin-bottom:32px;position:relative;
+}
+.mini-exclude-title{display:flex;align-items:center;gap:8px;font-size:.875rem;font-weight:600;color:var(--gold);margin-bottom:12px}
+.mini-exclude ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.mini-exclude li{display:flex;gap:10px;align-items:flex-start;font-size:.8125rem;color:var(--text-lo);line-height:1.65}
+.mini-exclude li i{color:var(--gold);font-size:.75rem;margin-top:5px;flex-shrink:0}
+
+.mini-price{text-align:center;margin-bottom:24px;position:relative}
+.mini-price .lbl{font-size:.875rem;color:var(--text-lo);margin-bottom:6px}
+.mini-price .val{font-size:3rem;font-weight:700;color:var(--text-hi);letter-spacing:-.04em;line-height:1}
+
+/* ============ FAQ ============ */
+.faq{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq-item{
+  border-radius:var(--r-md);background:var(--surface);
+  border:1px solid var(--border);overflow:hidden;
+  transition:all .3s var(--ease);
+}
+.faq-item.active{border-color:rgba(59,130,246,.4);background:var(--surface-2)}
+.faq-q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 24px;text-align:right;font-size:1rem;font-weight:500;color:var(--text-hi);
+  transition:color .2s var(--ease);
+}
+.faq-q:hover{color:var(--accent-2)}
+.faq-q .toggle{
+  flex-shrink:0;width:24px;height:24px;border-radius:50%;
+  background:rgba(255,255,255,.05);border:1px solid var(--border-2);
+  display:grid;place-items:center;transition:all .3s var(--ease);
+  font-size:.7rem;color:var(--text-lo);
+}
+.faq-item.active .faq-q .toggle{background:var(--accent);border-color:var(--accent);color:#fff;transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.faq-a-inner{padding:0 24px 22px;font-size:.9375rem;color:var(--text-lo);line-height:1.75}
+
+/* ============ CONTACT ============ */
+.contact{max-width:600px;margin:64px auto 0;padding:0;background:transparent;border:none;text-align:center}
+.contact p{color:var(--text-lo);margin-bottom:22px;font-size:1rem;text-align:center}
+.contact .btn{display:inline-flex}
+
+/* ============ FINAL CTA ============ */
+.final{
+  max-width:760px;margin:0 auto;text-align:center;
+  padding:56px 40px;border-radius:var(--r-xl);
+  background:linear-gradient(160deg,rgba(59,130,246,.08),rgba(255,255,255,.01));
+  border:1px solid var(--border-2);
+  position:relative;overflow:hidden;
+}
+@media(max-width:640px){.final{padding:40px 24px}}
+.final::before{
+  content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;background:radial-gradient(ellipse,rgba(59,130,246,.15),transparent 70%);pointer-events:none;
+}
+.final-content{position:relative}
+.final h2{margin-bottom:20px}
+.final p{font-size:1.0625rem;color:var(--text);line-height:1.75;margin-bottom:20px}
+.final .highlight{font-size:1.25rem;color:var(--text-hi);font-weight:600;margin:28px 0;line-height:1.4}
+.final .highlight .accent{color:var(--accent-2)}
+
+footer{padding:48px 0;border-top:1px solid var(--border);text-align:center}
+footer p{color:var(--text-mute);font-size:.875rem}
+
+/* ============================================================
+   FLOATING WHATSAPP
+   ============================================================ */
+.wa-float{
+  position:fixed;bottom:24px;right:24px;z-index:90;
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(140deg, #25D366, #128C7E);
+  color:#fff;font-size:28px;display:grid;place-items:center;
+  box-shadow:
+    0 10px 25px -6px rgba(0,0,0,.55),
+    0 4px 12px -3px rgba(37,211,102,.35),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  opacity:0;
+  transform:scale(.2) rotate(-180deg) translateY(60px);
+  pointer-events:none;
+  transition:
+    opacity .5s ease,
+    transform .9s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .3s var(--ease);
+  text-decoration:none;
+  transform-origin:center;
+}
+
+.wa-float.show{
+  opacity:1;
+  transform:scale(1) rotate(0deg) translateY(0);
+  pointer-events:auto;
+}
+
+.wa-float::after{
+  content:'تواصل معنا';
+  position:absolute;top:50%;right:calc(100% + 14px);
+  transform:translateY(-50%) translateX(8px) scale(.9);
+  background:rgba(8,12,24,.96);
+  color:#fff;font-size:.8125rem;font-weight:600;
+  padding:8px 14px;border-radius:10px;white-space:nowrap;
+  border:1px solid var(--border-2);
+  box-shadow:0 8px 24px -8px rgba(0,0,0,.9);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease), transform .3s var(--ease);
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+}
+.wa-float.show:hover::after{
+  opacity:1;
+  transform:translateY(-50%) translateX(0) scale(1);
+}
+
+.wa-float.show:hover{
+  transform:scale(1.08) translateY(-2px);
+  box-shadow:
+    0 16px 35px -8px rgba(0,0,0,.65),
+    0 6px 18px -4px rgba(37,211,102,.45),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+.wa-float i{
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+  z-index:2;
+}
+.wa-float.show:hover i{
+  transform:rotate(360deg) scale(1.08);
+}
+
+@media(max-width:640px){
+  .wa-float{bottom:16px;right:16px;width:54px;height:54px;font-size:26px}
+  .wa-float::after{display:none}
+}
+
+/* ============================================================
+   SOCIAL PROOF NOTIFICATIONS
+   ============================================================ */
+.notif-container{
+  position:fixed;
+  bottom:24px;
+  left:24px;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  width:310px;
+  max-width:calc(100vw - 48px);
+  pointer-events:none;
+}
+
+.notif-item{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 38px 11px 13px;
+  background:
+    linear-gradient(160deg, rgba(10,20,44,.94), rgba(5,7,15,.96));
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  border:1px solid var(--border-2);
+  border-radius:16px;
+  box-shadow:
+    0 16px 40px -12px rgba(0,0,0,.9),
+    0 0 30px -15px rgba(59,130,246,.5),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  pointer-events:auto;
+  overflow:hidden;
+  opacity:0;
+  transform:translateX(-140%) rotate(-4deg) scale(.85);
+  transition:
+    transform .95s cubic-bezier(.34,1.4,.5,1),
+    opacity .7s ease;
+  font-size:.78rem;
+  color:var(--text);
+  font-weight:500;
+  line-height:1.5;
+  will-change:transform, opacity;
+}
+
+.notif-item.show{
+  opacity:1;
+  transform:translateX(0) rotate(0deg) scale(1);
+}
+
+.notif-item.hide{
+  opacity:0;
+  transform:translateX(-140%) rotate(-2deg) scale(.85);
+  transition:
+    transform .6s cubic-bezier(.55,0,.85,.3),
+    opacity .5s ease;
+}
+
+.notif-item::before{
+  content:'';
+  position:absolute;
+  top:10px;bottom:10px;right:0;
+  width:3px;
+  background:linear-gradient(180deg,#3b82f6,#0ea5e9,#22d3ee);
+  border-radius:3px 0 0 3px;
+  box-shadow:0 0 10px rgba(34,211,238,.8);
+  transform:scaleY(0);
+  transform-origin:top;
+  transition:transform .6s cubic-bezier(.34,1.4,.5,1) .25s;
+}
+.notif-item.show::before{transform:scaleY(1)}
+
+.notif-item::after{
+  content:'';
+  position:absolute;
+  bottom:0;right:0;
+  height:2px;
+  width:100%;
+  background:linear-gradient(90deg,#2CFF05,#22d3ee,#3b82f6);
+  transform-origin:right;
+  transform:scaleX(0);
+  border-radius:0 0 16px 16px;
+  transition:transform .4s ease .35s;
+}
+.notif-item.show::after{
+  transform:scaleX(1);
+  animation:notifProgress 11s linear forwards .4s;
+}
+
+@keyframes notifProgress{
+  0%{transform:scaleX(1)}
+  100%{transform:scaleX(0)}
+}
+
+.notif-glow{
+  position:absolute;
+  top:-50px;right:-30px;
+  width:130px;height:130px;
+  background:radial-gradient(circle,rgba(59,130,246,.14),transparent 65%);
+  pointer-events:none;
+  z-index:0;
+  opacity:0;
+  transition:opacity .8s ease .3s;
+}
+.notif-item.show .notif-glow{opacity:1}
+
+.notif-avatar{
+  position:relative;
+  flex-shrink:0;
+  width:34px;height:34px;
+  border-radius:50%;
+  background:linear-gradient(140deg,#1e40af,#0891b2);
+  display:grid;place-items:center;
+  font-size:14px;font-weight:700;
+  color:#fff;
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  box-shadow:
+    0 6px 16px -6px rgba(37,99,235,.9),
+    0 0 20px -8px rgba(34,211,238,.7),
+    inset 0 1px 0 rgba(255,255,255,.28);
+  border:1px solid rgba(147,197,253,.4);
+  z-index:1;
+  opacity:0;
+  transform:scale(.3) rotate(-180deg);
+  transition:
+    opacity .5s ease .15s,
+    transform .8s cubic-bezier(.34,1.56,.64,1) .15s;
+}
+.notif-item.show .notif-avatar{
+  opacity:1;
+  transform:scale(1) rotate(0deg);
+}
+
+.notif-avatar::after{
+  content:'\f00c';
+  font-family:'Font Awesome 6 Free';
+  font-weight:900;
+  position:absolute;
+  bottom:-2px;left:-2px;
+  width:13px;height:13px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#0ea5e9,#2CFF05);
+  border:2px solid #05070f;
+  color:#05070f;
+  font-size:6px;
+  display:grid;place-items:center;
+  box-shadow:0 0 8px rgba(44,255,5,.8);
+  z-index:2;
+  opacity:0;
+  transform:scale(0) rotate(-180deg);
+  transition:
+    opacity .35s ease .6s,
+    transform .55s cubic-bezier(.34,1.56,.64,1) .6s;
+}
+.notif-item.show .notif-avatar::after{
+  opacity:1;
+  transform:scale(1) rotate(0deg);
+}
+
+.notif-body{
+  flex:1;
+  line-height:1.45;
+  font-size:.76rem;
+  color:var(--text);
+  font-weight:500;
+  min-width:0;
+  position:relative;
+  z-index:1;
+  opacity:0;
+  transform:translateY(12px);
+  transition:
+    opacity .55s ease .25s,
+    transform .6s cubic-bezier(.34,1.4,.5,1) .25s;
+}
+.notif-item.show .notif-body{
+  opacity:1;
+  transform:translateY(0);
+}
+.notif-body .name{
+  font-weight:700;
+  color:var(--text-hi);
+  font-size:.82rem;
+  letter-spacing:-.01em;
+}
+.notif-body .action{
+  color:var(--accent-2);
+  font-weight:600;
+}
+.notif-body .action .check{
+  color:var(--success-bright);
+  margin-left:2px;
+  text-shadow:0 0 6px rgba(44,255,5,.6);
+  font-size:.85em;
+}
+
+.notif-close{
+  position:absolute;
+  top:50%;left:9px;
+  transform:translateY(-50%) scale(0);
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  width:20px;height:20px;
+  border-radius:50%;
+  color:var(--text-mute);
+  font-size:12px;
+  cursor:pointer;
+  display:grid;place-items:center;
+  transition:
+    transform .5s cubic-bezier(.34,1.56,.64,1) .4s,
+    color .25s ease,
+    background .25s ease,
+    border-color .25s ease;
+  line-height:1;
+  padding:0;
+  z-index:2;
+  opacity:0;
+}
+.notif-item.show .notif-close{
+  opacity:1;
+  transform:translateY(-50%) scale(1);
+}
+.notif-close:hover{
+  color:#fca5a5;
+  background:rgba(220,38,38,.18);
+  border-color:rgba(220,38,38,.35);
+  transform:translateY(-50%) scale(1.15) rotate(90deg);
+}
+
+.flag-syria{
+  display:inline-block;
+  width:19px;
+  height:13px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Crect width='30' height='6.67' fill='%23006400'/%3E%3Crect y='6.67' width='30' height='6.67' fill='%23ffffff'/%3E%3Crect y='13.33' width='30' height='6.67' fill='%23000000'/%3E%3Cg fill='%23ce1126'%3E%3Cpolygon points='7.5,8.3 8,9.5 9.2,9.5 8.2,10.3 8.55,11.5 7.5,10.8 6.45,11.5 6.8,10.3 5.8,9.5 7,9.5'/%3E%3Cpolygon points='15,8.3 15.5,9.5 16.7,9.5 15.7,10.3 16.05,11.5 15,10.8 13.95,11.5 14.3,10.3 13.3,9.5 14.5,9.5'/%3E%3Cpolygon points='22.5,8.3 23,9.5 24.2,9.5 23.2,10.3 23.55,11.5 22.5,10.8 21.45,11.5 21.8,10.3 20.8,9.5 22,9.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  vertical-align:middle;
+  margin:0 2px;
+  border-radius:2px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.15), 0 1px 3px rgba(0,0,0,.5);
+}
+@media(max-width:640px){
+  .flag-syria{width:16px;height:11px}
+}
+
+@media(max-width:640px){
+  .notif-container{bottom:16px;left:14px;width:280px;max-width:calc(100vw - 28px);gap:9px}
+  .notif-item{font-size:.74rem;padding:10px 36px 10px 12px;gap:10px;border-radius:14px}
+  .notif-avatar{width:30px;height:30px;font-size:13px}
+  .notif-avatar::after{width:11px;height:11px;font-size:5px}
+  .notif-body{font-size:.72rem}
+  .notif-body .name{font-size:.78rem}
+  .notif-close{width:18px;height:18px;font-size:11px;left:8px}
+}
+@media(max-width:400px){
+  .notif-container{bottom:12px;left:10px;width:250px;max-width:calc(100vw - 20px)}
+  .notif-item{font-size:.7rem;padding:9px 34px 9px 11px;gap:8px}
+  .notif-avatar{width:28px;height:28px;font-size:11px}
+  .notif-body{font-size:.68rem}
+  .notif-body .name{font-size:.72rem}
+}
+</style>
 </head>
-<body class="bg-[#020714] text-gray-200 antialiased">
+<body>
 
-<!-- ====== HEADER ====== -->
-<header id="stickyHeader" class="sticky-header">
-  <div class="header-content">
-    <div class="header-badge">
-      <span class="live-dot"></span>
-      <span class="header-text-sm">عرض خاص لأول 10 أشخاص فقط <span class="header-discount">خصم 80%</span></span>
-    </div>
-    <div class="header-timer">
-      <span class="text-gray-400 text-xs">العرض سينتهي بعد:</span>
-      <div class="timer-wrapper">
-        <div class="timer-item"><span class="num" id="offerHours">23</span><span class="lbl">ساعة</span></div>
-        <span class="timer-sep">:</span>
-        <div class="timer-item"><span class="num" id="offerMinutes">59</span><span class="lbl">دقيقة</span></div>
-        <span class="timer-sep">:</span>
-        <div class="timer-item"><span class="num" id="offerSeconds">59</span><span class="lbl">ثانية</span></div>
+<div class="bg"></div>
+
+<!-- PROMO BAR -->
+<header id="header">
+  <div class="promo">
+    <div class="promo-inner">
+      <div class="promo-center">
+        <span class="live-dot"></span>
+        <span>عرض خاص لأول 10 أشخاص لفترة محدودة <span class="promo-off">خصم 70%</span></span>
       </div>
+      <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="promo-cta">
+        انضم الآن <i class="fa-solid fa-arrow-left"></i>
+      </a>
     </div>
   </div>
-  <div class="header-border-red"></div>
 </header>
 
-<!-- ====== HERO ====== -->
-<section class="relative overflow-hidden pt-28 md:pt-32 pb-12 md:pb-20 px-4 md:px-6">
-  <div class="hero-bg"></div>
-  <div class="top-ambient"></div>
-  <div class="fade-bottom"></div>
-  <div class="max-w-6xl mx-auto relative z-10">
-    <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-      <div class="flex-1 text-center lg:text-right">
-        <div class="max-w-[98%] mx-auto px-1 lg:max-w-4xl lg:px-4 reveal-fade-up" data-delay="50">
-          <span class="gold-badge mb-0.5 inline-block">طريق أول 10,000$</span>
-          <h1 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-black text-white title-safe mt-0.5">
-            <span class="block">استغل الذكاء الاصطناعي لبدأ</span>
-            <span class="block">مشروعك الخاص على الإنترنت <span class="animated-gradient-text">في 24 ساعة</span></span>
-          </h1>
-        </div>
-        <p class="mt-3 text-sm md:text-base text-white leading-relaxed max-w-2xl mx-auto lg:mx-0 reveal-fade-up" data-delay="100">
-          اكتشف السر اللي راح تعلمك كيف تستغل الذكاء الاصطناعي لبناء مشروعك الخاص على الانترنت خطوة بخطوة بالتفصيل
-          <span class="animated-gradient-text font-black">من الفكرة إلى البيع</span>
-        </p>
-        <div class="mt-6 lg:hidden reveal-scale" data-delay="120">
-          <img src="images/hero.png" alt="ريبل ستارت" class="hero-image" loading="lazy" onerror="this.style.display='none'">
-        </div>
-        <div class="mt-6 flex justify-center lg:justify-start reveal-scale" data-delay="150">
-          <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
-            <span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
-          </a>
-        </div>
-        <div class="mt-8 max-w-2xl mx-auto lg:mx-0">
-          <div class="grid grid-cols-3 gap-2 sm:gap-3">
-            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="200"><i class="fas fa-graduation-cap" style="color: var(--gold);"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">لا حاجة لخبرة سابقة</span></div>
-            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="230"><i class="fas fa-coins" style="color: var(--gold);"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">لا حاجة إلى رأس مال</span></div>
-            <div class="feature-card flex items-center justify-center gap-1 sm:gap-2 reveal-scale" data-delay="260" id="lastFeatureCard"><i class="fas fa-mobile-alt" style="color: var(--gold);"></i><span class="white-subtext text-[10px] sm:text-sm font-medium whitespace-nowrap">تحتاج هاتفك فقط</span></div>
-          </div>
-        </div>
-        <div class="separator-line-container max-w-2xl mx-auto lg:mx-0 reveal-fade-up" data-delay="280" id="separatorContainer"><div class="separator-vertical-line" id="separatorLine"></div></div>
-        <div class="max-w-2xl mx-auto lg:mx-0 mt-4 reveal-fade-up" data-delay="300">
-          <h3 class="text-lg md:text-xl font-black text-white mb-4 text-center lg:text-right">هسة فرصتك الذهبية</h3>
-          <div class="brush-line brush-line-1 mx-auto lg:mx-0"></div>
-          <div class="text-sm md:text-base text-white leading-loose space-y-4 mt-4">
-            <p class="mb-2">صاحبي بما إنك بهل موقع، فأنا أعرف إنك <strong class="font-black text-white">شخص طموح</strong>، وبدك تربح من الإنترنت</p>
-            <p class="mb-2">بدي منك تعرف العالم تغير جدًا، إحنا هسة <strong class="font-black text-white">بعصر الذكاء الاصطناعي</strong></p>
-            <p class="mb-2">إذا ما استغليتها بالطريقة الصحيحة، راح تضيع على نفسك كلش هواي</p>
-            <p class="mb-2">ولذلك <strong class="font-black text-white">ريبل ستارت راح يكون أفضل خطوة إلك</strong></p>
-            <p class="mb-2">بربل ستارت نشرح كيف ممكن تواكب ثورة الذكاء الاصطناعي</p>
-            <p>وكيف تستغلها صح حتى تبني مصدر دخل من الإنترنت</p>
-          </div>
-        </div>
-      </div>
-      <div class="flex-1 w-full max-w-xl lg:max-w-none hidden lg:flex flex-col items-center gap-2 reveal-scale" data-delay="100">
-        <img src="images/hero.png" alt="ريبل ستارت" class="hero-image" loading="lazy" onerror="this.style.display='none'">
-        <span class="gold-badge mt-2">طريق أول 10,000$</span>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-centered">
 
-<!-- ====== ما ستتمكن من الوصول إليه ====== -->
-<section class="feature-grid-section pt-6 pb-8 md:pt-8 md:pb-12 reveal-fade-up" data-delay="300" id="featureGridSection">
-  <div class="feature-section-vertical-line" id="featureVerticalLine"><div class="feature-section-line-fill" id="featureLineFill"></div><div class="feature-section-dot" id="featureDot"></div></div>
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="text-center mb-2"><span class="badge-label">مسار خطوة بخطوة</span></div>
-    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold text-white text-center mb-6 mt-1">إليك ما ستتمكن من الوصول إليه</h2>
-    <div class="grid-2col">
-      <div class="feature-block" id="featureBlock1">
-        <img src="images/feature-1.PNG" alt="8 وحدات من المحتوى" class="feature-image reveal-scale" data-delay="100" loading="lazy" onerror="this.style.backgroundColor='#1a1f2e'; this.style.minHeight='200px'">
-        <div class="feature-header"><i class="fas fa-layer-group feature-icon-small"></i><h3>8 وحدات من المحتوى</h3></div>
-        <div class="feature-list">
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="150"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">من العقلية إلى سحب الأرباح خطوة بخطوة</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="180"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">ستتعلم مشروع نجح معي</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="210"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">تطبيق عملي من الصفر</span></div>
-        </div>
+      <div class="eyebrow rv">
+        <span class="eyebrow-dot"></span>
+        <span>طريق أول 10,000$</span>
       </div>
-      <div class="feature-block" id="featureBlock2">
-        <img src="images/feature-2.jpg" alt="دعم من مجتمع خاص" class="feature-image reveal-scale" data-delay="100" loading="lazy" onerror="this.style.backgroundColor='#1a1f2e'; this.style.minHeight='200px'">
-        <div class="feature-header"><i class="fas fa-users feature-icon-small"></i><h3>دعم من مجتمع خاص</h3></div>
-        <div class="feature-list">
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="150"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">أبدأ رحلتك مع أشخاص لهم نفس تفكيرك</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="180"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">أسأل أي سؤال تريد</span></div>
-          <div class="feature-card flex items-center gap-2 reveal-scale" data-delay="210" id="lastFeatureItem"><i class="fas fa-check" style="color: var(--gold);"></i><span class="white-subtext text-sm font-medium">أطلب المساعدة متى تشاء</span></div>
-        </div>
-        <div class="mt-6 text-center reveal-scale" data-delay="260">
-          <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
-            <span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
-          </a>
-        </div>
+
+      <h1 class="t-display rv">
+        تعلّم واحترف مشروع بيع المنتجات الرقمية
+        <span class="accent line-2">وابدأ في 24 ساعة فقط</span>
+      </h1>
+
+      <p class="t-lead hero-lead rv">
+        اكتشف السر الذي سيعلمك كيف تستغل الذكاء الاصطناعي لتبدأ مشروع بيع المنتجات الرقمية بأحدث وأسهل الطرق، خطوة بخطوة وبالتفصيل <span class="text-accent-blue">من الفكرة إلى البيع</span>
+      </p>
+
+      <!-- Hero Image (Replaced Video) -->
+      <div class="hero-img-wrap rv-scale">
+        <img src="images/hero.png" alt="ريبل ستارت" class="hero-image" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'; this.style.minHeight='300px';">
       </div>
-    </div>
-  </div>
-</section>
 
-<section class="pt-0 pb-4 px-4 mt-16 reveal-fade-up" data-delay="300">
-  <div class="max-w-4xl mx-auto">
-    <h2 class="text-lg md:text-xl font-black text-white text-center mb-4">هذا ما تحتاج إلى معرفته عن <span class="section-title-highlight">ريبل ستارت</span></h2>
-    <div class="brush-line brush-line-1 mx-auto"></div>
-    <div class="text-sm md:text-base text-white leading-loose text-center space-y-4 mt-6">
-      <p>لكسب المال من الإنترنت تحتاج إلى الأسرار والإستراتيجيات الصحيحة والمجربة والإرشادات الصحيحة على طول الطريق</p>
-      <p>من الممكن أن <strong class="font-black text-white">تواجه حواجز في رحلتك</strong></p>
-      <p><strong class="font-semibold text-white">ولهذا السبب لا نعطيك كورسات فقط، سنوفر مع الكورسات مجتمعاً خاصاً للرد على الأسئلة وللنقاشات</strong></p>
-      <p><strong class="font-black text-white">وسنكون معك ونحل لك اي مشكلة تواجهها في رحلتك</strong></p>
-    </div>
-  </div>
-</section>
-
-<!-- ====== ماذا ستتعلم ====== -->
-<section class="pt-24 pb-6 px-4 relative reveal-fade-up" data-delay="300">
-  <div class="roadmap-bg"></div>
-  <div class="max-w-6xl mx-auto relative z-10">
-    <div class="text-center"><span class="badge-label">الخريطة الكاملة</span></div>
-    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold text-white text-center lg:text-right mt-1 mb-12">ماذا ستتعلم في <span class="section-title-highlight">ريبل ستارت</span></h2>
-  </div>
-</section>
-
-<section class="roadmap-section pt-0 pb-1 px-4 relative reveal-fade-up">
-  <div class="roadmap-container" id="roadmapContainer">
-    <div class="stations-holder" id="stationsContainer"></div>
-  </div>
-  <div class="text-center mt-12 reveal-scale" data-delay="300">
-    <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
-      <span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
-    </a>
-  </div>
-</section>
-
-<!-- ====== الهدايا ====== -->
-<section class="pt-0 pb-6 px-4 max-w-6xl mx-auto reveal-fade-up">
-  <div class="text-center mb-12">
-    <span class="badge-label">قيمة إضافية</span>
-    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold text-white mt-1">هدايا مدفوعة ستحصل عليهم مجانًا</h2>
-  </div>
-  <div class="flex flex-col gap-8 max-w-5xl mx-auto items-center">
-    <div class="gift-card reveal-scale" data-delay="100"><i class="fas fa-box"></i><h3>منتجات رقمية جاهزة مجانًا</h3><p>ستحصل على منتجات رقمية جاهزة، وستتعلم كيف تقوم ببيعهم فورًا، ستبدأ مشروعك الخاص في 24 ساعة.</p></div>
-    <div class="gift-card reveal-scale" data-delay="150"><i class="fas fa-lightbulb"></i><h3>50 فكرة منتجات رقمية</h3><p>ستحصل على 50 فكرة منتجات رقمية ناجحة وعليهم طلب في مجالات ناجحة.</p></div>
-    <div class="gift-card reveal-scale" data-delay="200"><i class="fas fa-book-open"></i><h3>كتاب هندسة الذات مجانًا</h3><p>ستحصل على كتاب في مجال تطوير الذات، تساعدك في تطوير نفسك في كل جوانب الحياة.</p></div>
-    <div class="gift-card reveal-scale" data-delay="250"><i class="fas fa-film"></i><h3>حزمة مونتاج مجانًا</h3><p>يوجد فيها كل ما تحتاجه للمونتاج (فيديوهات وصور، مؤثرات صوتية وبصرية، خلفيات...).</p></div>
-  </div>
-  <div class="mt-16 text-center reveal-scale" data-delay="300">
-    <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
-      <span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
-    </a>
-  </div>
-</section>
-
-<!-- ====== سر لازم تعرفها ====== -->
-<section class="py-10 px-4 reveal-fade-up mt-16" data-delay="300">
-  <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-lg md:text-xl font-black text-white mb-4">سر لازم تعرفها</h2>
-    <div class="brush-line brush-line-1 mx-auto"></div>
-    <div class="text-sm md:text-base text-white leading-loose space-y-4 mt-6">
-      <p>لاحظت شيئاً عند الكثير من الأشخاص الذين يمتلكون مشاريع على الإنترنت</p>
-      <p>كل شخص فيهم ينصحك في طريقة معينة للربح من الانترنت</p>
-      <p><strong class="font-black text-white">بس مو نفس الطريقة اللي هو يكسب منها</strong></p>
-      <p><strong class="font-black text-white">هو يكسب من صناعة المحتوى وبيع المنتجات الرقمية</strong></p>
-      <p>بينما يعلمك وينصحك أنت كيف تكسب المال من الدروب شيبينغ أو التداول وغيرهم</p>
-      <p class="text-lg md:text-xl font-black text-white">في <span class="section-title-highlight">ريبل ستارت</span> إحنا على العكس تماماً</p>
-      <p><strong class="font-black text-white">إحنا راح نعلمك مشروع إحنا نكسب منه، </strong><span>ونعلمك كيف تمشي في</span><strong class="font-black text-white"> طريق إحنا نجحنا فيه</strong></p>
-    </div>
-  </div>
-</section>
-
-<!-- ====== ليش أخترت ====== -->
-<section class="py-12 px-4 max-w-6xl mx-auto reveal-fade-up">
-  <div class="text-center mb-12">
-    <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold text-white">ليش أخترت أعمل <span class="section-title-highlight">ريبل ستارت</span>؟</h2>
-  </div>
-  <div class="glass-card rounded-large p-8 max-w-4xl mx-auto reveal-scale" data-delay="100">
-    <div class="white-subtext leading-relaxed text-base space-y-4">
-      <p><strong class="font-black text-white">هل تعلم إن 90% من الناس مخدوعين في طرق الربح من الإنترنت؟</strong></p>
-      <p>تعال خليني احكيلك الحقيقة</p>
-      <p>كنت دائمًا أشاهد فيديوهات ترفيهية على منصات التواصل، وأضيع كل وقتي</p>
-      <p>يومًا بعد يوم <strong class="font-black text-white">صرت أشاهد فيديوهات تطوير الذات والربح من الإنترنت</strong> أكثر</p>
-      <p>تعرفت على الربح من الإنترنت وسهولته مقارنةً بالعمل على أرض الواقع <strong class="font-black text-white">8-12 ساعات</strong> يوميًا</p>
-      <p>بينما يمكنك الربح من الإنترنت <strong class="font-black text-white">2-3 ساعات</strong> عمل يوميًا</p>
-      <div id="storyExtra" class="story-hidden space-y-4">
-        <p>فحبيت أتعمق فيها، بلشت أشاهد فيديوهات عن الربح من الإنترنت وأبحث عنهم أكثر</p>
-        <p><strong class="font-black text-white">بس كل شخص كان يكلي شيء مختلف</strong></p>
-        <p>جربت أربح من:</p>
-        <p><i class="fas fa-video text-gold-400 ml-2"></i> بيع الخدمات (خدمة المونتاج وخدمة التصميم)</p>
-        <p><i class="fas fa-link text-gold-400 ml-2"></i> التسويق بالعمولة للمنتجات المادية</p>
-        <p><i class="fas fa-chart-line text-gold-400 ml-2"></i> التداول</p>
-        <p><i class="fas fa-box text-gold-400 ml-2"></i> الدروب شيبينغ</p>
-        <p>وغيرهم من الطرق</p>
-        <p>بس ما نجحت بأي طريقة منهم</p>
-        <p><i class="fas fa-question-circle text-gold-400 ml-2"></i><strong class="font-black text-white">هنا سألت نفسي سؤال غيّر كل شيء</strong></p>
-        <p>قلت لنفسي <strong class="font-black text-white">أغلب المليونير على الإنترنت كيف يربحون من الإنترنت؟</strong></p>
-        <p><strong class="font-black text-white">والجواب الحقيقي هو: أغلبهم يربحون من بيع المنتجات الرقمية وصناعة المحتوى</strong></p>
-        <p>طبعًا كل هذا بعد أبحاث مُتعمقة ومقارنات وتجارب</p>
-        <p><strong class="font-black text-white">ولذلك أشاركك في ريبل ستارت أفضل الأسرار والاستراتيجيات</strong> اللي تعلمتهم برحلة نجاحي بهذا المشروع.</p>
-      </div>
-      <button id="storyToggleBtn" class="text-gold-400 font-bold hover:underline mt-2">عرض المزيد…</button>
-    </div>
-  </div>
-</section>
-
-<!-- ====== PRICING ====== -->
-<section id="pricing" class="py-12 px-4 max-w-4xl mx-auto reveal-scale">
-  <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold text-white text-center mb-10">كل ما ستحصل عليه في <span class="title-highlight">ريبل ستارت</span></h2>
-  <div class="pricing-card p-6 md:p-10 relative overflow-hidden">
-    <div class="relative-z-10 flex flex-col items-center">
-      <div class="pricing-feature-card mb-1 flex justify-center">
-        <img src="images/logo.PNG" alt="ريبل ستارت - نظام البداية الذكية" loading="lazy" onerror="this.style.minHeight='60px'; this.style.backgroundColor='#1a1f2e'">
-      </div>
-      <p class="sub-heading text-center text-sm md:text-base font-bold mt-0.5 mb-2 text-white">الخريطة الكاملة من الصفر خطوة بخطوة</p>
-      <hr class="price-divider mb-6">
-      <div class="w-full max-w-xl space-y-2 mb-5">
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>بناء عقلية النجاح (<span class="strikethrough">بقيمة 15$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>أسرار وإستراتيجيات نمو الحسابات والقنوات (<span class="strikethrough">بقيمة 30$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>إنشاء منتجات رقمية خاصة بك (<span class="strikethrough">بقيمة 30$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>ستتعلم إنشاء متجر (<span class="strikethrough">بقيمة 15$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>ستتعلم مونتاج الفيديوهات (<span class="strikethrough">بقيمة 25$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>ستتعلم تصميم الصور (<span class="strikethrough">بقيمة 15$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>ستتعلم أسرار وإستراتيجيات التسويق بالمحتوى (<span class="strikethrough">بقيمة 30$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>تواصل مع ريبل في المجتمع (<span class="strikethrough">بقيمة 100$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>دعم من مجتمع خاص (<span class="strikethrough">بقيمة 40$</span>)</span></div>
-      </div>
-      <div class="w-full max-w-xl space-y-2 mb-4 mt-1">
-        <div class="pricing-summary-item"><i class="fas fa-gift gift-icon"></i><span style="color: #ffffff; font-weight: 800;" class="font-bold">هدايا إضافية ستحصل عليهم مجانًا</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>منتجات رقمية جاهزة (<span class="strikethrough">بقيمة 50$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>كتاب هندسة الذات (<span class="strikethrough">بقيمة 15$</span>)</span></div>
-        <div class="pricing-summary-item"><i class="fas fa-check"></i><span>حزمة مونتاج (<span class="strikethrough">بقيمة 10$</span>)</span></div>
-      </div>
-      <div class="w-full max-w-xl mb-4"><div class="total-value-item text-center">القيمة الإجمالية التي ستحصل عليها تساوي $375</div></div>
-      <div class="w-full max-w-xl mb-3"><hr class="price-divider"></div>
-      <div class="flex items-center gap-2"><span class="old-price-gradient">السعر سيرتفع إلى</span><span class="old-price-value">$90</span></div>
-      <div class="flex items-center gap-2"><span class="current-text">حاليًا فقط</span><span class="animated-gradient-text current-price font-extrabold">$17</span></div>
-      <div class="mt-7">
-        <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-xl px-12 py-4 rounded-full gold-glow btn-wide">
-          <span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-xl relative z-10 rocket-icon"></i>
+      <div class="hero-actions rv">
+        <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+          انضم الآن <i class="fa-solid fa-arrow-left"></i>
         </a>
       </div>
+
+      <div class="trust-row rv">
+        <div class="trust-item"><i class="fa-solid fa-bolt"></i><span>وصول فوري بعد الدفع</span></div>
+        <span class="trust-sep">•</span>
+        <div class="trust-item"><i class="fa-solid fa-graduation-cap"></i><span>بدون خبرة سابقة</span></div>
+        <span class="trust-sep">•</span>
+        <div class="trust-item"><i class="fa-solid fa-coins"></i><span>بدون رأس مال</span></div>
+        <span class="trust-sep">•</span>
+        <div class="trust-item"><i class="fa-solid fa-mobile-screen"></i><span>هاتفك يكفي</span></div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ====== CHOICES ====== -->
-<section class="py-12 choices-section reveal-fade-up">
-  <div class="section-title">
-    <span class="badge-label">يجب أن تختار</span><h2>أمامك خيارين</h2>
-    <img src="images/choices.png" alt="خياران: البقاء أو الانضمام" class="reveal-scale" data-delay="100" loading="lazy" onerror="this.style.minHeight='150px'; this.style.backgroundColor='#1a1f2e'">
+<!-- EMOTIONAL -->
+<section class="sec" style="padding-top:0">
+  <div class="container">
+    <div class="emotion-vline" id="emotionVline" aria-hidden="true"></div>
+    <div class="emotional rv-scale">
+      <h2 class="emotional-title rv">الآن فرصتك الذهبية</h2>
+      <p class="rv">يا خوي، بما إنك تقرأ هذا الكلام في هذا الموقع، فأنا أعرف أنك شخص طموح، وتريد أن تبني مصدر دخل من الإنترنت.</p>
+      <p class="rv">لذلك أريدك أن تعرف أن العالم تغيّر كثيرًا، ونحن الآن في عصر الذكاء الاصطناعي.</p>
+      <p class="rv">وإذا لم تستغلّها بالطريقة الصحيحة، ستخسر فرصًا كثيرة تساعدك في تغيير حياتك للأفضل.</p>
+      <p class="rv"><strong>ولهذا السبب، ريبل ستارت سيكون أفضل خطوة لك.</strong></p>
+      <p class="rv">في ريبل ستارت نشرح لك كيف تواكب ثورة الذكاء الاصطناعي، وكيف تستغلها بشكل صحيح باش تبني مصدر دخل مستدام من الإنترنت خطوة بخطوة.</p>
+    </div>
   </div>
-  <div class="path-container" id="pathContainer">
-    <svg class="svg-lines" id="svgLines"></svg>
-    <div class="cards-wrapper">
-      <div class="choice-card" id="card1"><h3>البقاء في مكانك</h3><p>تستمر في تصفح مواقع التواصل، تضيع وقتك دون هدف، وتفوّت على نفسك فرصة الذكاء الاصطناعي مثل ما فات أجدادنا فرصة الأراضي والعقارات. تبقى تدور بنفس الحلقة، سنة ورا سنة، بدون أي تقدم حقيقي.</p></div>
-      <div class="choice-card gold" id="card2">
+</section>
+
+<!-- FEATURES -->
+<section class="sec" style="padding-top:0" id="featuresSection">
+  <div class="container">
+    <div class="sec-head rv">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> المسار</div>
+      <h2 class="t-h1">إليك ما ستتمكن من الوصول إليه</h2>
+      <p>كل ما تحتاجه للبدأ، من الفكرة إلى أول عملية بيع — بدون تعقيد.</p>
+    </div>
+
+    <div class="features">
+      <article class="feature rv">
+        <img class="feature-img" src="images/feature-1.PNG" alt="8 وحدات من المحتوى" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="feature-body">
+          <div class="feature-ico"><i class="fa-solid fa-layer-group"></i></div>
+          <h3 class="t-h3">8 وحدات محتوى متكاملة</h3>
+          <p>من العقلية إلى سحب الأرباح خطوة بخطوة.</p>
+          <ul class="feature-list">
+            <li><i class="fa-solid fa-check"></i><span>ستتعلم مشروعًا نجح معنا</span></li>
+            <li><i class="fa-solid fa-check"></i><span>تطبيق عملي من الصفر</span></li>
+            <li><i class="fa-solid fa-check"></i><span>بدون حشو أو كلام نظري</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="feature rv">
+        <img class="feature-img" src="images/feature-2.jpg" alt="دعم من مجتمع خاص" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="feature-body">
+          <div class="feature-ico"><i class="fa-solid fa-users"></i></div>
+          <h3 class="t-h3">مجتمع خاص</h3>
+          <p>لن تكون وحدك في الرحلة — ستنضم لمجتمع فيه أشخاص لهم نفس هدفك</p>
+          <ul class="feature-list">
+            <li><i class="fa-solid fa-check"></i><span>اطرح أي سؤال في أي وقت</span></li>
+            <li><i class="fa-solid fa-check"></i><span>دعم مباشر من خبراء</span></li>
+            <li><i class="fa-solid fa-check"></i><span>متابعة على طول الطريق</span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SECRET -->
+<section class="sec" style="padding-top:0">
+  <div class="container">
+    <div class="secret rv-scale">
+      <h2 class="t-h1">سر يجب أن تعرفه</h2>
+      <p>لاحظت شيء عند كثير من الأشخاص الذين يملكون مشاريع على الإنترنت.</p>
+      <p>كل واحد منهم ينصحك بطريقة معيّنة للربح من الإنترنت، وهو يكسب المال من طريقة ومشروع ثاني.</p>
+      <p>أغلبهم يكسبون من صناعة المحتوى وبيع المنتجات الرقمية (كورسات وكتب رقمية)، بينما ينصحونك أنت بأن تكسب المال من الدروب شيبينغ أو التداول وغيرها.</p>
+      <p class="accent">في ريبل ستارت، نحن على العكس تمامًا.</p>
+      <p><span class="hl">نحن سنعلّمك مشروعًا نحن نكسب منه، ونعلّمك كيف تسير في طريق نحن نجحنا فيه بالتفصيل.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="sec" id="roadmap" style="padding-top:0">
+  <div class="container">
+    <div class="roadmap-vline" id="roadmapVLine" aria-hidden="true">
+      <div class="roadmap-vline-fill" id="roadmapVLineFill"></div>
+      <div class="roadmap-vline-dot" id="roadmapVLineDot"></div>
+    </div>
+
+    <div class="sec-head rv">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> الخريطة الكاملة</div>
+      <h2 class="t-h1">ماذا ستتعلم في ريبل ستارت</h2>
+      <p>ثماني وحدات مرتبة خطوة بخطوة — من بناء العقلية إلى سحب أول أرباح من مشروعك الرقمي.</p>
+    </div>
+
+    <div class="roadmap">
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-1.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 01</span>
+          <h3>بناء عقلية النجاح</h3>
+          <p>كيف يفكّر صانع المحتوى المحترف، وكيف يدير مشاريعه.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>عقلية النجاح</span></li>
+            <li><i class="fa-solid fa-check"></i><span>تفكير المحترفين</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-2.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 02</span>
+          <h3>اختيار أفضل مجال</h3>
+          <p>كيف تختار مجالًا مربحًا، وأفضل المجالات المُجرَّبة.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>اختيار مجال مربح</span></li>
+            <li><i class="fa-solid fa-check"></i><span>أفضل المجالات الحالية</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-3.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 03</span>
+          <h3>إنشاء حسابات احترافية</h3>
+          <p>تصميم الصور، الاسم والبايو، والمظهر الرقمي بالكامل.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>تصميم الصور والهايلات</span></li>
+            <li><i class="fa-solid fa-check"></i><span>بايو ورابط احترافي</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-4.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 04</span>
+          <h3>نمو الحسابات والقنوات</h3>
+          <p>استراتيجيات الوصول إلى ملايين المشاهدات وأفكار المحتوى.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>أسرار النمو السريع</span></li>
+            <li><i class="fa-solid fa-check"></i><span>فهم الخوارزميات</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-5.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 05</span>
+          <h3>إنشاء المنتجات الرقمية</h3>
+          <p>إنشاء منتج خاص بك بالذكاء الاصطناعي، أو بيع منتجات جاهزة.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>منتج رقمي خاص بك</span></li>
+            <li><i class="fa-solid fa-check"></i><span>بيع المنتجات الجاهزة</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-6.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 06</span>
+          <h3>إنشاء متجر وصفحات هبوط</h3>
+          <p>متجر كامل مع بوابات دفع عالمية، وصفحات هبوط بضغطة زر.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>بوابات دفع عالمية</span></li>
+            <li><i class="fa-solid fa-check"></i><span>صفحات هبوط احترافية</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-7.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 07</span>
+          <h3>التسويق بالمحتوى</h3>
+          <p>استراتيجية الثلاث مراحل لتحويل أي شخص إلى مشترٍ.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>تحويل المتابع إلى مشترٍ</span></li>
+            <li><i class="fa-solid fa-check"></i><span>التسويق العصبي</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="roadmap-card rv">
+        <img class="roadmap-img" src="images/station-8.jpg" alt="" onerror="this.style.background='linear-gradient(140deg,#0d1524,#05070f)'">
+        <div class="roadmap-body">
+          <span class="roadmap-num">الخطوة 08</span>
+          <h3>مونتاج الفيديوهات</h3>
+          <p>ثلاثة أساليب مختلفة، أحدها بدون إظهار الوجه أو الصوت.</p>
+          <ul class="roadmap-points">
+            <li><i class="fa-solid fa-check"></i><span>مونتاج مجهول الهوية</span></li>
+            <li><i class="fa-solid fa-check"></i><span>بالهاتف فقط</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-cta rv">
+      <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+        انضم الآن <i class="fa-solid fa-arrow-left"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GIFTS -->
+<section class="sec" id="gifts" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head rv">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> قيمة إضافية</div>
+      <h2 class="t-h1">هدايا وحلول ومميزات مدفوعة مجانًا</h2>
+      <p>قيمة تتجاوز 175$ — تحصل عليها مجانًا فور انضمامك.</p>
+    </div>
+
+    <div class="gifts">
+      <div class="gift rv">
+        <div class="gift-ico"><i class="fa-solid fa-money-bill-transfer"></i></div>
+        <h3>حل طرق الدفع في الدول المحظورة</h3>
+        <p>تعلّم كيف توفّر بوابات دفع عالمية، وتسحب أرباحك إلى محفظتك المحلية بسهولة — في أي دولة.</p>
+      </div>
+
+      <div class="gift rv">
+        <div class="gift-ico"><i class="fa-solid fa-rocket"></i></div>
+        <h3>خطة الإطلاق السريع</h3>
+        <p>منتجات رقمية جاهزة للبيع فورًا، مع خطة واضحة تطلق بها مشروعك في يوم واحد.</p>
+      </div>
+
+      <div class="gift rv">
+        <div class="gift-ico"><i class="fa-solid fa-diagram-project"></i></div>
+        <h3>مهارة واحدة — مصادر دخل متعددة</h3>
+        <p>لن تتعلم فقط كيف تبيع المنتجات الرقمية — بل ستتعلم مهارات متعددة تبني بها مصادر دخل متنوعة.</p>
+      </div>
+
+      <div class="gift rv">
+        <div class="gift-ico"><i class="fa-solid fa-headset"></i></div>
+        <h3>دعم على طول الطريق</h3>
+        <p>فريق من الخبراء يتابعك من أول خطوة حتى سحب أرباحك. دعم حقيقي من إنسان حقيقي.</p>
+      </div>
+
+      <div class="gift rv">
+        <div class="gift-ico"><i class="fa-solid fa-lightbulb"></i></div>
+        <h3>50 فكرة منتجات رقمية</h3>
+        <p>50 فكرة منتجات رقمية ناجحة، وعليها طلب في مجالات مربحة.</p>
+      </div>
+
+      <div class="gift rv">
+        <div class="gift-ico"><i class="fa-solid fa-book-open"></i></div>
+        <h3>كتاب هندسة الذات</h3>
+        <p>كتاب في تطوير الذات، يساعدك على التطور في كل جوانب الحياة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="sec" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head rv">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> قصتي</div>
+      <h2 class="t-h1">لماذا أنشأت ريبل ستارت؟</h2>
+    </div>
+
+    <div class="story rv-scale">
+      <div class="story-avatar">R</div>
+      <div class="story-name">مؤسس ريبل ستارت</div>
+
+      <p>اسمع يا خوي، أنا كنت في مكانك تمامًا. كنت دائمًا أشاهد فيديوهات ترفيهية، وأضيّع وقتي كله. ويومًا بعد يوم بدأت أشاهد فيديوهات تطوير الذات والربح من الإنترنت أكثر.</p>
+
+      <p>جرّبت كل شيء: بيع الخدمات، التسويق بالعمولة، التداول، الدروب شيبينغ. <span class="hl">وكل طريقة فشلت فيها.</span></p>
+
+      <div class="quote">
+        "بعد سنوات من المحاولة، سألت نفسي سؤالًا غيّر حياتي: كيف يربح أغلب المليونيرات على الإنترنت فعلًا؟"
+      </div>
+
+      <div class="hidden-text" id="moreText">
+        <p>الجواب كان صادمًا: <span class="hl">أغلبهم يربحون من بيع المنتجات الرقمية وصناعة المحتوى.</span> ليس من التداول، ولا من الدروب شيبينغ، ولا من أي طريقة أخرى.</p>
+        <p>ركّزت على هذا الطريق. أتقنت صناعة المحتوى، وتعلّمت كيف أصنع منتجات رقمية تبيع. وبعدها وثّقت كل شيء بنظام واحد — هذا النظام هو ريبل ستارت.</p>
+        <p>اليوم أشاركك نفس الأسرار والاستراتيجيات التي أوصلتني إلى هنا. بدون كلام نظري، وبدون حشو — فقط ما يعمل فعلًا.</p>
+      </div>
+
+      <button class="read-more" id="moreBtn">
+        <span>اقرأ المزيد</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec" id="pricing" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head rv">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> العرض الحالي</div>
+      <h2 class="t-h1">كل ما ستحصل عليه</h2>
+      <p>قيمة حقيقية — عرض لفترة محدودة استغله قبل ارتفاع السعر.</p>
+    </div>
+
+    <div class="pricing-shell rv-scale">
+      <div class="pricing">
+        <div class="pricing-head">
+          <h3 class="t-h2">الخريطة الكاملة من الصفر</h3>
+          <p class="sub">كل ما تحتاجه للبدأ اليوم</p>
+        </div>
+
+        <ul class="pricing-list">
+          <li><i class="fa-solid fa-check"></i><span>بناء عقلية النجاح <span class="price-val">(بقيمة 15$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>استراتيجيات نمو الحسابات <span class="price-val">(بقيمة 30$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>إنشاء منتجات رقمية <span class="price-val">(بقيمة 30$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>إنشاء متجر وصفحات هبوط <span class="price-val">(بقيمة 40$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>مونتاج الفيديوهات <span class="price-val">(بقيمة 25$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>تصميم الصور <span class="price-val">(بقيمة 15$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>التسويق بالمحتوى <span class="price-val">(بقيمة 30$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>حل طرق الدفع في الدول المحظورة <span class="price-val">(بقيمة 25$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>مهارة واحدة — مصادر دخل متعددة <span class="price-val">(بقيمة 60$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>منتجات رقمية جاهزة <span class="price-val">(بقيمة 50$)</span></span></li>
+          <li><i class="fa-solid fa-check"></i><span>المجتمع الخاص + الدعم <span class="price-val">(بقيمة 140$)</span></span></li>
+        </ul>
+
+        <div class="pricing-total">
+          <span class="lbl">القيمة الإجمالية</span>
+          <span class="val">485$</span>
+        </div>
+
+        <div class="price-alert">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>السعر سيرتفع إلى <b>$90</b> قريبًا</span>
+        </div>
+
+        <div class="price-main">
+          <div class="lbl">حاليًا فقط</div>
+          <div class="val">27<span class="currency">$</span></div>
+          <div class="note">دفعة واحدة</div>
+        </div>
+
+        <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="btn btn-primary btn-lg btn-full">
+          انضم الآن <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <div class="pricing-guarantee">
+          <span><i class="fa-solid fa-lock"></i> دفع آمن</span>
+          <span><i class="fa-solid fa-bolt"></i> وصول فوري</span>
+          <span><i class="fa-solid fa-infinity"></i> تحديثات دائمة</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHOICES -->
+<section class="sec" id="choices" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head rv">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> القرار</div>
+      <h2 class="t-h1">أمامك خياران</h2>
+      <p>القرار بيدك الآن — والذي ستقرره، سيكون هو مستقبلك.</p>
+    </div>
+
+    <div class="choices-grid">
+      <div class="choice choice-bad rv">
+        <span class="choice <-tag"><i class="fa-solid fa-xmark"></i> الخيار الأول</span>
+        <h3>pالبقاء في مكانك</h3>
+       >تستمر في تصفح مواقع التواصل، وتضيّع وقتك دون هدف، وتفوّت على نفسك فرصة الذكاء الاصطناعي كما فوّتت الأجيال السابقة فرصة العقارات والأراضي.</p>
+      </div>
+
+      <div class="choice choice-good rv">
+        <span class="choice-tag"><i class="fa-solid fa-check"></i> الخيار الثاني</span>
         <h3>الانضمام إلى ريبل ستارت</h3>
-        <p>تستغل عصر الذكاء الاصطناعي، تبني مشروعك الخاص من الصفر، تحصل على الدعم الكامل، وتصبح جزءاً من جيل يمتلك أدوات المستقبل. القرار بيدك هسة واللي تقرره راح يكون هو مستقبلك.</p>
-        <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="group relative inline-flex items-center gap-3 gold-gradient text-white font-bold text-lg px-6 py-3 rounded-full gold-glow" style="margin-top:0.8rem;">
-          <span class="relative z-10">انضم الآن</span><i class="fas fa-rocket text-white text-base relative z-10 rocket-icon"></i>
+        <p>تستغل عصر الذكاء الاصطناعي، تبني مشروعك الخاص من الصفر، تحصل على دعم كامل، وتصبح جزءًا من جيل يمتلك أدوات المستقبل.</p>
+        <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="btn btn-primary">
+          انضم الآن <i class="fa-solid fa-arrow-left"></i>
         </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ====== FAQ ====== -->
-<section class="py-10 px-4 max-w-4xl mx-auto reveal-fade-up">
-  <hr class="border-gray-700 mb-10">
-  <h2 class="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-extrabold text-white text-center mb-10">الأسئلة الشائعة</h2>
-  <div class="space-y-4">
-    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="50">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>متى سأتمكن من الوصول إلى ريبل ستارت؟</span><i class="fas fa-plus text-gold-400"></i></div>
-      <div class="faq-answer white-subtext"><p class="pb-2">ستتمكن من الوصول إلى كورسات ومجتمع ريبل ستارت مباشرةً بعد إتمام الانضمام.</p></div>
-    </div>
-    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="100">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>لمن هذا الكورس؟</span><i class="fas fa-plus text-gold-400"></i></div>
-      <div class="faq-answer white-subtext"><p class="pb-2">هذا الكورس لكل شخص طموح يرغب في كسب المال من الإنترنت بأفضل طريقة وأحدث طريقة عن طريق استغلال الذكاء الاصطناعي. ولكل شخص لا يجد من يرشده إلى الطريق الصحيح، ويحتاج إلى إخوة يرشدونه وينجحون معًا.</p></div>
-    </div>
-    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="150">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>ليس لدي أي خبرة سابقة، هل يناسبني الكورس؟</span><i class="fas fa-plus text-gold-400"></i></div>
-      <div class="faq-answer white-subtext"><p class="pb-2">في الأساس الكورس يستهدف المبتدئين قبل المحترفين، نحن نقدم كورسات كاملة خطوة بخطوة + نجاوب على أي أسئلة، ونساعدك في حل أي مشكلة تواجهها في رحلتك.</p></div>
-    </div>
-    <div class="faq-item glass-card rounded-large border border-gold-500/20 reveal-scale" data-delay="200">
-      <div class="faq-question p-5 flex justify-between items-center cursor-pointer font-bold"><span>هل أحتاج إلى رأس مال للبدأ؟</span><i class="fas fa-plus text-gold-400"></i></div>
-      <div class="faq-answer white-subtext"><p class="pb-2">لا، لا تحتاج إلى رأس المال فالاستراتيجيات الموجودة في الكورس تساعدك على البدء دون الحاجة إلى رأس مال.</p></div>
+<!-- MINI COURSE -->
+<section class="sec" id="mini" style="padding-top:0">
+  <div class="container">
+    <div class="mini rv-scale">
+      <div class="mini-head">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> خيار بديل</div>
+        <h2 class="t-h2">الكورس المصغّر — بجودة عالية، بسعر رمزي</h2>
+        <p>ميزانيتك لا تسمح بالكورس المتقدم؟ هذا لا يعني أنك تتوقف. ابدأ بالأساسيات، وتطوّر لاحقًا.</p>
+      </div>
+
+      <ul class="mini-list">
+        <li><i class="fa-solid fa-check"></i><span>إنشاء حسابات احترافية خطوة بخطوة</span></li>
+        <li><i class="fa-solid fa-check"></i><span>منتج رقمي جاهز + كيف تسوّق له</span></li>
+        <li><i class="fa-solid fa-check"></i><span>إنشاء صفحات هبوط بضغطة زر</span></li>
+        <li><i class="fa-solid fa-check"></i><span>مونتاج الفيديوهات بأساليب سهلة</span></li>
+        <li><i class="fa-solid fa-check"></i><span>استراتيجيات التسويق بالمحتوى</span></li>
+        <li><i class="fa-solid fa-check"></i><span>أساسيات البيع للمنتجات الرقمية</span></li>
+      </ul>
+
+      <div class="mini-exclude">
+        <div class="mini-exclude-title">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>ما لا يشمله الكورس المصغّر</span>
+        </div>
+        <ul>
+          <li><i class="fa-solid fa-minus"></i><span>لن تتعلم فيه كيف تنشئ منتجات رقمية خاصة بك — ستحصل على منتج جاهز وتتعلم كيف تبيعه</span></li>
+          <li><i class="fa-solid fa-minus"></i><span>لن تنضم إلى المجتمع الخاص، لكن سيكون معك دعم من خبراء يساعدونك حتى تبدأ</span></li>
+        </ul>
+      </div>
+
+      <div class="mini-price">
+        <div class="lbl">سعر الكورس المصغّر</div>
+        <div class="val">7$</div>
+      </div>
+
+      <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="btn btn-ghost btn-lg btn-full">
+        اكتشف الكورس المصغّر <i class="fa-solid fa-arrow-left"></i>
+      </a>
     </div>
   </div>
 </section>
 
-<footer class="py-6 text-center text-white text-sm border-t border-white/5 reveal-fade-up">© 2026 ريبل ستارت</footer>
+<!-- FAQ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head rv">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> الأسئلة</div>
+      <h2 class="t-h1">أسئلة شائعة</h2>
+      <p>إجابات صريحة على أكثر ما يشغل بالك.</p>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item rv">
+        <button class="faq-q">
+          <span>متى سأتمكن من الوصول إلى ريبل ستارت؟</span>
+          <span class="toggle"><i class="fa-solid fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">فورًا بعد إتمام الانضمام. ستصل إلى جميع الكورسات والمجتمع الخاص مباشرةً.</div></div>
+      </div>
+
+      <div class="faq-item rv">
+        <button class="faq-q">
+          <span>لمن هذا الكورس؟</span>
+          <span class="toggle"><i class="fa-solid fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">لكل شخص طموح يريد كسب المال من الإنترنت بأحدث الطرق، ولكل من لا يجد من يرشده إلى الطريق الصحيح.</div></div>
+      </div>
+
+      <div class="faq-item rv">
+        <button class="faq-q">
+          <span>ليس لدي خبرة سابقة — هل يناسبني؟</span>
+          <span class="toggle"><i class="fa-solid fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">بالضبط. الكورس مُصمَّم للمبتدئين قبل المحترفين — كل شيء مشروح خطوة بخطوة، ولديك دعم كامل.</div></div>
+      </div>
+
+      <div class="faq-item rv">
+        <button class="faq-q">
+          <span>هل أحتاج رأس مال للبدء؟</span>
+          <span class="toggle"><i class="fa-solid fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">لا. الاستراتيجيات في الكورس مصمّمة لتساعدك على البدء بدون رأس مال.</div></div>
+      </div>
+
+      <div class="faq-item rv">
+        <button class="faq-q">
+          <span>لا أملك PayPal ولا Payoneer ولا شركة أمريكية — هل أستطيع استهداف السوق الأجنبي؟</span>
+          <span class="toggle"><i class="fa-solid fa-chevron-down"></i></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          نعم — بدون أي منها. سوف تتعلم:
+          <br>• كيف تصل إلى الجمهور الأجنبي والعربي في كل مكان.
+          <br>• كيف يشتري منك الناس بأي طريقة دفع متاحة في بلدك.
+          <br>• كيف تحوّل أرباحك إلى حسابك المحلي بأي طريقة تناسبك.
+          <br>قيد بلدك ليس عقبة — بل هو نقطتك الأقوى.
+        </div></div>
+      </div>
+    </div>
+
+    <div class="contact rv">
+      <p>إذا كان لديك أي سؤال إضافي — تواصل معنا على الواتساب</p>
+      <a class="btn btn-wa btn-lg" href="https://wa.me/967733422360?text=السلام عليكم، عندي سؤال بخصوص كورس ريبل ستارت" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> تواصل معنا على واتساب
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="sec" style="padding-top:0">
+  <div class="container">
+    <div class="final rv-scale">
+      <div class="final-content">
+        <h2 class="t-h1">توقف لحظة — واسمع هذا</h2>
+        <p>كم واحد تمنّى فرصة مثل هذه، وما وصلها؟ وكم واحد يملكها الآن، وما استغلها؟</p>
+        <p>الفرق بين شخص حقّق وشخص بقي يتمنى — ليس الحظ، ولا الذكاء، ولا الإمكانيات.</p>
+        <div class="highlight">
+          الفرق هو <span class="accent">قرار واحد</span>.
+        </div>
+        <p>القرار بيدك الآن. إما أن تبدأ اليوم، أو تبقى في مكانك سنة كاملة ثم تعود لنفس الصفحة، ونفس السؤال، ونفس الحيرة.</p>
+
+        <div style="margin-top:32px">
+          <a href="https://www.tekrams.com/product/bf753f4b-f674-4864-ae63-9dd26145c3fa?ref=TKR-DZVELE" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+            ابدأ الآن — 27$ فقط <i class="fa-solid fa-arrow-left"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>© 2026 ريبل ستارت — جميع الحقوق محفوظة</p>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp -->
+<a class="wa-float" id="waFloat" href="https://wa.me/967733422360" target="_blank" rel="noopener" aria-label="تواصل معنا على واتساب">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- NOTIFICATIONS CONTAINER -->
+<div class="notif-container" id="notifContainer" aria-live="polite"></div>
 
 <script>
-  // ===================== TIMER 24H =====================
-  (function() {
-    const DURATION = 24 * 60 * 60 * 1000; // 24 ساعة بالمللي ثانية
-    const STORAGE_KEY = 'offerTimerEnd_v2';
+(function(){
+  'use strict';
 
-    let endTime = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
-    const now = Date.now();
-    if (!endTime || now >= endTime) {
-      endTime = now + DURATION;
-      localStorage.setItem(STORAGE_KEY, endTime);
-    }
+  /* ============ REVEAL ANIMATIONS ============ */
+  const revealEls = document.querySelectorAll('.rv, .rv-scale');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold:.12, rootMargin:'0px 0px -40px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
 
-    const elH = document.getElementById('offerHours');
-    const elM = document.getElementById('offerMinutes');
-    const elS = document.getElementById('offerSeconds');
+  /* ============ EMOTIONAL VERTICAL LINE ============ */
+  const emotionVline = document.getElementById('emotionVline');
+  if(emotionVline && 'IntersectionObserver' in window){
+    const ioEm = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          setTimeout(function(){ emotionVline.classList.add('grow'); }, 180);
+          ioEm.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    ioEm.observe(emotionVline);
+  } else if(emotionVline){
+    emotionVline.classList.add('grow');
+  }
 
-    function update() {
-      const n = Date.now();
-      let remaining = Math.floor((endTime - n) / 1000);
-      if (remaining <= 0) {
-        endTime = n + DURATION;
-        localStorage.setItem(STORAGE_KEY, endTime);
-        remaining = Math.floor(DURATION / 1000);
-      }
-      const hours = Math.floor(remaining / 3600);
-      const minutes = Math.floor((remaining % 3600) / 60);
-      const seconds = remaining % 60;
-      elH.innerText = String(hours).padStart(2, '0');
-      elM.innerText = String(minutes).padStart(2, '0');
-      elS.innerText = String(seconds).padStart(2, '0');
-    }
-    update();
-    setInterval(update, 1000);
-  })();
-
-  // ===================== STORY TOGGLE =====================
-  const storyBtn = document.getElementById('storyToggleBtn');
-  if (storyBtn) {
-    storyBtn.addEventListener('click', function() {
-      const extra = document.getElementById('storyExtra');
-      if (extra.classList.contains('story-hidden')) {
-        extra.classList.remove('story-hidden');
-        this.textContent = 'إظهار أقل';
-      } else {
-        extra.classList.add('story-hidden');
-        this.textContent = 'عرض المزيد…';
-      }
+  /* ============ READ MORE STORY ============ */
+  const moreBtn = document.getElementById('moreBtn');
+  const moreText = document.getElementById('moreText');
+  if(moreBtn && moreText){
+    moreBtn.addEventListener('click', function(){
+      const open = moreText.classList.toggle('open');
+      moreBtn.classList.toggle('open', open);
+      moreBtn.querySelector('span').textContent = open ? 'إظهار أقل' : 'اقرأ المزيد';
     });
   }
 
-  // ===================== FAQ TOGGLE =====================
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.querySelector('.faq-question').addEventListener('click', function() {
-      const parent = this.closest('.faq-item');
-      const isActive = parent.classList.contains('active');
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('active');
-        const icon = i.querySelector('.faq-question i.fas');
-        if (icon) { icon.classList.remove('fa-minus'); icon.classList.add('fa-plus'); }
+  /* ============ FAQ ACCORDION ============ */
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', function(){
+      const isOpen = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(function(other){
+        other.classList.remove('active');
+        other.querySelector('.faq-a').style.maxHeight = null;
       });
-      if (!isActive) {
-        parent.classList.add('active');
-        const icon = parent.querySelector('.faq-question i.fas');
-        if (icon) { icon.classList.remove('fa-plus'); icon.classList.add('fa-minus'); }
+      if(!isOpen){
+        item.classList.add('active');
+        a.style.maxHeight = a.scrollHeight + 'px';
       }
     });
   });
 
-  // ===================== STICKY HEADER =====================
-  const stickyHeader = document.getElementById('stickyHeader');
-  let headerTicking = false;
-  window.addEventListener('scroll', function() {
-    if (headerTicking) return;
-    headerTicking = true;
-    requestAnimationFrame(() => {
-      if (window.scrollY > 150) stickyHeader.classList.add('scrolled');
-      else stickyHeader.classList.remove('scrolled');
-      headerTicking = false;
-    });
-  }, { passive: true });
+  /* ============ ROADMAP VERTICAL LINE ============ */
+  (function initRoadmapVLine(){
+    const section = document.getElementById('roadmap');
+    if(!section) return;
+    const container = section.querySelector('.container');
+    const vline = document.getElementById('roadmapVLine');
+    const fill = document.getElementById('roadmapVLineFill');
+    const dot = document.getElementById('roadmapVLineDot');
+    if(!container || !vline || !fill || !dot) return;
 
-  // ===================== STATIONS DATA =====================
-  (function() {
-    const stationsData = [
-      { title: 'بناء عقلية النجاح', image: 'images/station-1.jpg',
-        points: ['في البداية رح نفهم كيف يفكر صانع المحتوى والشخص الذي يربح من الإنترنت، وكيف يدير مشاريعه وكيف يفكر','عقلية النجاح','كيف يفكر صانع المحتوى المحترف','كيف بلشوا المليونيرية في رحلتهم'] },
-      { title: 'إختيار أفضل مجال', image: 'images/station-2.jpg',
-        points: ['رح تتعلم كيف تختار لك أفضل مجال تبدأ فيها، ومن ثم سأعطيك أفضل المجالات التي اثبتت فعاليتها يمكنك البدأ فيهم','ستتعلم كيف تختار مجال مربح','أختيار أفضل مجال','أفضل المجالات في مشروع الذكاء الاصطناعي'] },
-      { title: 'إنشاء حسابات احترافية', image: 'images/station-3.jpg',
-        points: ['حسابك هو واجهتك الرقمية، لذلك ستتعلم في ريبل ستارت تصميم الصور، وكيف تجعل حساباتك على مواقع التواصل بأفضل مظهر ممكن، بحيث تجذب الناس لحسابك','ستتعلم تصميم الصور (شعار، هايلات…)','كيفية جعل حساباتك بمظهر جذاب واحترافي','كتابة اسم ويوزر نيم وبايو احترافي، وتصميم رابط بايو عصري'] },
-      { title: 'إستراتيجيات نمو الحسابات والقنوات', image: 'images/station-4.jpg',
-        points: ['ستتعلم إستراتيجياتي الشخصية والأسرار التي ساعدوني في الوصول إلى 90 الف متابع وملايين المشاهدات في شهرين فقط','أسرار واستراتيجيات نمو الحسابات','سر الحصول على أفكار محتوى ناجحة','فهم خوارزميات مواقع التواصل واستغلالهم لصالحك'] },
-      { title: 'إنشاء أو بيع منتجات رقمية', image: 'images/station-5.jpg',
-        points: ['سوف تتعلم أسرار الذكاء الاصطناعي وكيف تستغلها لإنشاء منتج رقمي خاص بك لمرة، وتقوم ببيع نفس المنتج مدى الحياة، وكل هذا بشكل مجاني، وأيضًا ستتعلم كيف تبيع منتجات رقمية جاهز خطوة بخطوة','ستحصل على منتجات رقمية جاهزة في مجالات مربحة يمكنك بيعهم فورًا','كيفية استغلال الذكاء الاصطناعي لإنشاء منتج رقمي خاص بك','كيف تبيع المنتجات الرقمية خطوة بخطوة باحترافية'] },
-      { title: 'إنشاء متجر', image: 'images/station-6.jpg',
-        points: ['ستتعلم كيف تنشئ لك متجر خطوة بخطوة لبيع منتجاتك فيه، ستنشئ لك متجر توفر فيه بوابات دفع عالمية','توفير طرق دفع عالمية لعملائك (باي بال، بطاقات الائتمانية…)','كيف كتابة وصف منتجاتك وتصميم صور المتجر','ومن ثم ستتعلم كيف تسحب أرباحك من المتجر وين ما كنت'] },
-      { title: 'أسرار وإستراتيجيات التسويق بالمحتوى', image: 'images/station-7.jpg',
-        points: ['ستتعلم استراتيجية الثلاث مراحل لتحويل أي شخص إلى مشتري، وستحصل على أسرار التسويق بالمحتوى وزيادة المبيعات','استراتيجية الثلاث مراحل لمضاعفة المبيعات','استراتيجية التسويق العصبي','سر التسويق كالمحترفين لتحقيق نتائج قوية'] },
-      { title: 'مونتاج الفيديوهات', image: 'images/station-8.jpg',
-        points: ['ستتعلم أساليب مختلفة من مونتاج الفيديوهات لصناعة المحتوى بطرق وأساليب مختلفة، أحد هذه الأساليب (style) هو صناعة المحتوى دون الحاجة إلى إظهار وجهك ولا صوتك، ستتمكن من البدأ في مشروعك بأسهل وأسرع طريقة','ستتعلم ثلاث أساليب مختلفة لصناعة المحتوى','أسلوب صناعة المحتوى مجهول الهوية','يمكنك البدأ والمونتاج وصناعة المحتوى بهاتفك فقط'] }
-    ];
-    const container = document.getElementById('stationsContainer');
-    if (!container) return;
-    let html = '';
-    stationsData.forEach((s, idx) => {
-      let imageHtml = s.image ? `<img src="${s.image}" alt="${s.title}" class="station-image" loading="lazy" onerror="this.style.display='none'">` : '';
-      let pointsHtml = '';
-      s.points.forEach((p, i) => {
-        if (i === 0) pointsHtml += `<div class="station-point"><span>${p}</span></div>`;
-        else pointsHtml += `<div class="station-point"><i class="fas fa-check"></i><span>${p}</span></div>`;
+    const secHead = container.querySelector('.sec-head');
+    const roadmapGrid = container.querySelector('.roadmap');
+    if(!secHead || !roadmapGrid) return;
+
+    let ticking = false;
+
+    function update(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){
+        const cRect = container.getBoundingClientRect();
+        const shRect = secHead.getBoundingClientRect();
+        const gRect = roadmapGrid.getBoundingClientRect();
+        const winH = window.innerHeight;
+
+        if(cRect.bottom < -200 || cRect.top > winH + 200){
+          vline.classList.remove('visible');
+          ticking = false;
+          return;
+        }
+
+        const startY = shRect.top - cRect.top;
+        const endY = gRect.bottom - cRect.top;
+        const lineHeight = Math.max(0, endY - startY);
+
+        vline.style.top = startY + 'px';
+        vline.style.height = lineHeight + 'px';
+
+        let progress = (winH - shRect.top) / (gRect.bottom - shRect.top + winH);
+        progress = Math.max(0, Math.min(1, progress));
+
+        fill.style.transform = 'scaleY(' + progress + ')';
+        dot.style.top = (lineHeight * progress) + 'px';
+
+        if(cRect.top < winH * 0.98 && cRect.bottom > 100){
+          vline.classList.add('visible');
+        } else {
+          vline.classList.remove('visible');
+        }
+
+        ticking = false;
       });
-      html += `<div class="station-item reveal-scale" data-delay="${100 + idx * 40}"><div class="station-card">${imageHtml}<h3>${s.title}</h3><div class="station-points">${pointsHtml}</div></div></div>`;
-    });
-    container.innerHTML = html;
+    }
+
+    window.addEventListener('scroll', update, { passive:true });
+    window.addEventListener('resize', update);
+    window.addEventListener('load', update);
+    setTimeout(update, 200);
+    setTimeout(update, 500);
   })();
 
-  // ===================== REVEAL ANIMATIONS =====================
-  const revealElements = document.querySelectorAll('[class*="reveal-"]');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
-        setTimeout(() => el.classList.add('visible'), delay);
-        observer.unobserve(el);
-      }
-    });
-  }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
-  revealElements.forEach(el => observer.observe(el));
+  /* ============ SOCIAL PROOF NOTIFICATIONS ============ */
+  const peopleData = [
+    { name: 'نايف محمد', flag: '🇸🇦' },
+    { name: 'سام', flag: '🇯🇴' },
+    { name: 'حسن جميل', flag: '🇸🇦' },
+    { name: 'سعيد الحمودي', flag: '🇦🇪' },
+    { name: 'علي الحاج خلف', flag: '🇸🇾' },
+    { name: 'Anas Albustanj', flag: '🇸🇾' },
+    { name: 'محمود عمر', flag: '🇯🇴' },
+    { name: 'Wissal alkhod', flag: '🇸🇦' },
+    { name: 'علي محمد', flag: '🇾🇪' }
+  ];
+  const notifTimings = [2, 30, 62, 84, 118, 142, 172, 198, 220];
 
-  // ===================== SEPARATOR =====================
-  let separatorTicking = false;
-  const separatorLine = document.getElementById('separatorLine');
-  const separatorContainer = document.getElementById('separatorContainer');
-  function updateSeparator() {
-    if (!separatorLine || !separatorContainer) return;
-    if (separatorTicking) return;
-    separatorTicking = true;
-    requestAnimationFrame(() => {
-      const rect = separatorContainer.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) { separatorTicking = false; return; }
-      const windowHeight = window.innerHeight;
-      const start = rect.top + rect.height * 0.2;
-      const end = rect.top + rect.height * 0.8;
-      let progress = (windowHeight - start) / (end - start);
-      progress = Math.max(0, Math.min(1, progress));
-      separatorLine.style.transform = `translateX(-50%) scaleY(${progress})`;
-      separatorTicking = false;
-    });
+  const nContainer = document.getElementById('notifContainer');
+  let nActive = [];
+  let nIndex = 0;
+
+  function getFlagHTML(flag){
+    if(flag === '🇸🇾'){
+      return '<span class="flag-syria" aria-label="سوريا" title="سوريا"></span>';
+    }
+    return '<span style="font-size:.95rem;vertical-align:middle;margin:0 3px">' + flag + '</span>';
   }
-  window.addEventListener('scroll', updateSeparator, { passive: true });
-  updateSeparator();
 
-  // ===================== FEATURE LINE =====================
-  const featureLineFill = document.getElementById('featureLineFill');
-  const featureSection = document.getElementById('featureGridSection');
-  const featureVerticalLine = document.getElementById('featureVerticalLine');
-  const featureDot = document.getElementById('featureDot');
-  const firstImage = document.querySelector('#featureBlock1 .feature-image');
-  const lastFeatureItem = document.getElementById('lastFeatureItem');
-  let featureTicking = false;
+  function showNotif(data){
+    const el = document.createElement('div');
+    el.className = 'notif-item';
 
-  function updateFeatureLine() {
-    if (featureTicking) return;
-    featureTicking = true;
-    requestAnimationFrame(() => {
-      if (!featureLineFill || !featureSection || !firstImage || !lastFeatureItem) { featureTicking = false; return; }
-      const sectionRect = featureSection.getBoundingClientRect();
-      if (sectionRect.bottom < 0 || sectionRect.top > window.innerHeight) { featureTicking = false; return; }
-      const imageRect = firstImage.getBoundingClientRect();
-      const lastItemRect = lastFeatureItem.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const startY = imageRect.top + (imageRect.height / 2) - sectionRect.top;
-      const endY = lastItemRect.bottom - sectionRect.top + 10;
-      featureVerticalLine.style.top = startY + 'px';
-      featureVerticalLine.style.height = (endY - startY) + 'px';
-      const startTrigger = sectionRect.top + startY + windowHeight * 0.5;
-      const endTrigger = sectionRect.top + endY;
-      let progress = (windowHeight - startTrigger) / (endTrigger - startTrigger);
-      progress = Math.max(0, Math.min(1, progress));
-      featureLineFill.style.transform = `scaleY(${progress})`;
-      let dotY = (endY - startY) * progress;
-      dotY = Math.max(0, Math.min(endY - startY, dotY));
-      featureDot.style.top = dotY + 'px';
-      if (sectionRect.top < windowHeight && sectionRect.bottom > 0) featureVerticalLine.classList.add('visible');
-      else featureVerticalLine.classList.remove('visible');
-      featureTicking = false;
+    el.innerHTML =
+      '<span class="notif-glow" aria-hidden="true"></span>' +
+      '<span class="notif-avatar">' + data.name.trim().charAt(0) + '</span>' +
+      '<span class="notif-body">' +
+        '<span class="name">' + data.name + '</span> ' +
+        getFlagHTML(data.flag) + ' ' +
+        '<span class="action"><i class="fa-solid fa-circle-check check"></i> اشترك في الكورس وبدأ مشروعه الخاص</span>' +
+      '</span>' +
+      '<button class="notif-close" aria-label="إغلاق الإشعار">&times;</button>';
+
+    el.querySelector('.notif-close').addEventListener('click', function(e){
+      e.stopPropagation();
+      hideNotif(el);
     });
-  }
-  window.addEventListener('scroll', updateFeatureLine, { passive: true });
-  window.addEventListener('resize', updateFeatureLine);
-  setTimeout(updateFeatureLine, 200);
 
-  // ===================== PATH LINES =====================
-  function updatePath() {
-    const pathContainer = document.getElementById('pathContainer');
-    const svgLines = document.getElementById('svgLines');
-    const titleEl = document.querySelector('.choices-section .section-title');
-    const card1 = document.getElementById('card1');
-    const card2 = document.getElementById('card2');
-    if (!pathContainer || !svgLines || !titleEl || !card1 || !card2) return;
-    const containerRect = pathContainer.getBoundingClientRect();
-    const titleRect = titleEl.getBoundingClientRect();
-    const card1Rect = card1.getBoundingClientRect();
-    const card2Rect = card2.getBoundingClientRect();
-    const startX = titleRect.left + titleRect.width / 2 - containerRect.left;
-    const startY = titleRect.bottom - containerRect.top + 5;
-    const isMobile = window.innerWidth < 640;
-    const midX = isMobile ? Math.max(10, containerRect.width * 0.04) : containerRect.width * 0.06;
-    const midY = startY + 40;
-    const dot1Y = card1Rect.top + card1Rect.height / 2 - containerRect.top;
-    const dot2Y = card2Rect.top + card2Rect.height * 0.35 - containerRect.top;
-    const endY = dot2Y;
-    const d = `M ${startX} ${startY} L ${startX} ${midY} L ${midX} ${midY} L ${midX} ${endY}`;
-    const goldColor = '#F5D042';
-    const gradient = `
-      <defs><linearGradient id="lineGrad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" y1="${startY}" y2="${endY}">
-        <stop offset="0%" stop-color="#ffffff" />
-        <stop offset="${(dot1Y - startY) / (endY - startY) * 100 - 20}%" stop-color="#ffffff" />
-        <stop offset="${(dot1Y - startY) / (endY - startY) * 100 + 15}%" stop-color="${goldColor}" />
-        <stop offset="100%" stop-color="${goldColor}" />
-      </linearGradient></defs>`;
-    svgLines.innerHTML = gradient + `
-      <path d="${d}" stroke="url(#lineGrad)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-      <circle cx="${midX}" cy="${dot1Y}" r="6" fill="#ffffff" stroke="#ffffff" stroke-width="2" />
-      <circle cx="${midX}" cy="${dot2Y}" r="6" fill="${goldColor}" stroke="${goldColor}" stroke-width="2"><animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite" /></circle>`;
+    nContainer.appendChild(el);
+
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        el.classList.add('show');
+      });
+    });
+
+    const timer = setTimeout(function(){ hideNotif(el); }, 11000);
+    nActive.push({ el: el, timer: timer });
   }
-  window.addEventListener('load', updatePath);
-  window.addEventListener('resize', updatePath);
-  setTimeout(updatePath, 200);
+
+  function hideNotif(el){
+    if(!el || el.classList.contains('hide')) return;
+    el.classList.remove('show');
+    el.classList.add('hide');
+    const idx = nActive.findIndex(function(o){ return o.el === el; });
+    if(idx !== -1){
+      clearTimeout(nActive[idx].timer);
+      nActive.splice(idx, 1);
+    }
+    setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 700);
+  }
+
+  function clearAllNotifs(){
+    nActive.forEach(function(o){
+      clearTimeout(o.timer);
+      if(o.el.parentNode) o.el.parentNode.removeChild(o.el);
+    });
+    nActive = [];
+  }
+
+  function scheduleNextNotif(){
+    if(nIndex >= peopleData.length){
+      clearAllNotifs();
+      nIndex = 0;
+      setTimeout(scheduleNextNotif, 15000);
+      return;
+    }
+    showNotif(peopleData[nIndex]);
+    const currentIdx = nIndex;
+    nIndex++;
+    if(nIndex < notifTimings.length){
+      const delay = (notifTimings[nIndex] - notifTimings[currentIdx]) * 1000;
+      setTimeout(scheduleNextNotif, delay);
+    } else {
+      setTimeout(function(){
+        clearAllNotifs();
+        nIndex = 0;
+        scheduleNextNotif();
+      }, 15000);
+    }
+  }
+
+  setTimeout(scheduleNextNotif, notifTimings[0] * 1000);
+
+})();
 </script>
 </body>
 </html>
